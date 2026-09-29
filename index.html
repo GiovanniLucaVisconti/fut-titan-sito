@@ -2,137 +2,603 @@
 <html lang="it">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex">
+<!-- fut.gg rifiuta le immagini se la richiesta dice da quale sito arriva (anti-hotlink) -->
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#060a13">
 <title>FUT Titan · Radar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0b0f17;--pan:#121826;--pan2:#182033;--txt:#e8edf7;--dim:#8d99b3;--acc:#3ee6a8;--acc2:#5aa9ff;--warn:#ffcc4d;--bad:#ff6b6b;--bordo:#243049}
-@media (prefers-color-scheme: light){:root:not([data-tema=scuro]){--bg:#f4f6fb;--pan:#fff;--pan2:#eef2f9;--txt:#131a2a;--dim:#5b6780;--acc:#0a9e6c;--acc2:#1f6fd1;--warn:#b98300;--bad:#c93636;--bordo:#dbe2ef}}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--txt);font:15px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
-header{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--bordo)}
-.testa{display:flex;align-items:center;gap:10px;padding:12px 16px 6px}
-.logo{font-weight:800;letter-spacing:.3px;font-size:18px}.logo span{color:var(--acc)}
-.vivo{margin-left:auto;font-size:12px;color:var(--dim);display:flex;align-items:center;gap:6px}
-.punto{width:8px;height:8px;border-radius:50%;background:var(--dim)}.punto.ok{background:var(--acc);box-shadow:0 0 8px var(--acc)}.punto.ko{background:var(--bad)}
-nav{display:flex;gap:6px;overflow-x:auto;padding:6px 16px 10px;scrollbar-width:none}nav::-webkit-scrollbar{display:none}
-nav a{flex:none;padding:7px 12px;border-radius:999px;background:var(--pan);border:1px solid var(--bordo);color:var(--txt);text-decoration:none;font-size:14px;white-space:nowrap}
-nav a.on{background:var(--acc);color:#04130d;border-color:var(--acc);font-weight:700}
-main{max-width:980px;margin:0 auto;padding:14px 16px 60px}
-h2{font-size:20px;margin:6px 0 12px}h3{font-size:15px;margin:18px 0 8px;color:var(--dim);text-transform:uppercase;letter-spacing:.6px}
-.cerca{width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--bordo);background:var(--pan);color:var(--txt);font-size:15px;margin-bottom:12px}
-.chip{display:inline-block;padding:4px 10px;margin:0 6px 6px 0;border-radius:999px;border:1px solid var(--bordo);background:var(--pan);color:var(--txt);font-size:13px;cursor:pointer}
-.chip.on{background:var(--acc2);border-color:var(--acc2);color:#fff}
-.carta{background:var(--pan);border:1px solid var(--bordo);border-radius:14px;padding:12px 14px;margin-bottom:10px}
-.carta .t{font-weight:700}.carta .s{color:var(--dim);font-size:13px}
-.griglia{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
-.promo{background:var(--pan);border:1px solid var(--bordo);border-radius:14px;padding:10px;text-align:center}
-.promo img{width:100%;max-width:140px;aspect-ratio:400/555;object-fit:contain}
-.promo .t{font-weight:700;font-size:14px}.promo .s{color:var(--dim);font-size:12px}
-.tag{display:inline-block;font-size:11px;padding:2px 7px;border-radius:6px;background:var(--pan2);color:var(--dim);margin-right:4px}
-.tag.v{background:color-mix(in srgb,var(--acc) 20%,transparent);color:var(--acc)}.tag.w{background:color-mix(in srgb,var(--warn) 20%,transparent);color:var(--warn)}.tag.r{background:color-mix(in srgb,var(--bad) 20%,transparent);color:var(--bad)}
-.msg{white-space:pre-wrap;word-wrap:break-word}.msg a,.carta a{color:var(--acc2)}
-.msg img{max-width:160px;border-radius:8px;margin:6px 6px 0 0}
-table{width:100%;border-collapse:collapse;font-size:14px}td,th{padding:8px 6px;border-bottom:1px solid var(--bordo);text-align:left;vertical-align:top}th{color:var(--dim);font-weight:600;font-size:12px;text-transform:uppercase}
-.su{color:var(--acc)}.giu{color:var(--bad)}
-.vuoto{color:var(--dim);padding:20px 0;text-align:center}
-details summary{cursor:pointer;color:var(--acc2);font-size:14px;margin-top:6px}
-ul.el{margin:6px 0 0;padding-left:18px}ul.el li{margin:2px 0}
-.giorno{margin:18px 0 8px;font-weight:700;color:var(--acc)}
-footer{color:var(--dim);font-size:12px;text-align:center;padding:20px}
-@media (max-width:520px){.nascondi-mob{display:none}}
+:root{
+  --bg:#060a13;--bg2:#0b1222;--vetro:rgba(20,30,52,.55);--vetro2:rgba(28,42,72,.6);
+  --bordo:rgba(120,160,255,.14);--bordo2:rgba(120,160,255,.28);
+  --txt:#eaf1ff;--dim:#8fa0c2;--dim2:#5d6d8f;
+  --verde:#35f0a8;--ciano:#3ad6ff;--viola:#9b7bff;--oro:#ffcf5a;--rosso:#ff5d7a;
+  --grad:linear-gradient(135deg,var(--verde),var(--ciano) 55%,var(--viola));
+  --titolo:"Chakra Petch",ui-rounded,system-ui,sans-serif;
+  --corpo:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  --r:18px;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{margin:0;min-height:100vh;background:var(--bg);color:var(--txt);font:15px/1.5 var(--corpo);overflow-x:hidden}
+/* AURORA: tre macchie di luce che si muovono piano dietro a tutto */
+.aurora{position:fixed;inset:-20%;z-index:-1;pointer-events:none;filter:blur(70px);opacity:.55}
+.aurora i{position:absolute;width:48vmax;height:48vmax;border-radius:50%;mix-blend-mode:screen;animation:vaga 26s ease-in-out infinite alternate}
+.aurora i:nth-child(1){background:radial-gradient(circle,#0f7a5a 0,transparent 65%);left:-5%;top:-10%}
+.aurora i:nth-child(2){background:radial-gradient(circle,#154a8f 0,transparent 65%);right:-10%;top:10%;animation-duration:32s;animation-delay:-8s}
+.aurora i:nth-child(3){background:radial-gradient(circle,#4a2a8f 0,transparent 65%);left:20%;bottom:-20%;animation-duration:38s;animation-delay:-16s}
+@keyframes vaga{0%{transform:translate(0,0) scale(1)}50%{transform:translate(8vmax,6vmax) scale(1.15)}100%{transform:translate(-6vmax,10vmax) scale(.95)}}
+.griglia-sfondo{position:fixed;inset:0;z-index:-1;pointer-events:none;background-image:linear-gradient(rgba(120,160,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(120,160,255,.05) 1px,transparent 1px);background-size:44px 44px;mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 75%)}
+
+/* TESTATA */
+header{position:sticky;top:0;z-index:20;padding-top:env(safe-area-inset-top);background:linear-gradient(to bottom,rgba(6,10,19,.92),rgba(6,10,19,.72));backdrop-filter:blur(16px) saturate(1.4);-webkit-backdrop-filter:blur(16px) saturate(1.4);border-bottom:1px solid var(--bordo)}
+.testa{max-width:1080px;margin:0 auto;display:flex;align-items:center;gap:12px;padding:12px 16px 8px}
+.radarino{width:34px;height:34px;border-radius:50%;position:relative;flex:none;background:radial-gradient(circle,rgba(53,240,168,.15) 0 30%,transparent 31%),repeating-radial-gradient(circle,transparent 0 6px,rgba(53,240,168,.25) 6px 7px);border:1px solid rgba(53,240,168,.5);overflow:hidden;box-shadow:0 0 18px rgba(53,240,168,.35)}
+.radarino::after{content:"";position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 0deg,rgba(53,240,168,.75),transparent 70deg);animation:gira 2.6s linear infinite}
+@keyframes gira{to{transform:rotate(360deg)}}
+.logo{font:700 20px/1 var(--titolo);letter-spacing:.5px}
+.logo b{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.stato{margin-left:auto;display:flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;background:var(--vetro);border:1px solid var(--bordo);font-size:12.5px;color:var(--dim);white-space:nowrap}
+.led{width:8px;height:8px;border-radius:50%;background:var(--dim2)}
+.led.ok{background:var(--verde);box-shadow:0 0 0 0 rgba(53,240,168,.6);animation:pulsa 2s infinite}
+.led.ko{background:var(--rosso)}
+@keyframes pulsa{0%{box-shadow:0 0 0 0 rgba(53,240,168,.55)}70%{box-shadow:0 0 0 9px rgba(53,240,168,0)}100%{box-shadow:0 0 0 0 rgba(53,240,168,0)}}
+nav{max-width:1080px;margin:0 auto;display:flex;gap:8px;overflow-x:auto;padding:4px 16px 12px;scrollbar-width:none}
+nav::-webkit-scrollbar{display:none}
+nav a{flex:none;display:flex;align-items:center;gap:6px;padding:8px 14px;border-radius:999px;color:var(--dim);text-decoration:none;font:600 14px var(--corpo);background:rgba(255,255,255,.03);border:1px solid var(--bordo);transition:all .25s}
+nav a:hover{color:var(--txt);border-color:var(--bordo2)}
+nav a.on{color:#03140d;background:var(--grad);border-color:transparent;box-shadow:0 6px 24px -6px rgba(58,214,255,.55)}
+nav a .n{font-size:11px;padding:1px 7px;border-radius:999px;background:rgba(255,255,255,.08)}
+nav a.on .n{background:rgba(3,20,13,.18)}
+
+main{max-width:1080px;margin:0 auto;padding:18px 16px 70px}
+.entra{animation:entra .5s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--i,0) * 45ms)}
+@keyframes entra{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+h1{font:700 26px/1.15 var(--titolo);margin:4px 0 6px;letter-spacing:.3px}
+h2{font:700 19px/1.2 var(--titolo);margin:28px 0 12px;display:flex;align-items:center;gap:10px}
+h2 .conta{font:600 12px var(--corpo);color:var(--dim);padding:2px 9px;border-radius:999px;background:var(--vetro);border:1px solid var(--bordo)}
+.sotto{color:var(--dim);font-size:14px;margin:0 0 14px}
+a{color:var(--ciano)}
+.vetro{background:var(--vetro);border:1px solid var(--bordo);border-radius:var(--r);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.scheda{padding:14px 16px;margin-bottom:10px;position:relative;transition:transform .2s,border-color .2s}
+.scheda:hover{border-color:var(--bordo2)}
+.scheda .t{font-weight:700;font-size:15.5px}
+.scheda .s{color:var(--dim);font-size:13px}
+.riga{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.chip{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:600;padding:3px 9px;border-radius:999px;background:rgba(255,255,255,.06);color:var(--dim);border:1px solid var(--bordo)}
+.chip.v{color:var(--verde);background:rgba(53,240,168,.1);border-color:rgba(53,240,168,.3)}
+.chip.c{color:var(--ciano);background:rgba(58,214,255,.1);border-color:rgba(58,214,255,.3)}
+.chip.o{color:var(--oro);background:rgba(255,207,90,.1);border-color:rgba(255,207,90,.3)}
+.chip.r{color:var(--rosso);background:rgba(255,93,122,.1);border-color:rgba(255,93,122,.3)}
+.chip.p{color:var(--viola);background:rgba(155,123,255,.12);border-color:rgba(155,123,255,.3)}
+.cerca{width:100%;padding:12px 14px 12px 40px;border-radius:14px;border:1px solid var(--bordo);background:var(--vetro) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' fill='none' stroke='%238fa0c2' stroke-width='2'%3E%3Ccircle cx='8' cy='8' r='6'/%3E%3Cpath d='m13 13 4 4'/%3E%3C/svg%3E") 13px 50%/18px no-repeat;color:var(--txt);font:15px var(--corpo);outline:none;transition:border-color .2s,box-shadow .2s}
+.cerca:focus{border-color:var(--ciano);box-shadow:0 0 0 4px rgba(58,214,255,.12)}
+.filtri{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 4px}
+.filtro{cursor:pointer;font:600 13px var(--corpo);padding:6px 12px;border-radius:999px;border:1px solid var(--bordo);background:rgba(255,255,255,.03);color:var(--dim);transition:all .2s}
+.filtro.on{color:var(--txt);background:rgba(58,214,255,.15);border-color:rgba(58,214,255,.45)}
+.vuoto{color:var(--dim);text-align:center;padding:26px 10px;border:1px dashed var(--bordo);border-radius:var(--r)}
+.giorno{display:flex;align-items:center;gap:10px;margin:22px 0 10px;font:600 13px var(--titolo);letter-spacing:1.2px;text-transform:uppercase;color:var(--verde)}
+.giorno::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,rgba(53,240,168,.4),transparent)}
+details summary{cursor:pointer;color:var(--ciano);font-weight:600;font-size:13.5px;margin-top:8px;list-style:none}
+details summary::-webkit-details-marker{display:none}
+details summary::before{content:"▸ ";transition:transform .2s;display:inline-block}
+details[open] summary::before{transform:rotate(90deg)}
+ul.el{margin:8px 0 0;padding-left:18px}ul.el li{margin:3px 0}
+
+/* HOME */
+.eroe{position:relative;overflow:hidden;padding:22px 20px;display:grid;grid-template-columns:1fr auto;gap:16px;align-items:center}
+.eroe h1{font-size:28px}
+.eroe .sotto{margin:0}
+.radar{width:132px;height:132px;border-radius:50%;position:relative;background:radial-gradient(circle,rgba(53,240,168,.08) 0 20%,transparent 21%),repeating-radial-gradient(circle,transparent 0 21px,rgba(53,240,168,.22) 21px 22px),linear-gradient(transparent 49.6%,rgba(53,240,168,.2) 49.6% 50.4%,transparent 50.4%),linear-gradient(90deg,transparent 49.6%,rgba(53,240,168,.2) 49.6% 50.4%,transparent 50.4%);border:1px solid rgba(53,240,168,.45);box-shadow:0 0 40px rgba(53,240,168,.18),inset 0 0 30px rgba(53,240,168,.1);overflow:hidden}
+.radar::before{content:"";position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 0deg,rgba(53,240,168,.55),rgba(53,240,168,.08) 60deg,transparent 90deg);animation:gira 3.2s linear infinite}
+.radar .blip{position:absolute;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;background:var(--verde);box-shadow:0 0 10px var(--verde);animation:blip 3.2s ease-out infinite}
+@keyframes blip{0%,100%{opacity:.25;transform:scale(.7)}12%{opacity:1;transform:scale(1.4)}40%{opacity:.6;transform:scale(1)}}
+.kpi{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.kpi a{text-decoration:none;color:inherit;padding:14px 12px;position:relative;overflow:hidden;transition:transform .2s,border-color .2s}
+.kpi a:hover{transform:translateY(-3px);border-color:var(--bordo2)}
+.kpi .num{font:700 30px/1 var(--titolo);background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.kpi .lab{color:var(--dim);font-size:12.5px;margin-top:6px}
+.kpi .ico{position:absolute;right:10px;top:8px;font-size:18px;opacity:.7}
+@media (max-width:560px){.kpi{grid-template-columns:repeat(2,1fr)}.eroe{grid-template-columns:1fr}.eroe .radar{display:none}}
+.conto{font:700 15px var(--titolo);color:var(--oro);font-variant-numeric:tabular-nums}
+.nastro{display:flex;gap:12px;overflow-x:auto;padding:4px 2px 14px;scroll-snap-type:x mandatory;scrollbar-width:none}
+.nastro::-webkit-scrollbar{display:none}
+.nastro .holo{flex:none;width:150px;scroll-snap-align:start}
+
+/* CARTE OLOGRAFICHE (promo) */
+.griglia{display:grid;grid-template-columns:repeat(auto-fill,minmax(158px,1fr));gap:12px}
+.holo{position:relative;border-radius:16px;padding:12px 10px 12px;text-align:center;background:linear-gradient(160deg,rgba(40,58,100,.55),rgba(14,22,40,.75));border:1px solid var(--bordo);transform-style:preserve-3d;transition:transform .15s ease-out,box-shadow .3s;will-change:transform;--mx:50%;--my:50%;--rx:0deg;--ry:0deg;transform:perspective(700px) rotateX(var(--rx)) rotateY(var(--ry))}
+.holo::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:radial-gradient(circle at var(--mx) var(--my),rgba(255,255,255,.28),transparent 45%),linear-gradient(115deg,transparent 30%,rgba(58,214,255,.14) 45%,rgba(155,123,255,.16) 55%,transparent 70%);mix-blend-mode:screen;opacity:.0;transition:opacity .3s}
+.holo:hover::after,.holo.tocco::after{opacity:1}
+.holo:hover{box-shadow:0 18px 40px -14px rgba(58,214,255,.45)}
+.holo .img{height:170px;display:flex;align-items:center;justify-content:center;margin-bottom:8px}
+.holo img{max-width:100%;max-height:170px;filter:drop-shadow(0 10px 18px rgba(0,0,0,.55));transform:translateZ(30px)}
+.holo .segnaposto{width:110px;height:152px;border-radius:14px;border:1px dashed var(--bordo2);display:flex;align-items:center;justify-content:center;font-size:34px;color:var(--dim2)}
+.holo .t{font:700 14.5px/1.2 var(--titolo)}
+.holo .it{color:var(--dim);font-size:12.5px;margin-top:2px}
+.holo .riga{justify-content:center;margin-top:8px}
+.brilla{position:relative;overflow:hidden}
+.brilla::before{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.08),transparent);transform:skewX(-20deg);animation:lampo 6s ease-in-out infinite}
+@keyframes lampo{0%,70%{left:-60%}100%{left:130%}}
+
+/* TIMELINE (novità) */
+.linea{position:relative;padding-left:22px}
+.linea::before{content:"";position:absolute;left:6px;top:4px;bottom:4px;width:2px;background:linear-gradient(var(--verde),var(--ciano),var(--viola));opacity:.35;border-radius:2px}
+.linea .scheda::before{content:"";position:absolute;left:-21px;top:18px;width:10px;height:10px;border-radius:50%;background:var(--bg);border:2px solid var(--ciano);box-shadow:0 0 10px rgba(58,214,255,.6)}
+
+/* SBC */
+.sbc{border-left:4px solid var(--verde);padding-left:14px}
+.sbc.giallo{border-left-color:var(--oro)}.sbc.rosso{border-left-color:var(--rosso)}.sbc.fissa{border-left-color:var(--viola)}
+.sfida{margin-top:10px;padding:10px 12px;border-radius:12px;background:rgba(255,255,255,.03);border:1px solid var(--bordo)}
+.req{list-style:none;padding:0;margin:6px 0 0}.req li{padding:2px 0 2px 20px;position:relative;font-size:13.5px}
+.req li::before{content:"✓";position:absolute;left:2px;color:var(--verde);font-weight:700}
+
+/* PRICE RANGE */
+.pr .val{font:700 16px var(--titolo);font-variant-numeric:tabular-nums}
+.su{color:var(--verde)}.giu{color:var(--rosso)}
+.motivo{margin-top:8px;padding:8px 10px;border-radius:10px;background:rgba(58,214,255,.06);border:1px solid rgba(58,214,255,.18);font-size:13.5px;color:#cfe3ff}
+
+/* ARCHIVIO */
+.msg{white-space:pre-wrap;word-wrap:break-word;font-size:14.5px}
+.msg a{color:var(--ciano)}
+.foto{display:flex;gap:8px;overflow-x:auto;margin-top:10px}
+.foto img{height:130px;border-radius:10px;flex:none}
+
+.pass{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.livello{padding:10px 12px;border-radius:12px;background:rgba(255,255,255,.035);border:1px solid var(--bordo)}
+.livello .lv{font:700 12px var(--titolo);color:var(--dim);letter-spacing:1px}
+.livello.prem{border-color:rgba(255,207,90,.35);background:linear-gradient(160deg,rgba(255,207,90,.08),transparent)}
+.su-top{position:fixed;right:16px;bottom:calc(18px + env(safe-area-inset-bottom));width:44px;height:44px;border-radius:50%;border:1px solid var(--bordo2);background:var(--vetro2);color:var(--txt);font-size:18px;backdrop-filter:blur(10px);opacity:0;pointer-events:none;transition:opacity .3s;cursor:pointer}
+.su-top.vis{opacity:1;pointer-events:auto}
+footer{color:var(--dim2);font-size:12px;text-align:center;padding:26px 16px 40px}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
+<div class="aurora"><i></i><i></i><i></i></div>
+<div class="griglia-sfondo"></div>
 <header>
- <div class="testa"><div class="logo">FUT Titan <span>Radar</span></div><div class="vivo"><span class="punto" id="punto"></span><span id="vivo">carico…</span></div></div>
+ <div class="testa">
+  <div class="radarino"></div>
+  <div class="logo">FUT Titan <b>Radar</b></div>
+  <div class="stato"><span class="led" id="punto"></span><span id="vivo">carico…</span></div>
+ </div>
  <nav id="nav"></nav>
 </header>
 <main id="main"><div class="vuoto">Carico i dati…</div></main>
+<button class="su-top" id="suTop" aria-label="Torna su">↑</button>
 <footer id="piede"></footer>
 <script>
 "use strict";
-var FONTE={"api":"https://api.github.com/repos/GiovanniLucaVisconti/fut-titan-sito/contents/dati.json?ref=dati","raw":"https://raw.githubusercontent.com/GiovanniLucaVisconti/fut-titan-sito/dati/dati.json"};
-var SEZIONI=[["novita","🗞 Novità"],["leak","🔮 Leak"],["sbc","🧩 SBC"],["promo","💎 Promo"],["pacchetti","🎁 Pacchetti"],["dizionario","📖 Dizionario"],["pricerange","💱 Price range"],["carte","✨ Carte nuove"],["notifiche","📬 Notifiche"]];
-var NOMI_FONTE={newsEa:"News EA",giocatoriEa:"Giocatori EA",sbc:"SBC",evoluzioni:"Evoluzioni",obiettivi:"Obiettivi",priceRange:"Price range",carteNuove:"Carte nuove",rarita:"Versioni di carta",pacchetti:"Pacchetti",stagione:"Stagione",leak:"Leak",dizionario:"Dizionario EA",promemoria:"Promemoria",sbcProgrammate:"SBC in arrivo"};
-var CATEGORIE={promo:"💎 Versioni di carta",evoluzioni:"🧬 Evoluzioni",giocatori:"🎴 Profili di giocatori",sbc:"🧩 SBC",obiettivi:"🎯 Obiettivi",pacchetti:"🎁 Pacchetti e negozio",estetica:"🏟 Estetica e stadio",club:"🏳️ Club e nazioni",altro:"🗂 Interfaccia"};
-var D=null,filtri={};
-function el(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e}
-function num(n){return Math.round(n||0).toLocaleString("it-IT")}
-function data(ts,o){var d=new Date(ts);return isNaN(d)?"":d.toLocaleString("it-IT",o||{weekday:"short",day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"})}
-function giorno(ts){return new Date(ts).toLocaleDateString("it-IT",{weekday:"long",day:"2-digit",month:"long"})}
-function manca(ts){var ms=new Date(ts)-Date.now();if(!(ms>0))return "scaduta";var g=Math.floor(ms/864e5),o=Math.floor(ms%864e5/36e5),m=Math.floor(ms%36e5/6e4);return (g?g+"g ":"")+(o?o+"h ":"")+(g?"":m+"m")}
-function pulisciHtml(html){var t=document.createElement("template");t.innerHTML=html;(function giro(n){Array.prototype.slice.call(n.childNodes).forEach(function(c){if(c.nodeType===1){var nome=c.nodeName.toLowerCase();if(["b","i","code","a"].indexOf(nome)<0){n.replaceChild(document.createTextNode(c.textContent),c);return}Array.prototype.slice.call(c.attributes).forEach(function(a){if(!(nome==="a"&&a.name==="href"&&/^https?:/.test(a.value)))c.removeAttribute(a.name)});if(nome==="a"){c.target="_blank";c.rel="noopener"}giro(c)}})})(t.content);return t.content}
-function link(u,testo){var a=el("a",null,testo||"apri ↗");a.href=u;a.target="_blank";a.rel="noopener";return a}
-function cercaBox(chiave,ph){var i=el("input","cerca");i.type="search";i.placeholder=ph||"Cerca…";i.value=filtri[chiave]||"";i.oninput=function(){filtri[chiave]=i.value;var p=i.selectionStart;disegna();var n=document.querySelector(".cerca");if(n){n.focus();try{n.setSelectionRange(p,p)}catch(e){}}};return i}
-function trova(testo,chiave){var q=(filtri[chiave]||"").trim().toLowerCase();return !q||String(testo).toLowerCase().indexOf(q)>-1}
-function vuoto(t){return el("div","vuoto",t)}
-function chips(chiave,valori,nomi){var box=el("div");var tutti=el("span","chip"+(filtri[chiave]?"":" on"),"Tutto");tutti.onclick=function(){filtri[chiave]="";disegna()};box.appendChild(tutti);valori.forEach(function(v){var c=el("span","chip"+(filtri[chiave]===v?" on":""),(nomi&&nomi[v])||v);c.onclick=function(){filtri[chiave]=v;disegna()};box.appendChild(c)});return box}
+var FONTE = {"api":"https://api.github.com/repos/GiovanniLucaVisconti/fut-titan-sito/contents/dati.json?ref=dati","raw":"https://raw.githubusercontent.com/GiovanniLucaVisconti/fut-titan-sito/dati/dati.json"};
+var SEZIONI = [
+  ["home", "📡", "Radar"], ["novita", "🗞", "Novità"], ["leak", "🔮", "Leak"], ["sbc", "🧩", "SBC"],
+  ["promo", "💎", "Promo"], ["pacchetti", "🎁", "Pacchetti"], ["pricerange", "💱", "Price range"],
+  ["dizionario", "📖", "Dizionario"], ["archivio", "📬", "Archivio"]
+];
+// Gli indirizzi vecchi, usati dalle notifiche già mandate, portano ancora nel posto giusto
+var ALIAS = { notifiche: "archivio", carte: "leak" };
+var NOMI_FONTE = { sbc: "SBC", evoluzioni: "Evoluzioni", obiettivi: "Obiettivi", priceRange: "Price range", carteNuove: "Carte nuove",
+  rarita: "Versioni di carta", pacchetti: "Pacchetti", stagione: "Stagione", leak: "Leak", dizionario: "Dizionario EA",
+  promemoria: "Promemoria", newsEa: "News EA", giocatoriEa: "Giocatori EA", sbcProgrammate: "SBC in arrivo" };
+var ICONE_FONTE = { sbc: "🧩", evoluzioni: "🧬", obiettivi: "🎯", priceRange: "💱", carteNuove: "✨", rarita: "💎", pacchetti: "🎁",
+  stagione: "📅", leak: "🔮", dizionario: "📖", promemoria: "⏳", newsEa: "📰", giocatoriEa: "👥" };
+var CATEGORIE = { promo: "💎 Versioni di carta", evoluzioni: "🧬 Evoluzioni", giocatori: "🎴 Profili di giocatori", sbc: "🧩 SBC",
+  obiettivi: "🎯 Obiettivi", pacchetti: "🎁 Pacchetti e negozio", estetica: "🏟 Estetica", club: "🏳️ Club e nazioni", altro: "🗂 Interfaccia" };
+// In Novità non ci sono price range e carte nuove: hanno la loro sezione, più precisa
+var FUORI_DA_NOVITA = { priceRange: 1, carteNuove: 1 };
+var D = null, filtri = {}, contatori = [];
 
-var DISEGNA={
-novita:function(m){m.appendChild(el("h2",null,"🗞 Tutto quello che è uscito"));m.appendChild(cercaBox("novita"));
- var fonti=[];D.storico.forEach(function(x){if(fonti.indexOf(x.fonte)<0)fonti.push(x.fonte)});m.appendChild(chips("novitaFonte",fonti,NOMI_FONTE));
- var ult="";var n=0;D.storico.forEach(function(x){if(filtri.novitaFonte&&x.fonte!==filtri.novitaFonte)return;if(!trova(x.titolo,"novita"))return;var g=giorno(x.ts);if(g!==ult){m.appendChild(el("div","giorno",g));ult=g}
-  var c=el("div","carta");var t=el("div","t",x.titolo);c.appendChild(t);var s=el("div","s",(NOMI_FONTE[x.fonte]||x.fonte)+" · "+data(x.ts,{hour:"2-digit",minute:"2-digit"})+" ");if(x.url)s.appendChild(link(x.url));c.appendChild(s);m.appendChild(c);n++});
- if(!n)m.appendChild(vuoto("Niente in questa settimana."))},
-leak:function(m){var L=D.leak;m.appendChild(el("h2",null,"🔮 Leak e cose in arrivo"));
- m.appendChild(el("h3",null,"In arrivo ("+L.inArrivo.length+")"));if(!L.inArrivo.length)m.appendChild(vuoto("Nessuna data annunciata."));
- L.inArrivo.forEach(function(x){var c=el("div","carta");c.appendChild(el("div","t",x.titolo));c.appendChild(el("div","s",(x.famiglia==="sbc"?"SBC":"Obiettivo")+" · parte "+data(x.inizio)+" (fra "+manca(x.inizio)+")"));m.appendChild(c)});
- m.appendChild(el("h3",null,"Promo a database senza carte ("+L.versioniVuote.length+")"));var g=el("div","griglia");L.versioniVuote.forEach(function(x){g.appendChild(cartaPromo(x))});m.appendChild(g);
- m.appendChild(el("h3",null,"Pacchetti a database, non in negozio ("+L.pacchetti.length+")"));if(!L.pacchetti.length)m.appendChild(vuoto("Nessuno per ora."));
- L.pacchetti.forEach(function(x){var c=el("div","carta");c.appendChild(el("div","t",x.nome));var s=el("div","s","#"+x.id+(x.dal?" · comparso "+data(x.dal):" · numerato dopo l'ultimo visto in negozio"));c.appendChild(s);if(x.descrizione)c.appendChild(el("div",null,x.descrizione));m.appendChild(c)});
- var gi=L.giocatori||[];m.appendChild(el("h3",null,"Giocatori nuovi e valutazioni nel database EA ("+gi.length+")"));if(!gi.length)m.appendChild(vuoto("Nessun cambio da quando lo guardo."));
- gi.forEach(function(x){var c=el("div","carta");c.appendChild(el("div","t",(x.leggenda?"👑 ":"")+x.nome+" "+(x.prima!==undefined?x.prima+" → "+x.rating:x.rating)));c.appendChild(el("div","s",(x.prima!==undefined?"valutazione cambiata":"nuovo a database")+" · "+data(x.ts)+" · #"+x.id));m.appendChild(c)});
- if(L.pass){m.appendChild(el("h3",null,"Pass stagionale · "+L.pass.titolo+" ("+L.pass.carte.length+")"));var c=el("div","carta");var u=el("ul","el");L.pass.carte.forEach(function(x){u.appendChild(el("li",null,"Liv. "+x.livello+(x.premium?" ⭐ ":" ")+x.nome+(x.prestito?" (prestito)":"")))});c.appendChild(u);m.appendChild(c)}
- var dz=D.dizionario.filter(function(x){return x.categoria!=="altro"}).slice(0,40);m.appendChild(el("h3",null,"Dal dizionario EA, le ultime ("+dz.length+")"));dz.forEach(function(x){m.appendChild(rigaDiz(x))});
- var a=el("a",null,"→ tutto il dizionario");a.href="#dizionario";m.appendChild(a)},
-sbc:function(m){m.appendChild(el("h2",null,"🧩 SBC attive ("+D.sbc.length+")"));m.appendChild(cercaBox("sbc"));
- var l=D.sbc.slice().sort(function(a,b){return new Date(a.scadenza||"2100")-new Date(b.scadenza||"2100")});var n=0;
- l.forEach(function(x){if(!trova(x.titolo+" "+x.titoloFutgg+" "+x.categoria,"sbc"))return;n++;var c=el("div","carta");c.appendChild(el("div","t",x.titolo));
-  var ore=(new Date(x.scadenza)-Date.now())/36e5;var s=el("div","s");var tg=el("span","tag "+(ore<12?"r":ore<48?"w":"v"),x.scadenza?"⏱ "+manca(x.scadenza):"senza scadenza");s.appendChild(tg);
-  if(x.categoria)s.appendChild(el("span","tag",x.categoria));if(x.costo)s.appendChild(el("span","tag","~"+num(x.costo)+" coins"));s.appendChild(el("span","tag",x.ripetibile?"🔁 "+x.ripetibile:"non ripetibile"));c.appendChild(s);
-  if(x.descrizione)c.appendChild(el("div",null,x.descrizione));if(x.premi.length)c.appendChild(el("div",null,"🎁 "+x.premi.join(" · ")));
-  x.cartePremio.forEach(function(p){c.appendChild(el("div","s","🎴 "+p.nome+" "+p.rating+" "+(p.posizione||"")+(p.rarita?" · "+p.rarita:"")+(p.club?" · "+p.club:"")))});
-  if(x.sfide.length){var d=el("details");d.appendChild(el("summary",null,x.sfide.length+(x.sfide.length===1?" sfida":" sfide")+" · requisiti"));x.sfide.forEach(function(f,i){var b=el("div");b.style.marginTop="8px";b.appendChild(el("b",null,(i+1)+" — "+f.nome+(f.modulo?"  📐 "+f.modulo:"")));if(f.descrizione)b.appendChild(el("div","s",f.descrizione));var u=el("ul","el");f.requisiti.forEach(function(r){u.appendChild(el("li",null,r))});b.appendChild(u);if(f.premi.length)b.appendChild(el("div","s","🎁 "+f.premi.join(" · ")));if(f.soluzione)b.appendChild(el("div","s","💡 soluzione più economica: "+num(f.soluzione)+" coins"));d.appendChild(b)});c.appendChild(d)}
-  if(x.url)c.appendChild(link(x.url,"fut.gg ↗"));m.appendChild(c)});if(!n)m.appendChild(vuoto("Nessuna SBC."))},
-promo:function(m){m.appendChild(el("h2",null,"💎 Versioni di carta ("+D.versioni.length+")"));m.appendChild(cercaBox("promo","Cerca una promo o una carta…"));
- var g=el("div","griglia");var n=0;D.versioni.forEach(function(x){if(!trova(x.titolo+" "+x.nomeIt+" "+x.elenco.join(" "),"promo"))return;n++;g.appendChild(cartaPromo(x,true))});m.appendChild(g);if(!n)m.appendChild(vuoto("Nessuna."))},
-pacchetti:function(m){m.appendChild(el("h2",null,"🎁 Pacchetti di quest'anno ("+D.pacchetti.length+")"));m.appendChild(el("div","s","Nomi ufficiali dal file del negozio EA. «Non ancora visto» = mai comparso nello store dell'account esca."));m.appendChild(cercaBox("pacchetti"));
- var n=0;D.pacchetti.forEach(function(x){if(!trova(x.nome+" "+x.descrizione,"pacchetti"))return;n++;var c=el("div","carta");c.appendChild(el("div","t",x.nome));var s=el("div","s","#"+x.id+" ");s.appendChild(el("span","tag "+(x.inNegozio?"v":"w"),x.inNegozio?"visto in negozio":"non ancora visto"));c.appendChild(s);if(x.descrizione)c.appendChild(el("div",null,x.descrizione));m.appendChild(c)});if(!n)m.appendChild(vuoto("Nessuno."))},
-dizionario:function(m){m.appendChild(el("h2",null,"📖 Dizionario EA · voci nuove e cambiate ("+D.dizionario.length+")"));m.appendChild(el("div","s","Il file dei testi della Web App: EA ci scrive i nomi prima che le cose escano."));m.appendChild(cercaBox("diz"));
- var cat=[];D.dizionario.forEach(function(x){if(cat.indexOf(x.categoria)<0)cat.push(x.categoria)});m.appendChild(chips("dizCat",cat,CATEGORIE));
- var ult="",n=0;D.dizionario.forEach(function(x){if(filtri.dizCat&&x.categoria!==filtri.dizCat)return;if(!trova(x.valore+" "+(x.prima||"")+" "+x.chiave,"diz"))return;var g=giorno(x.ts);if(g!==ult){m.appendChild(el("div","giorno",g));ult=g}m.appendChild(rigaDiz(x));n++});if(!n)m.appendChild(vuoto("Nessuna voce nuova da quando lo guardo."))},
-pricerange:function(m){m.appendChild(el("h2",null,"💱 Price range cambiati ("+D.priceRange.length+")"));m.appendChild(cercaBox("pr","Cerca un giocatore…"));
- var t=el("table");var h=el("tr");["Carta","Min","Max","Quando"].forEach(function(x,i){var th=el("th",i===3?"nascondi-mob":null,x);h.appendChild(th)});t.appendChild(h);var n=0;
- D.priceRange.forEach(function(x){if(!trova(x.titolo,"pr"))return;n++;var r=el("tr");var a=el("td");var b=el("b",null,x.titolo+" "+(x.rating||""));a.appendChild(b);if(x.nuova)a.appendChild(el("span","tag v"," nuova"));r.appendChild(a);
-  function cella(p,d){var c=el("td");if(x.nuova||!p||!d){c.textContent=x.intervallo||"";return c}c.appendChild(document.createTextNode(num(p)+" → "));var s=el("b",d>p?"su":d<p?"giu":null,num(d));c.appendChild(s);return c}
-  r.appendChild(cella(x.prima&&x.prima.min,x.dopo&&x.dopo.min));r.appendChild(cella(x.prima&&x.prima.max,x.dopo&&x.dopo.max));r.appendChild(el("td","nascondi-mob s",data(Date.parse(x.quando)||x.visto)));t.appendChild(r)});
- m.appendChild(t);if(!n)m.appendChild(vuoto("Nessun cambio."))},
-carte:function(m){m.appendChild(el("h2",null,"✨ Carte entrate a database ("+D.carteNuove.length+")"));m.appendChild(cercaBox("carte"));var n=0,ult="";
- D.carteNuove.forEach(function(x){if(!trova(x.titolo,"carte"))return;n++;var g=giorno(x.ts);if(g!==ult){m.appendChild(el("div","giorno",g));ult=g}var c=el("div","carta");c.appendChild(el("div","t",x.titolo));var s=el("div","s",data(x.ts,{hour:"2-digit",minute:"2-digit"})+" ");if(x.url)s.appendChild(link(x.url));c.appendChild(s);m.appendChild(c)});if(!n)m.appendChild(vuoto("Nessuna in questa settimana."))},
-notifiche:function(m){m.appendChild(el("h2",null,"📬 Le notifiche, per intero ("+D.notifiche.length+")"));m.appendChild(cercaBox("not"));
- var fonti=[];D.notifiche.forEach(function(x){if(fonti.indexOf(x.fonte)<0)fonti.push(x.fonte)});m.appendChild(chips("notFonte",fonti,NOMI_FONTE));var n=0,ult="";
- D.notifiche.forEach(function(x){if(filtri.notFonte&&x.fonte!==filtri.notFonte)return;if(!trova(x.testo,"not"))return;n++;var g=giorno(x.ts);if(g!==ult){m.appendChild(el("div","giorno",g));ult=g}
-  var c=el("div","carta");c.appendChild(el("div","s",(NOMI_FONTE[x.fonte]||x.fonte||"")+" · "+data(x.ts,{hour:"2-digit",minute:"2-digit"})));var b=el("div","msg");b.appendChild(pulisciHtml(x.testo));c.appendChild(b);
-  var foto=(x.foto?[x.foto]:[]).concat((x.album||[]).map(function(a){return a.foto}));if(foto.length){var f=el("div","msg");foto.forEach(function(u){if(!/^https:/.test(u))return;var i=el("img");i.src=u;i.loading="lazy";i.alt="";f.appendChild(i)});c.appendChild(f)}m.appendChild(c)});if(!n)m.appendChild(vuoto("Nessuna notifica in questa settimana."))}
+function el(t, c, x) { var e = document.createElement(t); if (c) e.className = c; if (x != null) e.textContent = x; return e; }
+function num(n) { return Math.round(n || 0).toLocaleString("it-IT"); }
+function data(ts, o) { var d = new Date(ts); return isNaN(d) ? "" : d.toLocaleString("it-IT", o || { weekday: "short", day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" }); }
+function ora(ts) { return data(ts, { hour: "2-digit", minute: "2-digit" }); }
+function giorno(ts) { return new Date(ts).toLocaleDateString("it-IT", { weekday: "long", day: "2-digit", month: "long" }); }
+function manca(ts) {
+  // Dal `data-fino` arriva come TESTO: "1791651600000" va riletto come numero,
+  // altrimenti la data non è valida e al primo secondo diventava «scaduta»
+  if (typeof ts === "string" && /^\d+$/.test(ts)) ts = Number(ts);
+  var ms = new Date(ts) - Date.now(); if (!(ms > 0)) return "scaduta";
+  // Oltre un anno vuol dire «non scade» (le SBC permanenti hanno una data nel 2035)
+  if (ms > 365 * 864e5) return "♾ permanente";
+  var g = Math.floor(ms / 864e5), o = Math.floor(ms % 864e5 / 36e5), m = Math.floor(ms % 36e5 / 6e4), s = Math.floor(ms % 6e4 / 1e3);
+  if (g) return g + "g " + o + "h " + m + "m";
+  return (o ? o + "h " : "") + m + "m " + (s < 10 ? "0" : "") + s + "s";
+}
+function vetro(c) { return el("div", "vetro " + (c || "")); }
+function link(u, testo) { var a = el("a", null, testo || "apri ↗"); a.href = u; a.target = "_blank"; a.rel = "noopener noreferrer"; return a; }
+function chip(t, c) { return el("span", "chip " + (c || ""), t); }
+function entra(e, i) { e.classList.add("entra"); e.style.setProperty("--i", Math.min(i || 0, 14)); return e; }
+function vuoto(t) { return el("div", "vuoto", t); }
+function titolo(m, testo, conta, sotto) {
+  var h = el("h2", null, testo); if (conta != null) h.appendChild(el("span", "conta", String(conta))); m.appendChild(h);
+  if (sotto) m.appendChild(el("p", "sotto", sotto));
+}
+function immagine(u, alt) {
+  var i = el("img"); i.alt = alt || ""; i.loading = "lazy"; i.referrerPolicy = "no-referrer"; i.src = u;
+  i.onerror = function () { var s = el("div", "segnaposto", "✦"); if (i.parentNode) i.parentNode.replaceChild(s, i); };
+  return i;
+}
+function pulisciHtml(html) {
+  var t = document.createElement("template"); t.innerHTML = html;
+  (function giro(n) {
+    Array.prototype.slice.call(n.childNodes).forEach(function (c) {
+      if (c.nodeType !== 1) return;
+      var nome = c.nodeName.toLowerCase();
+      if (["b", "i", "code", "a"].indexOf(nome) < 0) { n.replaceChild(document.createTextNode(c.textContent), c); return; }
+      Array.prototype.slice.call(c.attributes).forEach(function (a) {
+        if (!(nome === "a" && a.name === "href" && /^https?:/.test(a.value))) c.removeAttribute(a.name);
+      });
+      if (nome === "a") { c.target = "_blank"; c.rel = "noopener noreferrer"; }
+      giro(c);
+    });
+  })(t.content);
+  return t.content;
+}
+function cercaBox(chiave, ph) {
+  var i = el("input", "cerca"); i.type = "search"; i.placeholder = ph || "Cerca…"; i.value = filtri[chiave] || "";
+  i.oninput = function () { filtri[chiave] = i.value; var p = i.selectionStart; disegna(true); var n = document.querySelector(".cerca"); if (n) { n.focus(); try { n.setSelectionRange(p, p); } catch (e) {} } };
+  return i;
+}
+function trova(testo, chiave) { var q = (filtri[chiave] || "").trim().toLowerCase(); return !q || String(testo).toLowerCase().indexOf(q) > -1; }
+function filtriChip(chiave, valori, nomi) {
+  var box = el("div", "filtri");
+  var tutti = el("span", "filtro" + (filtri[chiave] ? "" : " on"), "Tutto"); tutti.onclick = function () { filtri[chiave] = ""; disegna(true); }; box.appendChild(tutti);
+  valori.forEach(function (v) { var c = el("span", "filtro" + (filtri[chiave] === v ? " on" : ""), (nomi && nomi[v]) || v); c.onclick = function () { filtri[chiave] = v; disegna(true); }; box.appendChild(c); });
+  return box;
+}
+// Un numero che sale da zero: solo effetto, il valore vero è già nel testo
+function contatore(n) {
+  var e = el("div", "num", "0"); contatori.push({ e: e, n: n }); return e;
+}
+function animaContatori() {
+  var t0 = Date.now(), lista = contatori.slice(); contatori = [];
+  if (!lista.length) return;
+  var passo = function () {
+    var k = Math.min(1, (Date.now() - t0) / 900), f = 1 - Math.pow(1 - k, 3);
+    lista.forEach(function (x) { x.e.textContent = num(x.n * f); });
+    if (k < 1) (window.requestAnimationFrame || function (f) { setTimeout(f, 16); })(passo);
+  };
+  passo();
+}
+// La carta olografica si inclina seguendo il dito o il mouse
+function olografica(c) {
+  c.classList.add("holo");
+  var muovi = function (x, y) {
+    var r = c.getBoundingClientRect(); if (!r.width) return;
+    var px = (x - r.left) / r.width, py = (y - r.top) / r.height;
+    c.style.setProperty("--mx", px * 100 + "%"); c.style.setProperty("--my", py * 100 + "%");
+    c.style.setProperty("--ry", (px - .5) * 18 + "deg"); c.style.setProperty("--rx", (.5 - py) * 18 + "deg");
+  };
+  var riposo = function () { c.classList.remove("tocco"); c.style.setProperty("--rx", "0deg"); c.style.setProperty("--ry", "0deg"); };
+  c.addEventListener("pointermove", function (e) { muovi(e.clientX, e.clientY); });
+  c.addEventListener("pointerleave", riposo);
+  c.addEventListener("touchmove", function (e) { c.classList.add("tocco"); var t = e.touches[0]; muovi(t.clientX, t.clientY); }, { passive: true });
+  c.addEventListener("touchend", riposo);
+  return c;
+}
+function cartaPromo(x, conElenco) {
+  var c = olografica(el("div"));
+  var box = el("div", "img"); box.appendChild(x.immagine ? immagine(x.immagine, x.titolo) : el("div", "segnaposto", "✦")); c.appendChild(box);
+  c.appendChild(el("div", "t", x.titolo));
+  if (x.nomeIt && x.nomeIt.toLowerCase() !== x.titolo.toLowerCase()) c.appendChild(el("div", "it", x.nomeIt));
+  var r = el("div", "riga"); r.appendChild(chip(x.carte ? num(x.carte) + " carte" : "in arrivo", x.carte ? "v" : "o")); r.appendChild(chip("ID " + x.id)); c.appendChild(r);
+  if (conElenco && x.elenco && x.elenco.length) {
+    var d = el("details"); d.style.textAlign = "left"; d.appendChild(el("summary", null, "le " + x.elenco.length + " carte"));
+    var u = el("ul", "el"); x.elenco.forEach(function (n) { u.appendChild(el("li", null, n)); }); d.appendChild(u); c.appendChild(d);
+  }
+  if (x.url) { var a = link(x.url, "fut.gg ↗"); a.style.fontSize = "12px"; var z = el("div"); z.style.marginTop = "6px"; z.appendChild(a); c.appendChild(z); }
+  return c;
+}
+function rigaDiz(x, i) {
+  var c = entra(vetro("scheda"), i);
+  var r = el("div", "riga"); r.appendChild(chip(CATEGORIE[x.categoria] || x.categoria, x.categoria === "promo" ? "p" : x.categoria === "altro" ? "" : "c"));
+  if (x.id) r.appendChild(chip("ID " + x.id)); r.appendChild(el("span", "s", ora(x.ts))); c.appendChild(r);
+  var t = el("div", "t"); t.style.marginTop = "6px";
+  if (x.prima !== undefined) { t.appendChild(el("span", "s", x.prima + "  →  ")); t.appendChild(el("span", null, x.valore)); }
+  else t.textContent = x.valore;
+  c.appendChild(t); c.appendChild(el("div", "s", x.chiave)); return c;
+}
+function schedaNotifica(x, i) {
+  var c = entra(vetro("scheda"), i);
+  var r = el("div", "riga"); r.appendChild(chip((ICONE_FONTE[x.fonte] || "•") + " " + (NOMI_FONTE[x.fonte] || x.fonte || "")));
+  r.appendChild(el("span", "s", data(x.ts))); c.appendChild(r);
+  var b = el("div", "msg"); b.style.marginTop = "8px"; b.appendChild(pulisciHtml(x.testo)); c.appendChild(b);
+  var foto = (x.foto ? [x.foto] : []).concat((x.album || []).map(function (a) { return a.foto; })).filter(function (u) { return /^https:/.test(u); });
+  if (foto.length) { var f = el("div", "foto"); foto.forEach(function (u) { f.appendChild(immagine(u)); }); c.appendChild(f); }
+  return c;
+}
+function prossimiEventi() {
+  var ev = (D.leak.inArrivo || []).map(function (x) { return { t: x.titolo, quando: x.inizio, tipo: x.famiglia === "sbc" ? "🧩 SBC in arrivo" : "🎯 Obiettivo in arrivo" }; });
+  D.sbc.forEach(function (x) { var ms = new Date(x.scadenza) - Date.now(); if (ms > 0 && ms < 48 * 36e5) ev.push({ t: x.titolo, quando: x.scadenza, tipo: "⏳ SBC in scadenza" }); });
+  return ev.sort(function (a, b) { return new Date(a.quando) - new Date(b.quando); });
+}
+
+var DISEGNA = {
+  home: function (m) {
+    var L = D.leak, oggi = Date.now() - 864e5;
+    var eroe = entra(vetro("eroe brilla"), 0);
+    var sx = el("div"); sx.appendChild(el("h1", null, "Tutto quello che EA sta facendo"));
+    sx.appendChild(el("p", "sotto", "fut.gg, i file pubblici di EA e l'account esca, guardati ogni minuto. Le notifiche arrivano su Telegram, qui c'è tutto per intero."));
+    eroe.appendChild(sx);
+    var radar = el("div", "radar");
+    [[28, 34, 0], [70, 26, .8], [62, 70, 1.6], [30, 66, 2.3]].forEach(function (b) { var p = el("span", "blip"); p.style.left = b[0] + "%"; p.style.top = b[1] + "%"; p.style.animationDelay = b[2] + "s"; radar.appendChild(p); });
+    eroe.appendChild(radar); m.appendChild(eroe);
+
+    var dati = [
+      ["novita", "🗞", "novità nelle ultime 24 ore", D.storico.filter(function (x) { return x.ts > oggi && !FUORI_DA_NOVITA[x.fonte]; }).length],
+      ["leak", "💎", "promo a database in arrivo", L.versioniVuote.length],
+      ["leak", "🎁", "pacchetti a database", L.pacchetti.length],
+      ["sbc", "🧩", "SBC attive", D.sbc.length],
+      ["leak", "🔮", "cose con la data d'uscita", L.inArrivo.length],
+      ["pricerange", "💱", "price range cambiati (24h)", D.priceRange.filter(function (x) { return (Date.parse(x.quando) || x.visto) > oggi; }).length]
+    ];
+    var k = el("div", "kpi");
+    dati.forEach(function (d, i) { var a = entra(el("a", "vetro"), i + 1); a.href = "#" + d[0]; a.appendChild(el("span", "ico", d[1])); a.appendChild(contatore(d[3])); a.appendChild(el("div", "lab", d[2])); k.appendChild(a); });
+    m.appendChild(k);
+
+    var ev = prossimiEventi();
+    titolo(m, "⏱ Prossimi eventi", ev.length);
+    if (!ev.length) m.appendChild(vuoto("Nessuna data annunciata né SBC in scadenza nelle prossime 48 ore."));
+    ev.slice(0, 8).forEach(function (x, i) {
+      var c = entra(vetro("scheda"), i); var r = el("div", "riga");
+      var sx = el("div"); sx.style.flex = "1"; sx.appendChild(el("div", "s", x.tipo)); sx.appendChild(el("div", "t", x.t)); r.appendChild(sx);
+      var cc = el("div", "conto", manca(x.quando)); cc.dataset.fino = x.quando; r.appendChild(cc); c.appendChild(r); m.appendChild(c);
+    });
+
+    if (L.versioniVuote.length) {
+      titolo(m, "💎 Promo in arrivo", L.versioniVuote.length, "Versioni di carta che EA ha già a database e non ha ancora pubblicato. Scorri →");
+      var n = el("div", "nastro"); L.versioniVuote.forEach(function (x) { n.appendChild(cartaPromo(x)); }); m.appendChild(n);
+    }
+    titolo(m, "📬 Ultime notifiche", D.notifiche.length);
+    if (!D.notifiche.length) m.appendChild(vuoto("Ancora nessuna notifica archiviata."));
+    D.notifiche.slice(0, 5).forEach(function (x, i) { m.appendChild(schedaNotifica(x, i)); });
+    if (D.notifiche.length > 5) { var a = el("a", null, "→ tutte le notifiche"); a.href = "#archivio"; m.appendChild(a); }
+  },
+
+  novita: function (m) {
+    m.appendChild(el("h1", null, "🗞 Novità"));
+    m.appendChild(el("p", "sotto", "Tutto quello che è uscito questa settimana. Price range e carte nuove hanno la loro sezione, più precisa."));
+    m.appendChild(cercaBox("novita"));
+    var lista = D.storico.filter(function (x) { return !FUORI_DA_NOVITA[x.fonte]; });
+    var fonti = []; lista.forEach(function (x) { if (fonti.indexOf(x.fonte) < 0) fonti.push(x.fonte); });
+    m.appendChild(filtriChip("novitaFonte", fonti, NOMI_FONTE));
+    var ult = "", n = 0, box = null;
+    lista.forEach(function (x) {
+      if (filtri.novitaFonte && x.fonte !== filtri.novitaFonte) return;
+      if (!trova(x.titolo, "novita")) return;
+      var g = giorno(x.ts); if (g !== ult) { m.appendChild(el("div", "giorno", g)); box = el("div", "linea"); m.appendChild(box); ult = g; }
+      var c = entra(vetro("scheda"), n++);
+      var r = el("div", "riga"); r.appendChild(chip((ICONE_FONTE[x.fonte] || "•") + " " + (NOMI_FONTE[x.fonte] || x.fonte), x.fonte === "leak" ? "p" : "c"));
+      r.appendChild(el("span", "s", ora(x.ts))); c.appendChild(r);
+      var t = el("div", "t", x.titolo); t.style.marginTop = "6px"; c.appendChild(t);
+      if (x.url) c.appendChild(link(x.url)); box.appendChild(c);
+    });
+    if (!n) m.appendChild(vuoto("Niente in questa settimana."));
+  },
+
+  leak: function (m) {
+    var L = D.leak;
+    m.appendChild(el("h1", null, "🔮 Leak e cose in arrivo"));
+    m.appendChild(el("p", "sotto", "Quello che EA ha già a database o in calendario, e che in gioco non c'è ancora."));
+
+    titolo(m, "⏱ In arrivo", L.inArrivo.length);
+    if (!L.inArrivo.length) m.appendChild(vuoto("Nessuna data annunciata."));
+    L.inArrivo.forEach(function (x, i) {
+      var c = entra(vetro("scheda"), i); var r = el("div", "riga"); var sx = el("div"); sx.style.flex = "1";
+      sx.appendChild(el("div", "s", (x.famiglia === "sbc" ? "🧩 SBC" : "🎯 Obiettivo") + " · parte " + data(x.inizio))); sx.appendChild(el("div", "t", x.titolo)); r.appendChild(sx);
+      var cc = el("div", "conto", manca(x.inizio)); cc.dataset.fino = x.inizio; r.appendChild(cc); c.appendChild(r); m.appendChild(c);
+    });
+
+    titolo(m, "💎 Promo a database senza carte", L.versioniVuote.length, "Il design c'è già: le carte no.");
+    var g = el("div", "griglia"); L.versioniVuote.forEach(function (x, i) { g.appendChild(entra(cartaPromo(x), i)); }); m.appendChild(g);
+    if (!L.versioniVuote.length) m.appendChild(vuoto("Nessuna promo in attesa."));
+
+    titolo(m, "🎁 Pacchetti a database, non ancora in negozio", L.pacchetti.length, "Dal file pubblico dei nomi del negozio EA.");
+    if (!L.pacchetti.length) m.appendChild(vuoto("Nessuno per ora."));
+    L.pacchetti.forEach(function (x, i) {
+      var c = entra(vetro("scheda brilla"), i); c.appendChild(el("div", "t", x.nome));
+      var r = el("div", "riga"); r.style.marginTop = "4px"; r.appendChild(chip("#" + x.id)); r.appendChild(chip(x.dal ? "comparso " + data(x.dal) : "numerato dopo l'ultimo in negozio", "o")); c.appendChild(r);
+      if (x.descrizione) { var d = el("div", null, x.descrizione); d.style.marginTop = "6px"; c.appendChild(d); }
+      m.appendChild(c);
+    });
+
+    titolo(m, "✨ Carte nuove a database", D.carteNuove.length, "Solo quelle vere: carte entrate in una promo, carte nei premi EA. I ritocchi dei limiti di prezzo stanno in Price range.");
+    if (!D.carteNuove.length) m.appendChild(vuoto("Nessuna in questa settimana."));
+    D.carteNuove.forEach(function (x, i) {
+      var c = entra(vetro("scheda"), i); c.appendChild(el("div", "t", x.titolo));
+      var s = el("div", "s", data(x.ts) + " "); if (x.url) s.appendChild(link(x.url)); c.appendChild(s); m.appendChild(c);
+    });
+
+    var gi = L.giocatori || [];
+    titolo(m, "👥 Database giocatori EA", gi.length, "Giocatori e icone appena messi a database, e valutazioni cambiate (30 giorni).");
+    if (!gi.length) m.appendChild(vuoto("Nessun cambio da quando lo guardo."));
+    gi.forEach(function (x, i) {
+      var c = entra(vetro("scheda"), i); var r = el("div", "riga");
+      r.appendChild(el("span", "t", (x.leggenda ? "👑 " : "") + x.nome));
+      if (x.prima !== undefined) { r.appendChild(chip(x.prima + " → " + x.rating, x.rating > x.prima ? "v" : "r")); } else { r.appendChild(chip(x.rating + " · nuovo", "v")); }
+      c.appendChild(r); c.appendChild(el("div", "s", data(x.ts) + " · #" + x.id)); m.appendChild(c);
+    });
+
+    if (L.pass) {
+      titolo(m, "📅 Pass stagionale · " + L.pass.titolo, L.pass.carte.length, "⭐ = pass premium.");
+      var p = el("div", "pass");
+      L.pass.carte.forEach(function (x, i) {
+        var c = entra(el("div", "livello" + (x.premium ? " prem" : "")), i);
+        c.appendChild(el("div", "lv", "LIVELLO " + x.livello + (x.premium ? " ⭐" : ""))); c.appendChild(el("div", "t", x.nome));
+        if (x.prestito) c.appendChild(el("div", "s", "in prestito")); p.appendChild(c);
+      });
+      m.appendChild(p);
+    }
+
+    var dz = D.dizionario.filter(function (x) { return x.categoria !== "altro"; }).slice(0, 30);
+    titolo(m, "📖 Dal dizionario EA", dz.length, "Nomi comparsi nei testi della Web App: spesso prima che la cosa esca.");
+    dz.forEach(function (x, i) { m.appendChild(rigaDiz(x, i)); });
+    var a = el("a", null, "→ tutto il dizionario"); a.href = "#dizionario"; m.appendChild(a);
+  },
+
+  sbc: function (m) {
+    m.appendChild(el("h1", null, "🧩 SBC attive"));
+    m.appendChild(el("p", "sotto", D.sbc.length + " SBC, dalla più vicina alla scadenza. Tocca «sfide» per requisiti e modulo."));
+    m.appendChild(cercaBox("sbc"));
+    var l = D.sbc.slice().sort(function (a, b) { return new Date(a.scadenza || "2100") - new Date(b.scadenza || "2100"); }), n = 0;
+    l.forEach(function (x) {
+      if (!trova(x.titolo + " " + x.titoloFutgg + " " + x.categoria, "sbc")) return;
+      var ore = (new Date(x.scadenza) - Date.now()) / 36e5;
+      var c = entra(vetro("scheda sbc " + (ore < 12 ? "rosso" : ore < 48 ? "giallo" : ore > 365 * 24 ? "fissa" : "")), n++);
+      var r = el("div", "riga"); var t = el("div", "t", x.titolo); t.style.flex = "1"; r.appendChild(t);
+      if (x.scadenza) { var cc = el("div", "conto", manca(x.scadenza)); cc.dataset.fino = x.scadenza; r.appendChild(cc); }
+      c.appendChild(r);
+      var ch = el("div", "riga"); ch.style.marginTop = "6px";
+      if (x.categoria) ch.appendChild(chip(x.categoria)); if (x.costo) ch.appendChild(chip("~" + num(x.costo) + " coins", "o"));
+      ch.appendChild(chip(x.ripetibile ? "🔁 " + x.ripetibile : "non ripetibile", x.ripetibile ? "c" : "")); c.appendChild(ch);
+      if (x.descrizione) { var d = el("div", null, x.descrizione); d.style.marginTop = "8px"; c.appendChild(d); }
+      if (x.premi.length) { var p = el("div", null, "🎁 " + x.premi.join(" · ")); p.style.marginTop = "6px"; c.appendChild(p); }
+      x.cartePremio.forEach(function (p) { c.appendChild(el("div", "s", "🎴 " + p.nome + " " + p.rating + " " + (p.posizione || "") + (p.rarita ? " · " + p.rarita : "") + (p.club ? " · " + p.club : ""))); });
+      if (x.sfide.length) {
+        var dd = el("details"); dd.appendChild(el("summary", null, x.sfide.length + (x.sfide.length === 1 ? " sfida" : " sfide")));
+        x.sfide.forEach(function (f, i) {
+          var b = el("div", "sfida"); b.appendChild(el("b", null, (i + 1) + " — " + f.nome));
+          if (f.modulo) b.appendChild(chip("📐 " + f.modulo, "c"));
+          if (f.descrizione) b.appendChild(el("div", "s", f.descrizione));
+          var u = el("ul", "req"); f.requisiti.forEach(function (q) { u.appendChild(el("li", null, q)); }); b.appendChild(u);
+          if (f.premi.length) b.appendChild(el("div", "s", "🎁 " + f.premi.join(" · ")));
+          if (f.soluzione) b.appendChild(el("div", "s", "💡 soluzione più economica: " + num(f.soluzione) + " coins"));
+          dd.appendChild(b);
+        });
+        c.appendChild(dd);
+      }
+      if (x.url) { var z = el("div"); z.style.marginTop = "8px"; z.appendChild(link(x.url, "fut.gg ↗")); c.appendChild(z); }
+      m.appendChild(c);
+    });
+    if (!n) m.appendChild(vuoto("Nessuna SBC."));
+  },
+
+  promo: function (m) {
+    m.appendChild(el("h1", null, "💎 Versioni di carta"));
+    m.appendChild(el("p", "sotto", "Tutte le promo dell'anno, col nome italiano di EA e le carte uscite. Muovi il dito sulle carte."));
+    m.appendChild(cercaBox("promo", "Cerca una promo o una carta…"));
+    var g = el("div", "griglia"), n = 0;
+    D.versioni.forEach(function (x) { if (!trova(x.titolo + " " + x.nomeIt + " " + x.elenco.join(" "), "promo")) return; g.appendChild(entra(cartaPromo(x, true), n++)); });
+    m.appendChild(g); if (!n) m.appendChild(vuoto("Nessuna."));
+  },
+
+  pacchetti: function (m) {
+    m.appendChild(el("h1", null, "🎁 Pacchetti di quest'anno"));
+    m.appendChild(el("p", "sotto", "Nomi ufficiali dal file del negozio EA. «Non ancora visto» = mai comparso nello store dell'account esca."));
+    m.appendChild(cercaBox("pacchetti"));
+    m.appendChild(filtriChip("pacStato", ["attesa", "negozio"], { attesa: "Non ancora visti", negozio: "Visti in negozio" }));
+    var n = 0;
+    D.pacchetti.forEach(function (x) {
+      if (filtri.pacStato === "attesa" && x.inNegozio) return; if (filtri.pacStato === "negozio" && !x.inNegozio) return;
+      if (!trova(x.nome + " " + x.descrizione, "pacchetti")) return;
+      var c = entra(vetro("scheda"), n++); var r = el("div", "riga"); var t = el("div", "t", x.nome); t.style.flex = "1"; r.appendChild(t);
+      r.appendChild(chip(x.inNegozio ? "visto in negozio" : "non ancora visto", x.inNegozio ? "v" : "o")); c.appendChild(r);
+      c.appendChild(el("div", "s", "#" + x.id)); if (x.descrizione) { var d = el("div", null, x.descrizione); d.style.marginTop = "6px"; c.appendChild(d); }
+      m.appendChild(c);
+    });
+    if (!n) m.appendChild(vuoto("Nessuno."));
+  },
+
+  pricerange: function (m) {
+    m.appendChild(el("h1", null, "💱 Price range"));
+    m.appendChild(el("p", "sotto", "Limiti di prezzo che EA ha cambiato questa settimana, e cosa vuol dire. Sono carte che esistevano già."));
+    m.appendChild(cercaBox("pr", "Cerca un giocatore…"));
+    m.appendChild(filtriChip("prDir", ["su", "giu"], { su: "⬆️ Alzati", giu: "⬇️ Abbassati" }));
+    var n = 0, ult = "";
+    D.priceRange.forEach(function (x) {
+      var dir = x.direzione || "";
+      if (filtri.prDir && dir !== filtri.prDir) return; if (!trova(x.titolo, "pr")) return;
+      var ts = Date.parse(x.quando) || x.visto; var g = giorno(ts); if (g !== ult) { m.appendChild(el("div", "giorno", g)); ult = g; }
+      var c = entra(vetro("scheda pr"), n++);
+      var r = el("div", "riga"); var t = el("div", "t", x.titolo + (x.rating ? " " + x.rating : "")); t.style.flex = "1"; r.appendChild(t);
+      r.appendChild(el("span", "s", ora(ts))); c.appendChild(r);
+      var v = el("div", "riga"); v.style.marginTop = "8px";
+      function coppia(nome, p, d) { var b = el("div"); b.appendChild(el("div", "s", nome)); var z = el("div", "val"); z.appendChild(document.createTextNode(num(p) + " → ")); z.appendChild(el("span", d > p ? "su" : d < p ? "giu" : null, num(d) + (d > p ? " ▲" : d < p ? " ▼" : ""))); b.appendChild(z); return b; }
+      if (x.prima && x.dopo) { v.appendChild(coppia("Minimo", x.prima.min, x.dopo.min)); var sp = el("div"); sp.style.width = "18px"; v.appendChild(sp); v.appendChild(coppia("Massimo", x.prima.max, x.dopo.max)); }
+      else { var z = el("div", "val"); z.appendChild(document.createTextNode((x.intervalloPrima || "?") + " → ")); z.appendChild(el("span", dir === "su" ? "su" : dir === "giu" ? "giu" : null, x.intervallo || "")); v.appendChild(z); }
+      c.appendChild(v);
+      if (x.motivo) c.appendChild(el("div", "motivo", "💬 " + x.motivo));
+      if (x.url) { var w = el("div"); w.style.marginTop = "6px"; w.appendChild(link(x.url, "fut.gg ↗")); c.appendChild(w); }
+      m.appendChild(c);
+    });
+    if (!n) m.appendChild(vuoto("Nessun cambio."));
+  },
+
+  dizionario: function (m) {
+    m.appendChild(el("h1", null, "📖 Dizionario EA"));
+    m.appendChild(el("p", "sotto", "Voci nuove e cambiate nel file dei testi della Web App: EA ci scrive i nomi prima che le cose escano."));
+    m.appendChild(cercaBox("diz"));
+    var cat = []; D.dizionario.forEach(function (x) { if (cat.indexOf(x.categoria) < 0) cat.push(x.categoria); });
+    m.appendChild(filtriChip("dizCat", cat, CATEGORIE));
+    var ult = "", n = 0;
+    D.dizionario.forEach(function (x) {
+      if (filtri.dizCat && x.categoria !== filtri.dizCat) return; if (!trova(x.valore + " " + (x.prima || "") + " " + x.chiave, "diz")) return;
+      var g = giorno(x.ts); if (g !== ult) { m.appendChild(el("div", "giorno", g)); ult = g; }
+      m.appendChild(rigaDiz(x, n++));
+    });
+    if (!n) m.appendChild(vuoto("Nessuna voce nuova da quando lo guardo."));
+  },
+
+  archivio: function (m) {
+    m.appendChild(el("h1", null, "📬 Archivio notifiche"));
+    m.appendChild(el("p", "sotto", "Ogni notifica per intero, anche quelle che filtri o silenzio notturno hanno trattenuto (7 giorni)."));
+    m.appendChild(cercaBox("not"));
+    var fonti = []; D.notifiche.forEach(function (x) { if (fonti.indexOf(x.fonte) < 0) fonti.push(x.fonte); });
+    m.appendChild(filtriChip("notFonte", fonti, NOMI_FONTE));
+    var n = 0, ult = "";
+    D.notifiche.forEach(function (x) {
+      if (filtri.notFonte && x.fonte !== filtri.notFonte) return; if (!trova(x.testo, "not")) return;
+      var g = giorno(x.ts); if (g !== ult) { m.appendChild(el("div", "giorno", g)); ult = g; }
+      m.appendChild(schedaNotifica(x, n++));
+    });
+    if (!n) m.appendChild(vuoto("Nessuna notifica in questa settimana."));
+  }
 };
-function cartaPromo(x,conElenco){var c=el("div","promo");if(x.immagine){var i=el("img");i.src=x.immagine;i.loading="lazy";i.alt=x.titolo;c.appendChild(i)}c.appendChild(el("div","t",x.titolo));if(x.nomeIt&&x.nomeIt.toLowerCase()!==x.titolo.toLowerCase())c.appendChild(el("div","s",x.nomeIt));
- var s=el("div");s.appendChild(el("span","tag "+(x.carte?"v":"w"),x.carte?num(x.carte)+" carte":"nessuna carta"));s.appendChild(el("span","tag","ID "+x.id));c.appendChild(s);
- if(conElenco&&x.elenco&&x.elenco.length){var d=el("details");d.style.textAlign="left";d.appendChild(el("summary",null,"le "+x.elenco.length+" carte"));var u=el("ul","el");x.elenco.forEach(function(n){u.appendChild(el("li",null,n))});d.appendChild(u);c.appendChild(d)}
- if(x.url){var a=link(x.url,"fut.gg ↗");a.style.fontSize="12px";c.appendChild(el("div")).appendChild(a)}return c}
-function rigaDiz(x){var c=el("div","carta");var t=el("div");t.appendChild(el("span","tag",(CATEGORIE[x.categoria]||x.categoria)+(x.id?" · ID "+x.id:"")));c.appendChild(t);
- if(x.prima!==undefined){var d=el("div");d.appendChild(el("span","s",x.prima+" → "));d.appendChild(el("b",null,x.valore));c.appendChild(d)}else c.appendChild(el("div","t",x.valore));c.appendChild(el("div","s",x.chiave));return c}
-function sezione(){var h=(location.hash||"#novita").slice(1);return DISEGNA[h]?h:"novita"}
-function disegna(){var s=sezione();var nav=document.getElementById("nav");nav.innerHTML="";SEZIONI.forEach(function(x){var a=el("a",x[0]===s?"on":null,x[1]);a.href="#"+x[0];nav.appendChild(a)});
- var on=nav.querySelector(".on");if(on&&on.scrollIntoView)on.scrollIntoView({inline:"center",block:"nearest"});var m=document.getElementById("main");m.innerHTML="";if(!D){m.appendChild(vuoto("Dati non ancora disponibili."));return}DISEGNA[s](m)}
-function stato(){var vivo=D&&D.ultimoGiro&&Date.now()-D.ultimoGiro<45*6e4;document.getElementById("punto").className="punto "+(D?(vivo?"ok":"ko"):"");
- document.getElementById("vivo").textContent=D?(vivo?"watcher attivo":"watcher fermo dalle "+data(D.ultimoGiro,{hour:"2-digit",minute:"2-digit"})):"offline";
- document.getElementById("piede").textContent=D?"Dati pubblicati "+data(D.pubblicato)+" · fonti: fut.gg, file pubblici EA, account esca":""}
-function carica(){fetch(FONTE.api,{headers:{Accept:"application/vnd.github.raw+json"},cache:"no-store"}).then(function(r){if(!r.ok)throw 0;return r.json()}).catch(function(){return fetch(FONTE.raw+"?t="+Date.now()).then(function(r){return r.json()})})
- .then(function(d){var primo=!D;D=d;stato();if(primo||!document.activeElement||document.activeElement.className!=="cerca")disegna()}).catch(function(){stato();if(!D)disegna()})}
-window.addEventListener("hashchange",function(){disegna();window.scrollTo(0,0)});
-document.addEventListener("visibilitychange",function(){if(!document.hidden)carica()});
-carica();setInterval(carica,3*6e4);
+
+function sezione() { var h = (location.hash || "#home").slice(1); h = ALIAS[h] || h; return DISEGNA[h] ? h : "home"; }
+function contaSezione(k) {
+  if (!D) return 0;
+  return { novita: D.storico.filter(function (x) { return !FUORI_DA_NOVITA[x.fonte]; }).length, leak: D.leak.versioniVuote.length + D.leak.pacchetti.length + D.leak.inArrivo.length,
+    sbc: D.sbc.length, promo: D.versioni.length, pacchetti: D.pacchetti.length, pricerange: D.priceRange.length, dizionario: D.dizionario.length, archivio: D.notifiche.length }[k];
+}
+function disegna(soloContenuto) {
+  var s = sezione(), nav = document.getElementById("nav");
+  nav.innerHTML = "";
+  SEZIONI.forEach(function (x) {
+    var a = el("a", x[0] === s ? "on" : null); a.href = "#" + x[0]; a.appendChild(document.createTextNode(x[1] + " " + x[2]));
+    var n = contaSezione(x[0]); if (n) a.appendChild(el("span", "n", String(n))); nav.appendChild(a);
+  });
+  var on = nav.querySelector(".on"); if (on && on.scrollIntoView && !soloContenuto) { try { on.scrollIntoView({ inline: "center", block: "nearest" }); } catch (e) {} }
+  var m = document.getElementById("main"); m.innerHTML = "";
+  if (!D) { m.appendChild(vuoto("Dati non ancora disponibili.")); return; }
+  DISEGNA[s](m); animaContatori();
+}
+function statoVivo() {
+  var vivo = D && D.ultimoGiro && Date.now() - D.ultimoGiro < 45 * 6e4;
+  document.getElementById("punto").className = "led " + (D ? (vivo ? "ok" : "ko") : "");
+  document.getElementById("vivo").textContent = D ? (vivo ? "watcher attivo" : "watcher fermo dalle " + ora(D.ultimoGiro)) : "offline";
+  document.getElementById("piede").textContent = D ? "Dati pubblicati " + data(D.pubblicato) + " · fonti: fut.gg, file pubblici EA, account esca" : "";
+}
+function carica() {
+  fetch(FONTE.api, { headers: { Accept: "application/vnd.github.raw+json" }, cache: "no-store" })
+    .then(function (r) { if (!r.ok) throw 0; return r.json(); })
+    .catch(function () { return fetch(FONTE.raw + "?t=" + Date.now()).then(function (r) { return r.json(); }); })
+    .then(function (d) { var primo = !D; D = d; statoVivo(); if (primo || !document.activeElement || document.activeElement.className !== "cerca") disegna(!primo); })
+    .catch(function () { statoVivo(); if (!D) disegna(); });
+}
+// I conti alla rovescia vanno avanti da soli, un secondo alla volta
+setInterval(function () { Array.prototype.forEach.call(document.querySelectorAll("[data-fino]"), function (e) { e.textContent = manca(e.dataset.fino); }); }, 1000);
+window.addEventListener("hashchange", function () { disegna(); try { window.scrollTo(0, 0); } catch (e) {} });
+document.addEventListener("visibilitychange", function () { if (!document.hidden) carica(); });
+var su = document.getElementById("suTop");
+window.addEventListener("scroll", function () { su.classList.toggle("vis", window.scrollY > 600); }, { passive: true });
+su.onclick = function () { try { window.scrollTo({ top: 0, behavior: "smooth" }); } catch (e) {} };
+carica(); setInterval(carica, 3 * 6e4);
 </script>
 </body>
 </html>
