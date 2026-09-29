@@ -174,12 +174,20 @@ footer a{color:var(--dim);cursor:pointer}
 .scuoti{animation:scuoti .4s}
 @keyframes scuoti{20%,60%{transform:translateX(-9px)}40%,80%{transform:translateX(9px)}}
 .verifica{color:var(--ciano);font-size:14px;margin-top:6px}
+/* PROTEZIONE: filigrana col nome, niente selezione, niente stampa, oscuramento */
+#filigrana{position:fixed;inset:0;z-index:50;pointer-events:none;background-repeat:repeat}
+body{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+input{-webkit-user-select:text;user-select:text}
+img{-webkit-user-drag:none}
+body.oscurata main,body.oscurata nav{filter:blur(18px) brightness(.4);transition:filter .15s}
+@media print{body *{display:none!important}body::after{content:"Stampa non consentita.";display:block;padding:40px;font:20px sans-serif;color:#000}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
 <div class="aurora"><i></i><i></i><i></i></div>
 <div class="griglia-sfondo"></div>
+<div id="filigrana"></div>
 <header>
  <div class="testa">
   <div class="radarino"></div>
@@ -211,29 +219,34 @@ var CATEGORIE = { promo: "💎 Versioni di carta", evoluzioni: "🧬 Evoluzioni"
 // In Novità non ci sono price range e carte nuove: hanno la loro sezione, più precisa
 var FUORI_DA_NOVITA = { priceRange: 1, carteNuove: 1 };
 var D = null, filtri = {}, contatori = [];
-// ACCESSO: i dati arrivano cifrati. La chiave dei dati si apre col codice degli
-// utenti o con la chiave del proprietario (link …/#k=…), e si ricorda qui.
-var BUSTA = null, CHIAVE = null, CHIAVE_LS = "fut-radar-chiave", CODICE_LEN = 10, digitato = "";
+// ACCESSO (v7.16): i dati arrivano cifrati con una chiave nuova a ogni
+// pubblicazione, avvolta per ogni persona (col suo codice) e per il
+// proprietario (link …/#k=…). Il dispositivo si ricorda la chiave DERIVATA
+// della sua persona: se la persona viene revocata, alla pubblicazione dopo
+// il suo avvolgimento sparisce e qui non si apre più niente.
+var BUSTA = null, ACCESSO = null, NOME = "", ACCESSO_LS = "fut-radar-accesso", CODICE_LEN = 10, digitato = "";
 function b64d(s) { var b = atob(s), u = new Uint8Array(b.length); for (var i = 0; i < b.length; i++) u[i] = b.charCodeAt(i); return u; }
 function b64e(buf) { var u = new Uint8Array(buf), s = ""; for (var i = 0; i < u.length; i++) s += String.fromCharCode(u[i]); return btoa(s); }
 function leggiLS(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
 function scriviLS(k, v) { try { if (v == null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) {} }
-async function apriChiave(segreto, a) {
-  var base = await crypto.subtle.importKey("raw", new TextEncoder().encode(segreto), "PBKDF2", false, ["deriveKey"]);
-  var kek = await crypto.subtle.deriveKey({ name: "PBKDF2", salt: b64d(a.salt), iterations: a.iter, hash: "SHA-256" }, base, { name: "AES-GCM", length: 256 }, false, ["decrypt"]);
-  return crypto.subtle.decrypt({ name: "AES-GCM", iv: b64d(a.iv) }, kek, b64d(a.ct));
+async function derivaKek(segreto, iter) {
+  var base = await crypto.subtle.importKey("raw", new TextEncoder().encode(segreto), "PBKDF2", false, ["deriveBits"]);
+  return crypto.subtle.deriveBits({ name: "PBKDF2", salt: b64d(BUSTA.sale), iterations: iter, hash: "SHA-256" }, base, 256);
 }
-async function apriDati(busta, chiave) {
-  var k = await crypto.subtle.importKey("raw", chiave, "AES-GCM", false, ["decrypt"]);
-  var t = await crypto.subtle.decrypt({ name: "AES-GCM", iv: b64d(busta.dati.iv) }, k, b64d(busta.dati.ct));
-  return JSON.parse(new TextDecoder().decode(t));
+async function aesApri(chiaveRaw, x) {
+  var k = await crypto.subtle.importKey("raw", chiaveRaw, "AES-GCM", false, ["decrypt"]);
+  return crypto.subtle.decrypt({ name: "AES-GCM", iv: b64d(x.iv) }, k, b64d(x.ct));
 }
-async function provaSegreto(segreto, tipo) {
-  var lista = (BUSTA && BUSTA.accessi || []).filter(function (a) { return a.tipo === tipo; });
-  for (var i = 0; i < lista.length; i++) { try { return await apriChiave(segreto, lista[i]); } catch (e) {} }
+// Con la chiave derivata di una persona: la chiave dei dati e il suo nome
+async function apriAvvolgimento(kekRaw, a) {
+  var aperto = new Uint8Array(await aesApri(kekRaw, a));
+  return { k: aperto.slice(0, 32), nome: new TextDecoder().decode(aperto.slice(32)) };
+}
+async function cercaAccesso(kekRaw, soloId) {
+  var lista = (BUSTA.accessi || []).filter(function (a) { return soloId ? a.id === soloId : a.id !== "admin"; });
+  for (var i = 0; i < lista.length; i++) { try { var r = await apriAvvolgimento(kekRaw, lista[i]); r.id = lista[i].id; return r; } catch (e) {} }
   return null;
 }
-
 function el(t, c, x) { var e = document.createElement(t); if (c) e.className = c; if (x != null) e.textContent = x; return e; }
 function num(n) { return Math.round(n || 0).toLocaleString("it-IT"); }
 function data(ts, o) { var d = new Date(ts); return isNaN(d) ? "" : d.toLocaleString("it-IT", o || { weekday: "short", day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" }); }
@@ -615,7 +628,7 @@ function disegna(soloContenuto) {
   });
   var on = nav.querySelector(".on"); if (on && on.scrollIntoView && !soloContenuto) { try { on.scrollIntoView({ inline: "center", block: "nearest" }); } catch (e) {} }
   var m = document.getElementById("main");
-  if (!D && BUSTA && !CHIAVE) { mostraPorta(); return; }
+  if (!D && BUSTA && !ACCESSO) { mostraPorta(); return; }
   m.innerHTML = "";
   if (!D) { m.appendChild(vuoto("Dati non ancora disponibili.")); return; }
   DISEGNA[s](m); animaContatori();
@@ -636,18 +649,20 @@ function carica() {
     .catch(function () { return fetch(FONTE.raw + "?t=" + Date.now()).then(function (r) { return r.json(); }); })
     .then(async function (busta) {
       BUSTA = busta;
+      scriviLS("fut-radar-chiave", null);                      // formato della v7.15, non serve più
       // Il link del proprietario: la chiave sta dopo "#k=" e non va mai al server
       var m = (location.hash || "").match(/^#k=([A-Za-z0-9_-]{16,})/);
       if (m) {
-        var k = await provaSegreto(m[1], "admin");
         try { history.replaceState(null, "", location.pathname + "#home"); } catch (e) {}
-        if (k) { CHIAVE = k; scriviLS(CHIAVE_LS, b64e(k)); }
+        var kk = await derivaKek(m[1], busta.iterAdmin);
+        if (await cercaAccesso(kk, "admin")) { ACCESSO = { id: "admin", kek: b64e(kk) }; scriviLS(ACCESSO_LS, JSON.stringify(ACCESSO)); }
       }
-      if (!CHIAVE && leggiLS(CHIAVE_LS)) { try { CHIAVE = b64d(leggiLS(CHIAVE_LS)).buffer; } catch (e) {} }
-      if (!CHIAVE) { mostraPorta(); return; }
-      var d;
-      try { d = await apriDati(busta, CHIAVE); }
-      catch (e) { CHIAVE = null; scriviLS(CHIAVE_LS, null); mostraPorta("Il codice è cambiato: inserisci quello nuovo."); return; }
+      if (!ACCESSO && leggiLS(ACCESSO_LS)) { try { ACCESSO = JSON.parse(leggiLS(ACCESSO_LS)); } catch (e) {} }
+      if (!ACCESSO) { mostraPorta(); return; }
+      var r = await cercaAccesso(b64d(ACCESSO.kek), ACCESSO.id);
+      if (!r) { ACCESSO = null; scriviLS(ACCESSO_LS, null); mostraPorta("Questo accesso non è più valido: chiedi un codice nuovo."); return; }
+      var d; try { d = JSON.parse(new TextDecoder().decode(await aesApri(r.k, busta.dati))); } catch (e) { mostraPorta(); return; }
+      NOME = r.id === "admin" ? "" : r.nome; filigrana();
       var primo = !D; D = d; statoVivo(); if (primo || !document.activeElement || document.activeElement.className !== "cerca") disegna(!primo);
     })
     .catch(function () { statoVivo(); if (!D && !BUSTA) disegna(); });
@@ -673,13 +688,14 @@ function mostraPorta(avviso) {
   async function prova() {
     if (!digitato) return;
     err.textContent = ""; var v = el("div", "verifica", "Verifico…"); p.appendChild(v);
-    var k = await provaSegreto(digitato, "codice");
+    var kk = await derivaKek(digitato, BUSTA.iterCodice);
+    var r = await cercaAccesso(kk);
     v.remove();
-    if (!k) {
+    if (!r) {
       digitato = ""; aggiorna(); err.textContent = "Codice errato";
       p.classList.remove("scuoti"); void p.offsetWidth; p.classList.add("scuoti"); return;
     }
-    CHIAVE = k; if (ricordaBox.checked) scriviLS(CHIAVE_LS, b64e(k));
+    ACCESSO = { id: r.id, kek: b64e(kk) }; if (ricordaBox.checked) scriviLS(ACCESSO_LS, JSON.stringify(ACCESSO));
     digitato = ""; carica();
   }
   campo.oninput = function () { digitato = campo.value.replace(/\D/g, "").slice(0, CODICE_LEN); campo.value = digitato; aggiorna(); if (digitato.length === CODICE_LEN) prova(); };
@@ -701,7 +717,26 @@ function mostraPorta(avviso) {
   m.appendChild(p); aggiorna();
   document.getElementById("piede").textContent = "";
 }
-function esci() { scriviLS(CHIAVE_LS, null); CHIAVE = null; D = null; mostraPorta("Sei uscito da questo dispositivo."); }
+function esci() { scriviLS(ACCESSO_LS, null); ACCESSO = null; D = null; NOME = ""; filigrana(); mostraPorta("Sei uscito da questo dispositivo."); }
+
+// FILIGRANA: il nome di chi guarda, ripetuto in diagonale su tutto lo schermo.
+// Non impedisce una foto (nessuna pagina web può farlo), ma dice di chi è.
+function filigrana() {
+  var f = document.getElementById("filigrana");
+  if (!NOME) { f.style.backgroundImage = "none"; return; }
+  var testo = (NOME + " · " + new Date().toLocaleDateString("it-IT")).replace(/[<>&"']/g, "");
+  var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="300" height="190"><text x="10" y="120" transform="rotate(-24 150 95)" ' +
+    'font-family="Inter,Arial,sans-serif" font-size="17" font-weight="700" fill="rgba(234,241,255,.10)">' + testo + '</text></svg>';
+  f.style.backgroundImage = 'url("data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg) + '")';
+}
+// Fuori dal primo piano (anteprima fra le app, altra scheda) la pagina si oscura
+function oscura(si) { document.body.classList.toggle("oscurata", !!si); }
+window.addEventListener("blur", function () { oscura(true); });
+window.addEventListener("focus", function () { oscura(false); });
+document.addEventListener("visibilitychange", function () { oscura(document.hidden); });
+document.addEventListener("contextmenu", function (e) { if (!/INPUT/.test(e.target.nodeName)) e.preventDefault(); });
+document.addEventListener("copy", function (e) { e.preventDefault(); });
+document.addEventListener("dragstart", function (e) { e.preventDefault(); });
 // I conti alla rovescia vanno avanti da soli, un secondo alla volta
 setInterval(function () { Array.prototype.forEach.call(document.querySelectorAll("[data-fino]"), function (e) { e.textContent = manca(e.dataset.fino); }); }, 1000);
 window.addEventListener("hashchange", function () {
