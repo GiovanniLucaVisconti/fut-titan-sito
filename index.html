@@ -366,6 +366,14 @@ function schedaNotifica(x, i) {
   if (foto.length) { var f = el("div", "foto"); foto.forEach(function (u) { f.appendChild(immagine(u)); }); c.appendChild(f); }
   return c;
 }
+// Il ritmo abituale di EA, alle 19:00 italiane (18:00 inglesi). È un'abitudine,
+// non una data ufficiale: la pagina lo scrive. `giorno` 0 = domenica … 6 = sabato
+function prossimaOra(giorno) {
+  var d = new Date(), t = new Date(d.getFullYear(), d.getMonth(), d.getDate(), 19, 0, 0, 0);
+  if (giorno == null) { if (t <= d) t.setDate(t.getDate() + 1); return t.getTime(); }
+  var diff = (giorno - t.getDay() + 7) % 7; t.setDate(t.getDate() + diff); if (t <= d) t.setDate(t.getDate() + 7); return t.getTime();
+}
+function durataBreve(ms) { var o = ms / 36e5; return o < 1 ? Math.max(1, Math.round(ms / 6e4)) + " min" : o < 48 ? Math.round(o) + " ore" : Math.round(o / 24) + " giorni"; }
 function prossimiEventi() {
   var ev = (D.leak.inArrivo || []).map(function (x) { return { t: x.titolo, quando: x.inizio, tipo: x.famiglia === "sbc" ? "🧩 SBC in arrivo" : "🎯 Obiettivo in arrivo" }; });
   D.sbc.forEach(function (x) { var ms = new Date(x.scadenza) - Date.now(); if (ms > 0 && ms < 48 * 36e5) ev.push({ t: x.titolo, quando: x.scadenza, tipo: "⏳ SBC in scadenza" }); });
@@ -401,6 +409,26 @@ var DISEGNA = {
       var c = entra(vetro("scheda"), i); var r = el("div", "riga");
       var sx = el("div"); sx.style.flex = "1"; sx.appendChild(el("div", "s", x.tipo)); sx.appendChild(el("div", "t", x.t)); r.appendChild(sx);
       var cc = el("div", "conto", manca(x.quando)); cc.dataset.fino = x.quando; r.appendChild(cc); c.appendChild(r); m.appendChild(c);
+    });
+
+    titolo(m, "📆 Calendario EA", null, "Il ritmo abituale di EA (19:00 italiane). Abitudine, non date ufficiali.");
+    [["Contenuti del giorno", null, "🗓"], ["Squadra della settimana (mercoledì)", 3, "🏆"], ["Promo della settimana (di solito venerdì)", 5, "💎"]].forEach(function (x, i) {
+      var c = entra(vetro("scheda"), i); var r = el("div", "riga"); var sx = el("div"); sx.style.flex = "1";
+      sx.appendChild(el("div", "s", x[2] + " " + data(prossimaOra(x[1])))); sx.appendChild(el("div", "t", x[0])); r.appendChild(sx);
+      var cc = el("div", "conto", manca(prossimaOra(x[1]))); cc.dataset.fino = prossimaOra(x[1]); r.appendChild(cc); c.appendChild(r); m.appendChild(c);
+    });
+
+    var ind = (L.indizi || []).filter(function (x) { return x.indizi.length; });
+    titolo(m, "🧭 Prossima promo", null, "Stima dagli indizi: quale promo a database EA sta già nominando (dizionario, pacchetti, news, banner).");
+    if (!ind.length) m.appendChild(vuoto("Ancora nessun indizio: appena EA nomina una delle promo a database, compare qui."));
+    ind.slice(0, 3).forEach(function (x, i) {
+      var c = entra(vetro("scheda brilla"), i); var r = el("div", "riga");
+      if (x.immagine) { var im = immagine(x.immagine, x.titolo); im.style.height = "74px"; im.style.marginRight = "8px"; r.appendChild(im); }
+      var sx = el("div"); sx.style.flex = "1"; sx.appendChild(el("div", "t", (i === 0 ? "👑 " : "") + (x.nomeIt || x.titolo)));
+      sx.appendChild(el("div", "s", x.indizi.length + (x.indizi.length === 1 ? " indizio" : " indizi") + " · ID " + x.id)); r.appendChild(sx); c.appendChild(r);
+      var u = el("ul", "el"); x.indizi.slice(0, 5).forEach(function (z) { u.appendChild(el("li", "s", (NOMI_FONTE[z.fonte] || z.fonte) + ": " + z.titolo)); }); c.appendChild(u);
+      if (i === 0) { var q = el("div", "motivo", "⏱ Se esce alla prossima finestra promo: fra " + manca(prossimaOra(5)) + " (stima)"); c.appendChild(q); }
+      m.appendChild(c);
     });
 
     if (L.versioniVuote.length) {
@@ -457,6 +485,17 @@ var DISEGNA = {
       var c = entra(vetro("scheda brilla"), i); c.appendChild(el("div", "t", x.nome));
       var r = el("div", "riga"); r.style.marginTop = "4px"; r.appendChild(chip("#" + x.id)); r.appendChild(chip(x.dal ? "comparso " + data(x.dal) : "numerato dopo l'ultimo in negozio", "o")); c.appendChild(r);
       if (x.descrizione) { var d = el("div", null, x.descrizione); d.style.marginTop = "6px"; c.appendChild(d); }
+      m.appendChild(c);
+    });
+
+    var reg = L.registro || [];
+    titolo(m, "✅ Leak → uscita ufficiale", reg.length, "Ogni cosa vista in anticipo, e quando è uscita davvero (banner EA, SBC, obiettivi, negozio).");
+    if (!reg.length) m.appendChild(vuoto("Il registro si riempie da solo coi prossimi leak."));
+    reg.slice(0, 60).forEach(function (x, i) {
+      var c = entra(vetro("scheda"), i); var r = el("div", "riga"); var t = el("div", "t", x.nome); t.style.flex = "1"; r.appendChild(t);
+      r.appendChild(x.uscito ? chip("✅ uscito " + durataBreve(x.uscito - x.visto) + " dopo", "v") : chip("🔮 in attesa da " + durataBreve(Date.now() - x.visto), "o"));
+      c.appendChild(r);
+      c.appendChild(el("div", "s", "visto " + data(x.visto) + " · " + (NOMI_FONTE[x.fonte] || x.fonte) + (x.uscita ? " → uscito: " + x.uscita.titolo : "")));
       m.appendChild(c);
     });
 
