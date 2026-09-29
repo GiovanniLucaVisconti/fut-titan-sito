@@ -125,7 +125,7 @@ function rigaDiz(x){var c=el("div","carta");var t=el("div");t.appendChild(el("sp
 function sezione(){var h=(location.hash||"#novita").slice(1);return DISEGNA[h]?h:"novita"}
 function disegna(){var s=sezione();var nav=document.getElementById("nav");nav.innerHTML="";SEZIONI.forEach(function(x){var a=el("a",x[0]===s?"on":null,x[1]);a.href="#"+x[0];nav.appendChild(a)});
  var on=nav.querySelector(".on");if(on&&on.scrollIntoView)on.scrollIntoView({inline:"center",block:"nearest"});var m=document.getElementById("main");m.innerHTML="";if(!D){m.appendChild(vuoto("Dati non ancora disponibili."));return}DISEGNA[s](m)}
-function stato(){var vivo=D&&D.ultimoGiro&&Date.now()-D.ultimoGiro<15*6e4;document.getElementById("punto").className="punto "+(D?(vivo?"ok":"ko"):"");
+function stato(){var vivo=D&&D.ultimoGiro&&Date.now()-D.ultimoGiro<45*6e4;document.getElementById("punto").className="punto "+(D?(vivo?"ok":"ko"):"");
  document.getElementById("vivo").textContent=D?(vivo?"watcher attivo":"watcher fermo dalle "+data(D.ultimoGiro,{hour:"2-digit",minute:"2-digit"})):"offline";
  document.getElementById("piede").textContent=D?"Dati pubblicati "+data(D.pubblicato)+" · fonti: fut.gg, file pubblici EA, account esca":""}
 function carica(){fetch(FONTE.api,{headers:{Accept:"application/vnd.github.raw+json"},cache:"no-store"}).then(function(r){if(!r.ok)throw 0;return r.json()}).catch(function(){return fetch(FONTE.raw+"?t="+Date.now()).then(function(r){return r.json()})})
