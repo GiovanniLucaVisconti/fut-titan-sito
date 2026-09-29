@@ -385,7 +385,7 @@ function prossimaOra(giorno) {
 }
 function durataBreve(ms) { var o = ms / 36e5; return o < 1 ? Math.max(1, Math.round(ms / 6e4)) + " min" : o < 48 ? Math.round(o) + " ore" : Math.round(o / 24) + " giorni"; }
 function prossimiEventi() {
-  var ev = (D.leak.inArrivo || []).map(function (x) { return { t: x.titolo, quando: x.inizio, tipo: x.famiglia === "sbc" ? "🧩 SBC in arrivo" : "🎯 Obiettivo in arrivo" }; });
+  var ev = (D.leak.inArrivo || []).map(function (x) { return { t: x.titolo, quando: x.inizio, tipo: x.famiglia === "sbc" ? "🧩 SBC in arrivo" : x.famiglia === "radar" ? "🛰 " + (x.tipo || "EA") + " in arrivo" : "🎯 Obiettivo in arrivo" }; });
   D.sbc.forEach(function (x) { var ms = new Date(x.scadenza) - Date.now(); if (ms > 0 && ms < 48 * 36e5) ev.push({ t: x.titolo, quando: x.scadenza, tipo: "⏳ SBC in scadenza" }); });
   return ev.sort(function (a, b) { return new Date(a.quando) - new Date(b.quando); });
 }
@@ -481,7 +481,7 @@ var DISEGNA = {
     if (!L.inArrivo.length) m.appendChild(vuoto("Nessuna data annunciata."));
     L.inArrivo.forEach(function (x, i) {
       var c = entra(vetro("scheda"), i); var r = el("div", "riga"); var sx = el("div"); sx.style.flex = "1";
-      sx.appendChild(el("div", "s", (x.famiglia === "sbc" ? "🧩 SBC" : "🎯 Obiettivo") + " · parte " + data(x.inizio))); sx.appendChild(el("div", "t", x.titolo)); r.appendChild(sx);
+      sx.appendChild(el("div", "s", (x.famiglia === "sbc" ? "🧩 SBC" : x.famiglia === "radar" ? "🛰 " + (x.tipo || "EA") : "🎯 Obiettivo") + " · parte " + data(x.inizio))); sx.appendChild(el("div", "t", x.titolo)); r.appendChild(sx);
       var cc = el("div", "conto", manca(x.inizio)); cc.dataset.fino = x.inizio; r.appendChild(cc); c.appendChild(r); m.appendChild(c);
     });
 
