@@ -348,6 +348,16 @@ function cartaPromo(x, conElenco) {
   if (x.url) { var a = link(x.url, "fut.gg ↗"); a.style.fontSize = "12px"; var z = el("div"); z.style.marginTop = "6px"; z.appendChild(a); c.appendChild(z); }
   return c;
 }
+// Una versione dai file di EA: design, nome italiano, nascosta/visibile, se fut.gg la conosce
+function cartaEa(v) {
+  var c = olografica(el("div"));
+  var box = el("div", "img"); box.appendChild(v.design ? immagine(v.design, v.nome) : el("div", "segnaposto", "✦")); c.appendChild(box);
+  c.appendChild(el("div", "t", v.nome || ("ID " + v.id)));
+  if (v.futgg) c.appendChild(el("div", "it", v.futgg.titolo + (v.futgg.carte ? " · " + num(v.futgg.carte) + " carte" : " · nessuna carta")));
+  var r = el("div", "riga"); r.appendChild(chip(v.hide ? "🙈 nascosta" : "👁 visibile", v.hide ? "p" : "v"));
+  if (!v.futgg) r.appendChild(chip("solo EA", "o")); r.appendChild(chip("ID " + v.id)); c.appendChild(r);
+  return c;
+}
 function rigaDiz(x, i) {
   var c = entra(vetro("scheda"), i);
   var r = el("div", "riga"); r.appendChild(chip(CATEGORIE[x.categoria] || x.categoria, x.categoria === "promo" ? "p" : x.categoria === "altro" ? "" : "c"));
@@ -479,6 +489,11 @@ var DISEGNA = {
     var g = el("div", "griglia"); L.versioniVuote.forEach(function (x, i) { g.appendChild(entra(cartaPromo(x), i)); }); m.appendChild(g);
     if (!L.versioniVuote.length) m.appendChild(vuoto("Nessuna promo in attesa."));
 
+    var soloEa = (D.versioniEa || []).filter(function (v) { return v.shell === 2 && !v.futgg; });
+    titolo(m, "🎨 Nei file di EA, e non su fut.gg", soloEa.length, "Versioni di carta col design già caricato da EA nella Web App. Il leak più diretto che esista.");
+    if (!soloEa.length) m.appendChild(vuoto("Nessuna, per ora."));
+    var ge = el("div", "griglia"); soloEa.forEach(function (v, i) { ge.appendChild(entra(cartaEa(v), i)); }); m.appendChild(ge);
+
     titolo(m, "🎁 Pacchetti a database, non ancora in negozio", L.pacchetti.length, "Dal file pubblico dei nomi del negozio EA.");
     if (!L.pacchetti.length) m.appendChild(vuoto("Nessuno per ora."));
     L.pacchetti.forEach(function (x, i) {
@@ -577,6 +592,9 @@ var DISEGNA = {
     var g = el("div", "griglia"), n = 0;
     D.versioni.forEach(function (x) { if (!trova(x.titolo + " " + x.nomeIt + " " + x.elenco.join(" "), "promo")) return; g.appendChild(entra(cartaPromo(x, true), n++)); });
     m.appendChild(g); if (!n) m.appendChild(vuoto("Nessuna."));
+    var tutte = (D.versioniEa || []).filter(function (v) { return v.shell === 2 && trova(v.nome + " " + v.id, "promo"); });
+    titolo(m, "🎨 I design nei file di EA", tutte.length, "La tabella delle versioni che la Web App usa per disegnare le carte, coi design presi da EA.");
+    var g2 = el("div", "griglia"); tutte.forEach(function (v, i) { g2.appendChild(entra(cartaEa(v), i)); }); m.appendChild(g2);
   },
 
   pacchetti: function (m) {
