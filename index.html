@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>FUT Titan · Radar</title>
+<style>
+:root{--bg:#0b0f17;--pan:#121826;--pan2:#182033;--txt:#e8edf7;--dim:#8d99b3;--acc:#3ee6a8;--acc2:#5aa9ff;--warn:#ffcc4d;--bad:#ff6b6b;--bordo:#243049}
+@media (prefers-color-scheme: light){:root:not([data-tema=scuro]){--bg:#f4f6fb;--pan:#fff;--pan2:#eef2f9;--txt:#131a2a;--dim:#5b6780;--acc:#0a9e6c;--acc2:#1f6fd1;--warn:#b98300;--bad:#c93636;--bordo:#dbe2ef}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--txt);font:15px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+header{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--bordo)}
+.testa{display:flex;align-items:center;gap:10px;padding:12px 16px 6px}
+.logo{font-weight:800;letter-spacing:.3px;font-size:18px}.logo span{color:var(--acc)}
+.vivo{margin-left:auto;font-size:12px;color:var(--dim);display:flex;align-items:center;gap:6px}
+.punto{width:8px;height:8px;border-radius:50%;background:var(--dim)}.punto.ok{background:var(--acc);box-shadow:0 0 8px var(--acc)}.punto.ko{background:var(--bad)}
+nav{display:flex;gap:6px;overflow-x:auto;padding:6px 16px 10px;scrollbar-width:none}nav::-webkit-scrollbar{display:none}
+nav a{flex:none;padding:7px 12px;border-radius:999px;background:var(--pan);border:1px solid var(--bordo);color:var(--txt);text-decoration:none;font-size:14px;white-space:nowrap}
+nav a.on{background:var(--acc);color:#04130d;border-color:var(--acc);font-weight:700}
+main{max-width:980px;margin:0 auto;padding:14px 16px 60px}
+h2{font-size:20px;margin:6px 0 12px}h3{font-size:15px;margin:18px 0 8px;color:var(--dim);text-transform:uppercase;letter-spacing:.6px}
+.cerca{width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--bordo);background:var(--pan);color:var(--txt);font-size:15px;margin-bottom:12px}
+.chip{display:inline-block;padding:4px 10px;margin:0 6px 6px 0;border-radius:999px;border:1px solid var(--bordo);background:var(--pan);color:var(--txt);font-size:13px;cursor:pointer}
+.chip.on{background:var(--acc2);border-color:var(--acc2);color:#fff}
+.carta{background:var(--pan);border:1px solid var(--bordo);border-radius:14px;padding:12px 14px;margin-bottom:10px}
+.carta .t{font-weight:700}.carta .s{color:var(--dim);font-size:13px}
+.griglia{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.promo{background:var(--pan);border:1px solid var(--bordo);border-radius:14px;padding:10px;text-align:center}
+.promo img{width:100%;max-width:140px;aspect-ratio:400/555;object-fit:contain}
+.promo .t{font-weight:700;font-size:14px}.promo .s{color:var(--dim);font-size:12px}
+.tag{display:inline-block;font-size:11px;padding:2px 7px;border-radius:6px;background:var(--pan2);color:var(--dim);margin-right:4px}
+.tag.v{background:color-mix(in srgb,var(--acc) 20%,transparent);color:var(--acc)}.tag.w{background:color-mix(in srgb,var(--warn) 20%,transparent);color:var(--warn)}.tag.r{background:color-mix(in srgb,var(--bad) 20%,transparent);color:var(--bad)}
+.msg{white-space:pre-wrap;word-wrap:break-word}.msg a,.carta a{color:var(--acc2)}
+.msg img{max-width:160px;border-radius:8px;margin:6px 6px 0 0}
+table{width:100%;border-collapse:collapse;font-size:14px}td,th{padding:8px 6px;border-bottom:1px solid var(--bordo);text-align:left;vertical-align:top}th{color:var(--dim);font-weight:600;font-size:12px;text-transform:uppercase}
+.su{color:var(--acc)}.giu{color:var(--bad)}
+.vuoto{color:var(--dim);padding:20px 0;text-align:center}
+details summary{cursor:pointer;color:var(--acc2);font-size:14px;margin-top:6px}
+ul.el{margin:6px 0 0;padding-left:18px}ul.el li{margin:2px 0}
+.giorno{margin:18px 0 8px;font-weight:700;color:var(--acc)}
+footer{color:var(--dim);font-size:12px;text-align:center;padding:20px}
+@media (max-width:520px){.nascondi-mob{display:none}}
+</style>
+</head>
+<body>
+<header>
+ <div class="testa"><div class="logo">FUT Titan <span>Radar</span></div><div class="vivo"><span class="punto" id="punto"></span><span id="vivo">carico…</span></div></div>
+ <nav id="nav"></nav>
+</header>
+<main id="main"><div class="vuoto">Carico i dati…</div></main>
+<footer id="piede"></footer>
+<script>
+"use strict";
+var FONTE={"api":"https://api.github.com/repos/GiovanniLucaVisconti/fut-titan-sito/contents/dati.json?ref=dati","raw":"https://raw.githubusercontent.com/GiovanniLucaVisconti/fut-titan-sito/dati/dati.json"};
+var SEZIONI=[["novita","🗞 Novità"],["leak","🔮 Leak"],["sbc","🧩 SBC"],["promo","💎 Promo"],["pacchetti","🎁 Pacchetti"],["dizionario","📖 Dizionario"],["pricerange","💱 Price range"],["carte","✨ Carte nuove"],["notifiche","📬 Notifiche"]];
+var NOMI_FONTE={newsEa:"News EA",giocatoriEa:"Giocatori EA",sbc:"SBC",evoluzioni:"Evoluzioni",obiettivi:"Obiettivi",priceRange:"Price range",carteNuove:"Carte nuove",rarita:"Versioni di carta",pacchetti:"Pacchetti",stagione:"Stagione",leak:"Leak",dizionario:"Dizionario EA",promemoria:"Promemoria",sbcProgrammate:"SBC in arrivo"};
+var CATEGORIE={promo:"💎 Versioni di carta",evoluzioni:"🧬 Evoluzioni",giocatori:"🎴 Profili di giocatori",sbc:"🧩 SBC",obiettivi:"🎯 Obiettivi",pacchetti:"🎁 Pacchetti e negozio",estetica:"🏟 Estetica e stadio",club:"🏳️ Club e nazioni",altro:"🗂 Interfaccia"};
+var D=null,filtri={};
+function el(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e}
+function num(n){return Math.round(n||0).toLocaleString("it-IT")}
+function data(ts,o){var d=new Date(ts);return isNaN(d)?"":d.toLocaleString("it-IT",o||{weekday:"short",day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"})}
+function giorno(ts){return new Date(ts).toLocaleDateString("it-IT",{weekday:"long",day:"2-digit",month:"long"})}
+function manca(ts){var ms=new Date(ts)-Date.now();if(!(ms>0))return "scaduta";var g=Math.floor(ms/864e5),o=Math.floor(ms%864e5/36e5),m=Math.floor(ms%36e5/6e4);return (g?g+"g ":"")+(o?o+"h ":"")+(g?"":m+"m")}
+function pulisciHtml(html){var t=document.createElement("template");t.innerHTML=html;(function giro(n){Array.prototype.slice.call(n.childNodes).forEach(function(c){if(c.nodeType===1){var nome=c.nodeName.toLowerCase();if(["b","i","code","a"].indexOf(nome)<0){n.replaceChild(document.createTextNode(c.textContent),c);return}Array.prototype.slice.call(c.attributes).forEach(function(a){if(!(nome==="a"&&a.name==="href"&&/^https?:/.test(a.value)))c.removeAttribute(a.name)});if(nome==="a"){c.target="_blank";c.rel="noopener"}giro(c)}})})(t.content);return t.content}
+function link(u,testo){var a=el("a",null,testo||"apri ↗");a.href=u;a.target="_blank";a.rel="noopener";return a}
+function cercaBox(chiave,ph){var i=el("input","cerca");i.type="search";i.placeholder=ph||"Cerca…";i.value=filtri[chiave]||"";i.oninput=function(){filtri[chiave]=i.value;var p=i.selectionStart;disegna();var n=document.querySelector(".cerca");if(n){n.focus();try{n.setSelectionRange(p,p)}catch(e){}}};return i}
+function trova(testo,chiave){var q=(filtri[chiave]||"").trim().toLowerCase();return !q||String(testo).toLowerCase().indexOf(q)>-1}
+function vuoto(t){return el("div","vuoto",t)}
+function chips(chiave,valori,nomi){var box=el("div");var tutti=el("span","chip"+(filtri[chiave]?"":" on"),"Tutto");tutti.onclick=function(){filtri[chiave]="";disegna()};box.appendChild(tutti);valori.forEach(function(v){var c=el("span","chip"+(filtri[chiave]===v?" on":""),(nomi&&nomi[v])||v);c.onclick=function(){filtri[chiave]=v;disegna()};box.appendChild(c)});return box}
+
+var DISEGNA={
+novita:function(m){m.appendChild(el("h2",null,"🗞 Tutto quello che è uscito"));m.appendChild(cercaBox("novita"));
+ var fonti=[];D.storico.forEach(function(x){if(fonti.indexOf(x.fonte)<0)fonti.push(x.fonte)});m.appendChild(chips("novitaFonte",fonti,NOMI_FONTE));
+ var ult="";var n=0;D.storico.forEach(function(x){if(filtri.novitaFonte&&x.fonte!==filtri.novitaFonte)return;if(!trova(x.titolo,"novita"))return;var g=giorno(x.ts);if(g!==ult){m.appendChild(el("div","giorno",g));ult=g}
+  var c=el("div","carta");var t=el("div","t",x.titolo);c.appendChild(t);var s=el("div","s",(NOMI_FONTE[x.fonte]||x.fonte)+" · "+data(x.ts,{hour:"2-digit",minute:"2-digit"})+" ");if(x.url)s.appendChild(link(x.url));c.appendChild(s);m.appendChild(c);n++});
+ if(!n)m.appendChild(vuoto("Niente in questa settimana."))},
+leak:function(m){var L=D.leak;m.appendChild(el("h2",null,"🔮 Leak e cose in arrivo"));
+ m.appendChild(el("h3",null,"In arrivo ("+L.inArrivo.length+")"));if(!L.inArrivo.length)m.appendChild(vuoto("Nessuna data annunciata."));
+ L.inArrivo.forEach(function(x){var c=el("div","carta");c.appendChild(el("div","t",x.titolo));c.appendChild(el("div","s",(x.famiglia==="sbc"?"SBC":"Obiettivo")+" · parte "+data(x.inizio)+" (fra "+manca(x.inizio)+")"));m.appendChild(c)});
+ m.appendChild(el("h3",null,"Promo a database senza carte ("+L.versioniVuote.length+")"));var g=el("div","griglia");L.versioniVuote.forEach(function(x){g.appendChild(cartaPromo(x))});m.appendChild(g);
+ m.appendChild(el("h3",null,"Pacchetti a database, non in negozio ("+L.pacchetti.length+")"));if(!L.pacchetti.length)m.appendChild(vuoto("Nessuno per ora."));
+ L.pacchetti.forEach(function(x){var c=el("div","carta");c.appendChild(el("div","t",x.nome));var s=el("div","s","#"+x.id+(x.dal?" · comparso "+data(x.dal):" · numerato dopo l'ultimo visto in negozio"));c.appendChild(s);if(x.descrizione)c.appendChild(el("div",null,x.descrizione));m.appendChild(c)});
+ var gi=L.giocatori||[];m.appendChild(el("h3",null,"Giocatori nuovi e valutazioni nel database EA ("+gi.length+")"));if(!gi.length)m.appendChild(vuoto("Nessun cambio da quando lo guardo."));
+ gi.forEach(function(x){var c=el("div","carta");c.appendChild(el("div","t",(x.leggenda?"👑 ":"")+x.nome+" "+(x.prima!==undefined?x.prima+" → "+x.rating:x.rating)));c.appendChild(el("div","s",(x.prima!==undefined?"valutazione cambiata":"nuovo a database")+" · "+data(x.ts)+" · #"+x.id));m.appendChild(c)});
+ if(L.pass){m.appendChild(el("h3",null,"Pass stagionale · "+L.pass.titolo+" ("+L.pass.carte.length+")"));var c=el("div","carta");var u=el("ul","el");L.pass.carte.forEach(function(x){u.appendChild(el("li",null,"Liv. "+x.livello+(x.premium?" ⭐ ":" ")+x.nome+(x.prestito?" (prestito)":"")))});c.appendChild(u);m.appendChild(c)}
+ var dz=D.dizionario.filter(function(x){return x.categoria!=="altro"}).slice(0,40);m.appendChild(el("h3",null,"Dal dizionario EA, le ultime ("+dz.length+")"));dz.forEach(function(x){m.appendChild(rigaDiz(x))});
+ var a=el("a",null,"→ tutto il dizionario");a.href="#dizionario";m.appendChild(a)},
+sbc:function(m){m.appendChild(el("h2",null,"🧩 SBC attive ("+D.sbc.length+")"));m.appendChild(cercaBox("sbc"));
+ var l=D.sbc.slice().sort(function(a,b){return new Date(a.scadenza||"2100")-new Date(b.scadenza||"2100")});var n=0;
+ l.forEach(function(x){if(!trova(x.titolo+" "+x.titoloFutgg+" "+x.categoria,"sbc"))return;n++;var c=el("div","carta");c.appendChild(el("div","t",x.titolo));
+  var ore=(new Date(x.scadenza)-Date.now())/36e5;var s=el("div","s");var tg=el("span","tag "+(ore<12?"r":ore<48?"w":"v"),x.scadenza?"⏱ "+manca(x.scadenza):"senza scadenza");s.appendChild(tg);
+  if(x.categoria)s.appendChild(el("span","tag",x.categoria));if(x.costo)s.appendChild(el("span","tag","~"+num(x.costo)+" coins"));s.appendChild(el("span","tag",x.ripetibile?"🔁 "+x.ripetibile:"non ripetibile"));c.appendChild(s);
+  if(x.descrizione)c.appendChild(el("div",null,x.descrizione));if(x.premi.length)c.appendChild(el("div",null,"🎁 "+x.premi.join(" · ")));
+  x.cartePremio.forEach(function(p){c.appendChild(el("div","s","🎴 "+p.nome+" "+p.rating+" "+(p.posizione||"")+(p.rarita?" · "+p.rarita:"")+(p.club?" · "+p.club:"")))});
+  if(x.sfide.length){var d=el("details");d.appendChild(el("summary",null,x.sfide.length+(x.sfide.length===1?" sfida":" sfide")+" · requisiti"));x.sfide.forEach(function(f,i){var b=el("div");b.style.marginTop="8px";b.appendChild(el("b",null,(i+1)+" — "+f.nome+(f.modulo?"  📐 "+f.modulo:"")));if(f.descrizione)b.appendChild(el("div","s",f.descrizione));var u=el("ul","el");f.requisiti.forEach(function(r){u.appendChild(el("li",null,r))});b.appendChild(u);if(f.premi.length)b.appendChild(el("div","s","🎁 "+f.premi.join(" · ")));if(f.soluzione)b.appendChild(el("div","s","💡 soluzione più economica: "+num(f.soluzione)+" coins"));d.appendChild(b)});c.appendChild(d)}
+  if(x.url)c.appendChild(link(x.url,"fut.gg ↗"));m.appendChild(c)});if(!n)m.appendChild(vuoto("Nessuna SBC."))},
+promo:function(m){m.appendChild(el("h2",null,"💎 Versioni di carta ("+D.versioni.length+")"));m.appendChild(cercaBox("promo","Cerca una promo o una carta…"));
+ var g=el("div","griglia");var n=0;D.versioni.forEach(function(x){if(!trova(x.titolo+" "+x.nomeIt+" "+x.elenco.join(" "),"promo"))return;n++;g.appendChild(cartaPromo(x,true))});m.appendChild(g);if(!n)m.appendChild(vuoto("Nessuna."))},
+pacchetti:function(m){m.appendChild(el("h2",null,"🎁 Pacchetti di quest'anno ("+D.pacchetti.length+")"));m.appendChild(el("div","s","Nomi ufficiali dal file del negozio EA. «Non ancora visto» = mai comparso nello store dell'account esca."));m.appendChild(cercaBox("pacchetti"));
+ var n=0;D.pacchetti.forEach(function(x){if(!trova(x.nome+" "+x.descrizione,"pacchetti"))return;n++;var c=el("div","carta");c.appendChild(el("div","t",x.nome));var s=el("div","s","#"+x.id+" ");s.appendChild(el("span","tag "+(x.inNegozio?"v":"w"),x.inNegozio?"visto in negozio":"non ancora visto"));c.appendChild(s);if(x.descrizione)c.appendChild(el("div",null,x.descrizione));m.appendChild(c)});if(!n)m.appendChild(vuoto("Nessuno."))},
+dizionario:function(m){m.appendChild(el("h2",null,"📖 Dizionario EA · voci nuove e cambiate ("+D.dizionario.length+")"));m.appendChild(el("div","s","Il file dei testi della Web App: EA ci scrive i nomi prima che le cose escano."));m.appendChild(cercaBox("diz"));
+ var cat=[];D.dizionario.forEach(function(x){if(cat.indexOf(x.categoria)<0)cat.push(x.categoria)});m.appendChild(chips("dizCat",cat,CATEGORIE));
+ var ult="",n=0;D.dizionario.forEach(function(x){if(filtri.dizCat&&x.categoria!==filtri.dizCat)return;if(!trova(x.valore+" "+(x.prima||"")+" "+x.chiave,"diz"))return;var g=giorno(x.ts);if(g!==ult){m.appendChild(el("div","giorno",g));ult=g}m.appendChild(rigaDiz(x));n++});if(!n)m.appendChild(vuoto("Nessuna voce nuova da quando lo guardo."))},
+pricerange:function(m){m.appendChild(el("h2",null,"💱 Price range cambiati ("+D.priceRange.length+")"));m.appendChild(cercaBox("pr","Cerca un giocatore…"));
+ var t=el("table");var h=el("tr");["Carta","Min","Max","Quando"].forEach(function(x,i){var th=el("th",i===3?"nascondi-mob":null,x);h.appendChild(th)});t.appendChild(h);var n=0;
+ D.priceRange.forEach(function(x){if(!trova(x.titolo,"pr"))return;n++;var r=el("tr");var a=el("td");var b=el("b",null,x.titolo+" "+(x.rating||""));a.appendChild(b);if(x.nuova)a.appendChild(el("span","tag v"," nuova"));r.appendChild(a);
+  function cella(p,d){var c=el("td");if(x.nuova||!p||!d){c.textContent=x.intervallo||"";return c}c.appendChild(document.createTextNode(num(p)+" → "));var s=el("b",d>p?"su":d<p?"giu":null,num(d));c.appendChild(s);return c}
+  r.appendChild(cella(x.prima&&x.prima.min,x.dopo&&x.dopo.min));r.appendChild(cella(x.prima&&x.prima.max,x.dopo&&x.dopo.max));r.appendChild(el("td","nascondi-mob s",data(Date.parse(x.quando)||x.visto)));t.appendChild(r)});
+ m.appendChild(t);if(!n)m.appendChild(vuoto("Nessun cambio."))},
+carte:function(m){m.appendChild(el("h2",null,"✨ Carte entrate a database ("+D.carteNuove.length+")"));m.appendChild(cercaBox("carte"));var n=0,ult="";
+ D.carteNuove.forEach(function(x){if(!trova(x.titolo,"carte"))return;n++;var g=giorno(x.ts);if(g!==ult){m.appendChild(el("div","giorno",g));ult=g}var c=el("div","carta");c.appendChild(el("div","t",x.titolo));var s=el("div","s",data(x.ts,{hour:"2-digit",minute:"2-digit"})+" ");if(x.url)s.appendChild(link(x.url));c.appendChild(s);m.appendChild(c)});if(!n)m.appendChild(vuoto("Nessuna in questa settimana."))},
+notifiche:function(m){m.appendChild(el("h2",null,"📬 Le notifiche, per intero ("+D.notifiche.length+")"));m.appendChild(cercaBox("not"));
+ var fonti=[];D.notifiche.forEach(function(x){if(fonti.indexOf(x.fonte)<0)fonti.push(x.fonte)});m.appendChild(chips("notFonte",fonti,NOMI_FONTE));var n=0,ult="";
+ D.notifiche.forEach(function(x){if(filtri.notFonte&&x.fonte!==filtri.notFonte)return;if(!trova(x.testo,"not"))return;n++;var g=giorno(x.ts);if(g!==ult){m.appendChild(el("div","giorno",g));ult=g}
+  var c=el("div","carta");c.appendChild(el("div","s",(NOMI_FONTE[x.fonte]||x.fonte||"")+" · "+data(x.ts,{hour:"2-digit",minute:"2-digit"})));var b=el("div","msg");b.appendChild(pulisciHtml(x.testo));c.appendChild(b);
+  var foto=(x.foto?[x.foto]:[]).concat((x.album||[]).map(function(a){return a.foto}));if(foto.length){var f=el("div","msg");foto.forEach(function(u){if(!/^https:/.test(u))return;var i=el("img");i.src=u;i.loading="lazy";i.alt="";f.appendChild(i)});c.appendChild(f)}m.appendChild(c)});if(!n)m.appendChild(vuoto("Nessuna notifica in questa settimana."))}
+};
+function cartaPromo(x,conElenco){var c=el("div","promo");if(x.immagine){var i=el("img");i.src=x.immagine;i.loading="lazy";i.alt=x.titolo;c.appendChild(i)}c.appendChild(el("div","t",x.titolo));if(x.nomeIt&&x.nomeIt.toLowerCase()!==x.titolo.toLowerCase())c.appendChild(el("div","s",x.nomeIt));
+ var s=el("div");s.appendChild(el("span","tag "+(x.carte?"v":"w"),x.carte?num(x.carte)+" carte":"nessuna carta"));s.appendChild(el("span","tag","ID "+x.id));c.appendChild(s);
+ if(conElenco&&x.elenco&&x.elenco.length){var d=el("details");d.style.textAlign="left";d.appendChild(el("summary",null,"le "+x.elenco.length+" carte"));var u=el("ul","el");x.elenco.forEach(function(n){u.appendChild(el("li",null,n))});d.appendChild(u);c.appendChild(d)}
+ if(x.url){var a=link(x.url,"fut.gg ↗");a.style.fontSize="12px";c.appendChild(el("div")).appendChild(a)}return c}
+function rigaDiz(x){var c=el("div","carta");var t=el("div");t.appendChild(el("span","tag",(CATEGORIE[x.categoria]||x.categoria)+(x.id?" · ID "+x.id:"")));c.appendChild(t);
+ if(x.prima!==undefined){var d=el("div");d.appendChild(el("span","s",x.prima+" → "));d.appendChild(el("b",null,x.valore));c.appendChild(d)}else c.appendChild(el("div","t",x.valore));c.appendChild(el("div","s",x.chiave));return c}
+function sezione(){var h=(location.hash||"#novita").slice(1);return DISEGNA[h]?h:"novita"}
+function disegna(){var s=sezione();var nav=document.getElementById("nav");nav.innerHTML="";SEZIONI.forEach(function(x){var a=el("a",x[0]===s?"on":null,x[1]);a.href="#"+x[0];nav.appendChild(a)});
+ var on=nav.querySelector(".on");if(on&&on.scrollIntoView)on.scrollIntoView({inline:"center",block:"nearest"});var m=document.getElementById("main");m.innerHTML="";if(!D){m.appendChild(vuoto("Dati non ancora disponibili."));return}DISEGNA[s](m)}
+function stato(){var vivo=D&&D.ultimoGiro&&Date.now()-D.ultimoGiro<15*6e4;document.getElementById("punto").className="punto "+(D?(vivo?"ok":"ko"):"");
+ document.getElementById("vivo").textContent=D?(vivo?"watcher attivo":"watcher fermo dalle "+data(D.ultimoGiro,{hour:"2-digit",minute:"2-digit"})):"offline";
+ document.getElementById("piede").textContent=D?"Dati pubblicati "+data(D.pubblicato)+" · fonti: fut.gg, file pubblici EA, account esca":""}
+function carica(){fetch(FONTE.api,{headers:{Accept:"application/vnd.github.raw+json"},cache:"no-store"}).then(function(r){if(!r.ok)throw 0;return r.json()}).catch(function(){return fetch(FONTE.raw+"?t="+Date.now()).then(function(r){return r.json()})})
+ .then(function(d){var primo=!D;D=d;stato();if(primo||!document.activeElement||document.activeElement.className!=="cerca")disegna()}).catch(function(){stato();if(!D)disegna()})}
+window.addEventListener("hashchange",function(){disegna();window.scrollTo(0,0)});
+document.addEventListener("visibilitychange",function(){if(!document.hidden)carica()});
+carica();setInterval(carica,3*6e4);
+</script>
+</body>
+</html>
