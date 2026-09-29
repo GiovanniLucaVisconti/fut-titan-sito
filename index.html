@@ -490,6 +490,15 @@ var DISEGNA = {
     if (!L.versioniVuote.length) m.appendChild(vuoto("Nessuna promo in attesa."));
 
     var soloEa = (D.versioniEa || []).filter(function (v) { return v.shell === 2 && !v.futgg; });
+    var cd = L.carteDescritte || [];
+    titolo(m, "🕵️ Carte speciali descritte nei file di EA", cd.length, "Il dizionario della Web App ha la descrizione di queste carte: chi sono e come si aggiorneranno.");
+    if (!cd.length) m.appendChild(vuoto("Nessuna nuova da quando lo guardo: appena EA ne aggiunge, compaiono qui."));
+    cd.forEach(function (c, i) {
+      var s = entra(vetro("scheda brilla"), i); var r = el("div", "riga"); var t = el("div", "t", (c.nome || ("giocatore #" + c.base)) + (c.rating ? " " + c.rating : "")); t.style.flex = "1"; r.appendChild(t);
+      r.appendChild(chip(c.icona ? "icona/eroe" : "versione speciale", "p")); s.appendChild(r);
+      s.appendChild(el("div", "s", data(c.ts) + " · carta " + c.id)); var d = el("div", null, c.testo); d.style.marginTop = "6px"; s.appendChild(d); m.appendChild(s);
+    });
+
     titolo(m, "🎨 Nei file di EA, e non su fut.gg", soloEa.length, "Versioni di carta col design già caricato da EA nella Web App. Il leak più diretto che esista.");
     if (!soloEa.length) m.appendChild(vuoto("Nessuna, per ora."));
     var ge = el("div", "griglia"); soloEa.forEach(function (v, i) { ge.appendChild(entra(cartaEa(v), i)); }); m.appendChild(ge);
