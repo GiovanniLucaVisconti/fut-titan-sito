@@ -155,6 +155,25 @@ ul.el{margin:8px 0 0;padding-left:18px}ul.el li{margin:3px 0}
 .su-top{position:fixed;right:16px;bottom:calc(18px + env(safe-area-inset-bottom));width:44px;height:44px;border-radius:50%;border:1px solid var(--bordo2);background:var(--vetro2);color:var(--txt);font-size:18px;backdrop-filter:blur(10px);opacity:0;pointer-events:none;transition:opacity .3s;cursor:pointer}
 .su-top.vis{opacity:1;pointer-events:auto}
 footer{color:var(--dim2);font-size:12px;text-align:center;padding:26px 16px 40px}
+footer a{color:var(--dim);cursor:pointer}
+/* LA PORTA: schermata del codice */
+.porta{max-width:380px;margin:6vh auto 0;padding:28px 22px 24px;text-align:center}
+.lucchetto{width:86px;height:86px;margin:0 auto 14px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:38px;background:radial-gradient(circle,rgba(53,240,168,.18),transparent 70%);border:1px solid rgba(53,240,168,.45);box-shadow:0 0 34px rgba(53,240,168,.25);position:relative}
+.lucchetto::after{content:"";position:absolute;inset:-7px;border-radius:50%;border:1px dashed rgba(58,214,255,.35);animation:gira 14s linear infinite}
+.porta h1{font-size:23px}
+.cifre{display:flex;justify-content:center;gap:7px;margin:18px 0 6px}
+.cifre span{width:22px;height:30px;border-bottom:2px solid var(--bordo2);font:700 22px/30px var(--titolo);color:var(--txt);transition:border-color .2s}
+.cifre span.piena{border-color:var(--verde)}
+.tastiera{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}
+.tastiera button{height:58px;border-radius:16px;border:1px solid var(--bordo);background:rgba(255,255,255,.04);color:var(--txt);font:600 22px var(--titolo);cursor:pointer;transition:background .15s,transform .1s}
+.tastiera button:active{transform:scale(.94);background:rgba(58,214,255,.15)}
+.tastiera button.azione{font-size:15px;font-family:var(--corpo);color:var(--dim)}
+.tastiera button.entra-btn{background:var(--grad);color:#03140d;border:0}
+.ricorda{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:16px;color:var(--dim);font-size:13.5px}
+.errore{color:var(--rosso);min-height:20px;font-size:14px;margin-top:6px}
+.scuoti{animation:scuoti .4s}
+@keyframes scuoti{20%,60%{transform:translateX(-9px)}40%,80%{transform:translateX(9px)}}
+.verifica{color:var(--ciano);font-size:14px;margin-top:6px}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -192,6 +211,28 @@ var CATEGORIE = { promo: "💎 Versioni di carta", evoluzioni: "🧬 Evoluzioni"
 // In Novità non ci sono price range e carte nuove: hanno la loro sezione, più precisa
 var FUORI_DA_NOVITA = { priceRange: 1, carteNuove: 1 };
 var D = null, filtri = {}, contatori = [];
+// ACCESSO: i dati arrivano cifrati. La chiave dei dati si apre col codice degli
+// utenti o con la chiave del proprietario (link …/#k=…), e si ricorda qui.
+var BUSTA = null, CHIAVE = null, CHIAVE_LS = "fut-radar-chiave", CODICE_LEN = 10, digitato = "";
+function b64d(s) { var b = atob(s), u = new Uint8Array(b.length); for (var i = 0; i < b.length; i++) u[i] = b.charCodeAt(i); return u; }
+function b64e(buf) { var u = new Uint8Array(buf), s = ""; for (var i = 0; i < u.length; i++) s += String.fromCharCode(u[i]); return btoa(s); }
+function leggiLS(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+function scriviLS(k, v) { try { if (v == null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) {} }
+async function apriChiave(segreto, a) {
+  var base = await crypto.subtle.importKey("raw", new TextEncoder().encode(segreto), "PBKDF2", false, ["deriveKey"]);
+  var kek = await crypto.subtle.deriveKey({ name: "PBKDF2", salt: b64d(a.salt), iterations: a.iter, hash: "SHA-256" }, base, { name: "AES-GCM", length: 256 }, false, ["decrypt"]);
+  return crypto.subtle.decrypt({ name: "AES-GCM", iv: b64d(a.iv) }, kek, b64d(a.ct));
+}
+async function apriDati(busta, chiave) {
+  var k = await crypto.subtle.importKey("raw", chiave, "AES-GCM", false, ["decrypt"]);
+  var t = await crypto.subtle.decrypt({ name: "AES-GCM", iv: b64d(busta.dati.iv) }, k, b64d(busta.dati.ct));
+  return JSON.parse(new TextDecoder().decode(t));
+}
+async function provaSegreto(segreto, tipo) {
+  var lista = (BUSTA && BUSTA.accessi || []).filter(function (a) { return a.tipo === tipo; });
+  for (var i = 0; i < lista.length; i++) { try { return await apriChiave(segreto, lista[i]); } catch (e) {} }
+  return null;
+}
 
 function el(t, c, x) { var e = document.createElement(t); if (c) e.className = c; if (x != null) e.textContent = x; return e; }
 function num(n) { return Math.round(n || 0).toLocaleString("it-IT"); }
@@ -323,7 +364,6 @@ var DISEGNA = {
     var L = D.leak, oggi = Date.now() - 864e5;
     var eroe = entra(vetro("eroe brilla"), 0);
     var sx = el("div"); sx.appendChild(el("h1", null, "Tutto quello che EA sta facendo"));
-    sx.appendChild(el("p", "sotto", "fut.gg, i file pubblici di EA e l'account esca, guardati ogni minuto. Le notifiche arrivano su Telegram, qui c'è tutto per intero."));
     eroe.appendChild(sx);
     var radar = el("div", "radar");
     [[28, 34, 0], [70, 26, .8], [62, 70, 1.6], [30, 66, 2.3]].forEach(function (b) { var p = el("span", "blip"); p.style.left = b[0] + "%"; p.style.top = b[1] + "%"; p.style.animationDelay = b[2] + "s"; radar.appendChild(p); });
@@ -574,7 +614,9 @@ function disegna(soloContenuto) {
     var n = contaSezione(x[0]); if (n) a.appendChild(el("span", "n", String(n))); nav.appendChild(a);
   });
   var on = nav.querySelector(".on"); if (on && on.scrollIntoView && !soloContenuto) { try { on.scrollIntoView({ inline: "center", block: "nearest" }); } catch (e) {} }
-  var m = document.getElementById("main"); m.innerHTML = "";
+  var m = document.getElementById("main");
+  if (!D && BUSTA && !CHIAVE) { mostraPorta(); return; }
+  m.innerHTML = "";
   if (!D) { m.appendChild(vuoto("Dati non ancora disponibili.")); return; }
   DISEGNA[s](m); animaContatori();
 }
@@ -582,18 +624,90 @@ function statoVivo() {
   var vivo = D && D.ultimoGiro && Date.now() - D.ultimoGiro < 45 * 6e4;
   document.getElementById("punto").className = "led " + (D ? (vivo ? "ok" : "ko") : "");
   document.getElementById("vivo").textContent = D ? (vivo ? "watcher attivo" : "watcher fermo dalle " + ora(D.ultimoGiro)) : "offline";
-  document.getElementById("piede").textContent = D ? "Dati pubblicati " + data(D.pubblicato) + " · fonti: fut.gg, file pubblici EA, account esca" : "";
+  var piede = document.getElementById("piede"); piede.innerHTML = "";
+  if (D) {
+    piede.appendChild(document.createTextNode("Dati pubblicati " + data(D.pubblicato) + " · "));
+    var x = el("a", null, "🔒 esci da questo dispositivo"); x.onclick = esci; piede.appendChild(x);
+  }
 }
 function carica() {
   fetch(FONTE.api, { headers: { Accept: "application/vnd.github.raw+json" }, cache: "no-store" })
     .then(function (r) { if (!r.ok) throw 0; return r.json(); })
     .catch(function () { return fetch(FONTE.raw + "?t=" + Date.now()).then(function (r) { return r.json(); }); })
-    .then(function (d) { var primo = !D; D = d; statoVivo(); if (primo || !document.activeElement || document.activeElement.className !== "cerca") disegna(!primo); })
-    .catch(function () { statoVivo(); if (!D) disegna(); });
+    .then(async function (busta) {
+      BUSTA = busta;
+      // Il link del proprietario: la chiave sta dopo "#k=" e non va mai al server
+      var m = (location.hash || "").match(/^#k=([A-Za-z0-9_-]{16,})/);
+      if (m) {
+        var k = await provaSegreto(m[1], "admin");
+        try { history.replaceState(null, "", location.pathname + "#home"); } catch (e) {}
+        if (k) { CHIAVE = k; scriviLS(CHIAVE_LS, b64e(k)); }
+      }
+      if (!CHIAVE && leggiLS(CHIAVE_LS)) { try { CHIAVE = b64d(leggiLS(CHIAVE_LS)).buffer; } catch (e) {} }
+      if (!CHIAVE) { mostraPorta(); return; }
+      var d;
+      try { d = await apriDati(busta, CHIAVE); }
+      catch (e) { CHIAVE = null; scriviLS(CHIAVE_LS, null); mostraPorta("Il codice è cambiato: inserisci quello nuovo."); return; }
+      var primo = !D; D = d; statoVivo(); if (primo || !document.activeElement || document.activeElement.className !== "cerca") disegna(!primo);
+    })
+    .catch(function () { statoVivo(); if (!D && !BUSTA) disegna(); });
 }
+
+// LA PORTA: il tastierino del codice
+function mostraPorta(avviso) {
+  document.getElementById("nav").innerHTML = "";
+  document.getElementById("vivo").textContent = "protetto";
+  document.getElementById("punto").className = "led";
+  var m = document.getElementById("main"); m.innerHTML = "";
+  var p = entra(vetro("porta brilla"), 0);
+  p.appendChild(el("div", "lucchetto", "🔒"));
+  p.appendChild(el("h1", null, "Accesso riservato"));
+  p.appendChild(el("p", "sotto", avviso || "Inserisci il codice di accesso."));
+  var cifre = el("div", "cifre"); p.appendChild(cifre);
+  var err = el("div", "errore"); p.appendChild(err);
+  var campo = el("input"); campo.type = "password"; campo.inputMode = "numeric"; campo.autocomplete = "off"; campo.id = "codice";
+  campo.setAttribute("aria-label", "Codice di accesso"); campo.style.position = "absolute"; campo.style.opacity = "0"; campo.style.width = "1px"; p.appendChild(campo);
+  function aggiorna() {
+    cifre.innerHTML = ""; for (var i = 0; i < CODICE_LEN; i++) cifre.appendChild(el("span", i < digitato.length ? "piena" : "", i < digitato.length ? "•" : ""));
+  }
+  async function prova() {
+    if (!digitato) return;
+    err.textContent = ""; var v = el("div", "verifica", "Verifico…"); p.appendChild(v);
+    var k = await provaSegreto(digitato, "codice");
+    v.remove();
+    if (!k) {
+      digitato = ""; aggiorna(); err.textContent = "Codice errato";
+      p.classList.remove("scuoti"); void p.offsetWidth; p.classList.add("scuoti"); return;
+    }
+    CHIAVE = k; if (ricordaBox.checked) scriviLS(CHIAVE_LS, b64e(k));
+    digitato = ""; carica();
+  }
+  campo.oninput = function () { digitato = campo.value.replace(/\D/g, "").slice(0, CODICE_LEN); campo.value = digitato; aggiorna(); if (digitato.length === CODICE_LEN) prova(); };
+  campo.onkeydown = function (e) { if (e.key === "Enter") prova(); };
+  var t = el("div", "tastiera");
+  ["1", "2", "3", "4", "5", "6", "7", "8", "9", "⌫", "0", "→"].forEach(function (x) {
+    var b = el("button", x === "⌫" ? "azione" : x === "→" ? "entra-btn" : "", x); b.type = "button";
+    b.onclick = function () {
+      if (x === "⌫") digitato = digitato.slice(0, -1);
+      else if (x === "→") { prova(); return; }
+      else if (digitato.length < CODICE_LEN) digitato += x;
+      aggiorna(); if (digitato.length === CODICE_LEN) prova();
+    };
+    t.appendChild(b);
+  });
+  p.appendChild(t);
+  var r = el("label", "ricorda"); var ricordaBox = el("input"); ricordaBox.type = "checkbox"; ricordaBox.checked = true;
+  r.appendChild(ricordaBox); r.appendChild(document.createTextNode("Ricorda questo dispositivo")); p.appendChild(r);
+  m.appendChild(p); aggiorna();
+  document.getElementById("piede").textContent = "";
+}
+function esci() { scriviLS(CHIAVE_LS, null); CHIAVE = null; D = null; mostraPorta("Sei uscito da questo dispositivo."); }
 // I conti alla rovescia vanno avanti da soli, un secondo alla volta
 setInterval(function () { Array.prototype.forEach.call(document.querySelectorAll("[data-fino]"), function (e) { e.textContent = manca(e.dataset.fino); }); }, 1000);
-window.addEventListener("hashchange", function () { disegna(); try { window.scrollTo(0, 0); } catch (e) {} });
+window.addEventListener("hashchange", function () {
+  if (/^#k=/.test(location.hash)) { carica(); return; }     // link del proprietario incollato a pagina aperta
+  disegna(); try { window.scrollTo(0, 0); } catch (e) {}
+});
 document.addEventListener("visibilitychange", function () { if (!document.hidden) carica(); });
 var su = document.getElementById("suTop");
 window.addEventListener("scroll", function () { su.classList.toggle("vis", window.scrollY > 600); }, { passive: true });
