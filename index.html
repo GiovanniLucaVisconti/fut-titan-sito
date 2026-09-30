@@ -523,11 +523,12 @@ var DISEGNA = {
       m.appendChild(c);
     });
 
-    titolo(m, "✨ Carte nuove a database", D.carteNuove.length, "Solo quelle vere: carte entrate in una promo, carte nei premi EA. I ritocchi dei limiti di prezzo stanno in Price range.");
+    titolo(m, "✨ Carte speciali osservate", D.carteNuove.length, "Ogni voce indica la prova: catalogo FUT.GG oppure risposta o file pubblico EA. L'ora FUT.GG registra l'aggiornamento del catalogo.");
     if (!D.carteNuove.length) m.appendChild(vuoto("Nessuna in questa settimana."));
     D.carteNuove.forEach(function (x, i) {
       var c = entra(vetro("scheda"), i); c.appendChild(el("div", "t", x.titolo));
-      var s = el("div", "s", data(x.ts) + " "); if (x.url) s.appendChild(link(x.url)); c.appendChild(s); m.appendChild(c);
+      var prova = x.evidenza || (x.url && String(x.url).toLowerCase().indexOf("fut.gg/") !== -1 ? "Catalogo pubblico FUT.GG" : "Fonte non registrata");
+      var s = el("div", "s", data(x.ts) + " · " + prova + " "); if (x.url) s.appendChild(link(x.url)); c.appendChild(s); m.appendChild(c);
     });
 
     var gi = L.giocatori || [];
@@ -596,7 +597,7 @@ var DISEGNA = {
 
   promo: function (m) {
     m.appendChild(el("h1", null, "💎 Versioni di carta"));
-    m.appendChild(el("p", "sotto", "Tutte le promo dell'anno, col nome italiano di EA e le carte uscite. Muovi il dito sulle carte."));
+    m.appendChild(el("p", "sotto", "Versioni e conteggi carte dal catalogo FUT.GG; nomi italiani e design, quando disponibili, dai file EA. Il conteggio segnala quanto FUT.GG elenca."));
     m.appendChild(cercaBox("promo", "Cerca una promo o una carta…"));
     var g = el("div", "griglia"), n = 0;
     D.versioni.forEach(function (x) { if (!trova(x.titolo + " " + x.nomeIt + " " + x.elenco.join(" "), "promo")) return; g.appendChild(entra(cartaPromo(x, true), n++)); });
