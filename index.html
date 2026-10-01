@@ -210,9 +210,10 @@ async function apriDati(busta, chiave) { return JSON.parse(new TextDecoder().dec
 
 var BUSTA = null, ACCESSO = null, NOME = "", ACCESSO_LS = "fut-radar-accesso", CODICE_LEN = 10, digitato = "";
 var D = null, filtri = {}, contatori = [];
-var FISSE = [["home", "📡", "Radar"], ["notizie", "🗞", "Notizie"], ["leak", "🔮", "Leak"]];
+var FISSE = [["home", "📡", "Radar"], ["notizie", "🗞", "Notizie"], ["leak", "🔮", "Leak"], ["promo", "🎉", "Promo"]];
 // gli indirizzi del vecchio sito portano ancora nel posto giusto
-var ALIAS = { novita: "notizie", archivio: "notizie", promo: "versioni", pricerange: "prezzi", dizionario: "testi", carte: "leak" };
+var ALIAS = { novita: "notizie", archivio: "notizie", pricerange: "prezzi", dizionario: "testi", carte: "leak" };
+var TIPI = { sbc: "🧩 SBC", obiettivo: "🎯 Obiettivo", pacchetto: "🎁 Pacchetto", evoluzione: "🧬 Evoluzione", banner: "📣 Annuncio", evento: "🏆 Evento", totw: "⭐ TOTW" };
 var STATI = { attiva: ["✅ attiva", "v"], "in-arrivo": ["🔮 in arrivo", "o"], nascosta: ["🙈 nascosta nei file di EA", "p"],
   "a-database": ["🗄 a database", "c"], scaduta: ["⌛ scaduta", ""], sparita: ["👻 tolta", "r"] };
 var VISTE = { adesso: "✅ Adesso", arrivo: "🔮 In arrivo", notizie: "🗞 Notizie" };
@@ -420,7 +421,7 @@ var DISEGNA = {
       ["leak", "🔮", "in arrivo o a database", D.leak.attesa.length],
       ["sbc", "🧩", "SBC attive", voci("sbc", "adesso").length],
       ["notizie", "🗞", "notizie nelle ultime 24 ore", D.notizie.filter(function (x) { return x.ora > ieri; }).length],
-      ["versioni", "💎", "versioni nascoste o in arrivo", voci("versioni", "arrivo").length],
+      ["promo", "🎉", "promo preparate, non ancora uscite", (D.promo ? D.promo.arrivo.length : 0)],
       ["obiettivi", "🎯", "obiettivi attivi", voci("obiettivi", "adesso").length],
       ["prezzi", "💱", "price range cambiati (24 ore)", voci("prezzi", "adesso").filter(function (v) { return v.prezzo && v.prezzo.osservato > ieri; }).length]
     ];
@@ -479,8 +480,55 @@ var DISEGNA = {
     titolo(m, "✅ Leak confermati", conf.length, "Visti prima, poi usciti davvero (30 giorni).");
     if (!conf.length) m.appendChild(vuoto("Il registro si riempie da solo coi prossimi leak."));
     conf.forEach(function (v, i) { m.appendChild(schedaLeak(v, i)); });
+  },
+
+  promo: function (m) {
+    var P = D.promo || { arrivo: [], uscite: [] };
+    m.appendChild(el("h1", null, "🎉 Promo"));
+    m.appendChild(el("p", "sotto", "Le promo di questa stagione: quelle che EA ha già preparato e non mostra ancora, quella della settimana e le uscite prima. Per ognuna il design, le carte viste finora e ciò che porta il suo nome."));
+    m.appendChild(cercaBox("promo", "Cerca una promo o una carta…"));
+    var filtra = function (l) { return l.filter(function (v) { return trova([v.nome, v.carte.map(function (k) { return k.nome; }).join(" "), v.collegati.map(function (k) { return k.nome; }).join(" ")].join(" "), "promo"); }); };
+    var arr = filtra(P.arrivo), sett = filtra(P.uscite.filter(function (v) { return v.settimana; })), prima = filtra(P.uscite.filter(function (v) { return !v.settimana; }));
+    titolo(m, "🔮 Preparate, non ancora uscite", arr.length, "Il design c'è già nei file di EA, la versione è nascosta: le prime della lista sono le preparate più di recente.");
+    if (!arr.length) m.appendChild(vuoto("Nessuna promo preparata e nascosta, per quello che EA mostra adesso."));
+    var g1 = el("div", "griglia"); arr.forEach(function (v, i) { g1.appendChild(cartaPromo(v, i)); }); m.appendChild(g1);
+    titolo(m, "⭐ Della settimana", sett.length);
+    if (!sett.length) m.appendChild(vuoto("Nessuna promo uscita negli ultimi giorni."));
+    var g2 = el("div", "griglia"); sett.forEach(function (v, i) { g2.appendChild(cartaPromo(v, i)); }); m.appendChild(g2);
+    titolo(m, "📚 Uscite prima", prima.length, "Le altre promo di questa stagione, dalla più recente.");
+    var g3 = el("div", "griglia"); prima.forEach(function (v, i) { g3.appendChild(cartaPromo(v, i)); }); m.appendChild(g3);
   }
 };
+/** Una promo: il design, le date, le carte di quella versione viste finora, ciò che porta il suo nome */
+function cartaPromo(v, i) {
+  var c = entra(olografica(el("div")), i);
+  var box = el("div", "img"); box.appendChild(v.foto ? immagine(v.foto, v.nome) : el("div", "segnaposto", "✦")); c.appendChild(box);
+  c.appendChild(el("div", "t", v.nome || v.id));
+  var r = el("div", "riga");
+  if (v.settimana) r.appendChild(chip("⭐ della settimana", "o"));
+  var st = STATI[v.stato]; if (st) r.appendChild(chip(st[0], st[1]));
+  if (v.preparata) r.appendChild(chip("🎨 design del " + data(v.preparata, { day: "2-digit", month: "2-digit" }), "p"));
+  if (v.uscita) r.appendChild(chip("✅ uscita " + data(v.uscita, { day: "2-digit", month: "2-digit" }), "v"));
+  r.appendChild(chip(v.carte.length + (v.carte.length === 1 ? " carta vista" : " carte viste"), v.carte.length ? "c" : ""));
+  c.appendChild(r);
+  if (v.carte.length) {
+    var d = el("details"); d.appendChild(el("summary", null, "le carte (" + v.carte.length + ")"));
+    var u = el("ul", "el"); v.carte.forEach(function (k) { u.appendChild(el("li", null, (k.nome || k.id) + (k.rating ? " " + k.rating : "") + (k.posizione ? " " + k.posizione : ""))); });
+    d.appendChild(u); c.appendChild(d);
+  }
+  if (v.collegati.length) {
+    var d2 = el("details"); d2.appendChild(el("summary", null, "collegati (" + v.collegati.length + ")"));
+    var u2 = el("ul", "el");
+    v.collegati.forEach(function (k) {
+      var adesso = Date.now();
+      var quando = k.inizio && k.inizio > adesso ? " · parte " + data(k.inizio) : k.fine && k.fine > adesso ? " · fino a " + data(k.fine) : "";
+      u2.appendChild(el("li", null, (TIPI[k.tipo] || k.tipo) + ": " + k.nome + quando));
+    });
+    d2.appendChild(u2); c.appendChild(d2);
+  }
+  if (v.testo) c.appendChild(dettagli(v.testo, false, "la versione"));
+  return c;
+}
 function schedaLeak(v, i) {
   var c = schedaVoce(v, i), r = el("div", "riga"); r.style.marginTop = "8px";
   r.appendChild(el("span", "anticipo", "⏩ " + durata(v.anticipo || 0) + " prima"));
@@ -533,6 +581,7 @@ function contaSezione(k) {
   if (!D) return 0;
   if (k === "notizie") return D.notizie.length;
   if (k === "leak") return D.leak.attesa.length;
+  if (k === "promo") return D.promo ? D.promo.arrivo.length : 0;
   var s = sezione(k); if (!s) return 0;
   return s.viste.adesso ? s.viste.adesso.voci.length : notizieDi(k).length;
 }
