@@ -4,16 +4,15 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex">
-<!-- fut.gg rifiuta le immagini se la richiesta dice da quale sito arriva (anti-hotlink) -->
 <meta name="referrer" content="no-referrer">
 <meta name="theme-color" content="#060a13">
-<title>FUT Titan · Radar</title>
+<title>Oracolo · Radar FC</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#060a13;--bg2:#0b1222;--vetro:rgba(20,30,52,.55);--vetro2:rgba(28,42,72,.6);
+  --bg:#060a13;--vetro:rgba(20,30,52,.55);--vetro2:rgba(28,42,72,.6);
   --bordo:rgba(120,160,255,.14);--bordo2:rgba(120,160,255,.28);
   --txt:#eaf1ff;--dim:#8fa0c2;--dim2:#5d6d8f;
   --verde:#35f0a8;--ciano:#3ad6ff;--viola:#9b7bff;--oro:#ffcf5a;--rosso:#ff5d7a;
@@ -25,7 +24,6 @@
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth}
 body{margin:0;min-height:100vh;background:var(--bg);color:var(--txt);font:15px/1.5 var(--corpo);overflow-x:hidden}
-/* AURORA: tre macchie di luce che si muovono piano dietro a tutto */
 .aurora{position:fixed;inset:-20%;z-index:-1;pointer-events:none;filter:blur(70px);opacity:.55}
 .aurora i{position:absolute;width:48vmax;height:48vmax;border-radius:50%;mix-blend-mode:screen;animation:vaga 26s ease-in-out infinite alternate}
 .aurora i:nth-child(1){background:radial-gradient(circle,#0f7a5a 0,transparent 65%);left:-5%;top:-10%}
@@ -33,8 +31,6 @@ body{margin:0;min-height:100vh;background:var(--bg);color:var(--txt);font:15px/1
 .aurora i:nth-child(3){background:radial-gradient(circle,#4a2a8f 0,transparent 65%);left:20%;bottom:-20%;animation-duration:38s;animation-delay:-16s}
 @keyframes vaga{0%{transform:translate(0,0) scale(1)}50%{transform:translate(8vmax,6vmax) scale(1.15)}100%{transform:translate(-6vmax,10vmax) scale(.95)}}
 .griglia-sfondo{position:fixed;inset:0;z-index:-1;pointer-events:none;background-image:linear-gradient(rgba(120,160,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(120,160,255,.05) 1px,transparent 1px);background-size:44px 44px;mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 75%)}
-
-/* TESTATA */
 header{position:sticky;top:0;z-index:20;padding-top:env(safe-area-inset-top);background:linear-gradient(to bottom,rgba(6,10,19,.92),rgba(6,10,19,.72));backdrop-filter:blur(16px) saturate(1.4);-webkit-backdrop-filter:blur(16px) saturate(1.4);border-bottom:1px solid var(--bordo)}
 .testa{max-width:1080px;margin:0 auto;display:flex;align-items:center;gap:12px;padding:12px 16px 8px}
 .radarino{width:34px;height:34px;border-radius:50%;position:relative;flex:none;background:radial-gradient(circle,rgba(53,240,168,.15) 0 30%,transparent 31%),repeating-radial-gradient(circle,transparent 0 6px,rgba(53,240,168,.25) 6px 7px);border:1px solid rgba(53,240,168,.5);overflow:hidden;box-shadow:0 0 18px rgba(53,240,168,.35)}
@@ -44,7 +40,7 @@ header{position:sticky;top:0;z-index:20;padding-top:env(safe-area-inset-top);bac
 .logo b{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
 .stato{margin-left:auto;display:flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;background:var(--vetro);border:1px solid var(--bordo);font-size:12.5px;color:var(--dim);white-space:nowrap}
 .led{width:8px;height:8px;border-radius:50%;background:var(--dim2)}
-.led.ok{background:var(--verde);box-shadow:0 0 0 0 rgba(53,240,168,.6);animation:pulsa 2s infinite}
+.led.ok{background:var(--verde);animation:pulsa 2s infinite}
 .led.ko{background:var(--rosso)}
 @keyframes pulsa{0%{box-shadow:0 0 0 0 rgba(53,240,168,.55)}70%{box-shadow:0 0 0 9px rgba(53,240,168,0)}100%{box-shadow:0 0 0 0 rgba(53,240,168,0)}}
 nav{max-width:1080px;margin:0 auto;display:flex;gap:8px;overflow-x:auto;padding:4px 16px 12px;scrollbar-width:none}
@@ -54,7 +50,6 @@ nav a:hover{color:var(--txt);border-color:var(--bordo2)}
 nav a.on{color:#03140d;background:var(--grad);border-color:transparent;box-shadow:0 6px 24px -6px rgba(58,214,255,.55)}
 nav a .n{font-size:11px;padding:1px 7px;border-radius:999px;background:rgba(255,255,255,.08)}
 nav a.on .n{background:rgba(3,20,13,.18)}
-
 main{max-width:1080px;margin:0 auto;padding:18px 16px 70px}
 .entra{animation:entra .5s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--i,0) * 45ms)}
 @keyframes entra{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
@@ -64,10 +59,10 @@ h2 .conta{font:600 12px var(--corpo);color:var(--dim);padding:2px 9px;border-rad
 .sotto{color:var(--dim);font-size:14px;margin:0 0 14px}
 a{color:var(--ciano)}
 .vetro{background:var(--vetro);border:1px solid var(--bordo);border-radius:var(--r);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
-.scheda{padding:14px 16px;margin-bottom:10px;position:relative;transition:transform .2s,border-color .2s}
+.scheda{padding:14px 16px;margin-bottom:10px;position:relative;transition:border-color .2s}
 .scheda:hover{border-color:var(--bordo2)}
-.scheda .t{font-weight:700;font-size:15.5px}
-.scheda .s{color:var(--dim);font-size:13px}
+.t{font-weight:700;font-size:15.5px}
+.s{color:var(--dim);font-size:13px}
 .riga{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .chip{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:600;padding:3px 9px;border-radius:999px;background:rgba(255,255,255,.06);color:var(--dim);border:1px solid var(--bordo)}
 .chip.v{color:var(--verde);background:rgba(53,240,168,.1);border-color:rgba(53,240,168,.3)}
@@ -75,24 +70,35 @@ a{color:var(--ciano)}
 .chip.o{color:var(--oro);background:rgba(255,207,90,.1);border-color:rgba(255,207,90,.3)}
 .chip.r{color:var(--rosso);background:rgba(255,93,122,.1);border-color:rgba(255,93,122,.3)}
 .chip.p{color:var(--viola);background:rgba(155,123,255,.12);border-color:rgba(155,123,255,.3)}
-.cerca{width:100%;padding:12px 14px 12px 40px;border-radius:14px;border:1px solid var(--bordo);background:var(--vetro) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' fill='none' stroke='%238fa0c2' stroke-width='2'%3E%3Ccircle cx='8' cy='8' r='6'/%3E%3Cpath d='m13 13 4 4'/%3E%3C/svg%3E") 13px 50%/18px no-repeat;color:var(--txt);font:15px var(--corpo);outline:none;transition:border-color .2s,box-shadow .2s}
+.cerca{width:100%;padding:12px 14px 12px 40px;border-radius:14px;border:1px solid var(--bordo);background:var(--vetro) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' fill='none' stroke='%238fa0c2' stroke-width='2'%3E%3Ccircle cx='8' cy='8' r='6'/%3E%3Cpath d='m13 13 4 4'/%3E%3C/svg%3E") 13px 50%/18px no-repeat;color:var(--txt);font:15px var(--corpo);outline:none;transition:border-color .2s,box-shadow .2s;margin-top:6px}
 .cerca:focus{border-color:var(--ciano);box-shadow:0 0 0 4px rgba(58,214,255,.12)}
 .filtri{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 4px}
 .filtro{cursor:pointer;font:600 13px var(--corpo);padding:6px 12px;border-radius:999px;border:1px solid var(--bordo);background:rgba(255,255,255,.03);color:var(--dim);transition:all .2s}
 .filtro.on{color:var(--txt);background:rgba(58,214,255,.15);border-color:rgba(58,214,255,.45)}
+.viste{display:flex;gap:6px;margin:12px 0 6px;padding:4px;border-radius:999px;background:rgba(255,255,255,.03);border:1px solid var(--bordo);width:max-content;max-width:100%;overflow-x:auto}
+.viste .filtro{border:0;background:none}
+.viste .filtro.on{background:var(--grad);color:#03140d}
 .vuoto{color:var(--dim);text-align:center;padding:26px 10px;border:1px dashed var(--bordo);border-radius:var(--r)}
+.nota{color:var(--dim);font-size:13px;margin:10px 2px;font-style:italic}
 .giorno{display:flex;align-items:center;gap:10px;margin:22px 0 10px;font:600 13px var(--titolo);letter-spacing:1.2px;text-transform:uppercase;color:var(--verde)}
 .giorno::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,rgba(53,240,168,.4),transparent)}
-details summary{cursor:pointer;color:var(--ciano);font-weight:600;font-size:13.5px;margin-top:8px;list-style:none}
+details summary{cursor:pointer;color:var(--ciano);font-weight:600;font-size:13.5px;margin-top:10px;list-style:none}
 details summary::-webkit-details-marker{display:none}
 details summary::before{content:"▸ ";transition:transform .2s;display:inline-block}
 details[open] summary::before{transform:rotate(90deg)}
-ul.el{margin:8px 0 0;padding-left:18px}ul.el li{margin:3px 0}
-
+.msg{white-space:pre-wrap;word-wrap:break-word;font-size:14.5px;margin-top:8px}
+.msg code{font-size:12.5px;color:var(--dim)}
+.id{position:absolute;right:14px;bottom:10px;font:500 11px var(--corpo);color:var(--dim2)}
+.voce .testa-voce{display:flex;gap:14px;align-items:flex-start}
+.mini{flex:none;width:86px;height:86px;border-radius:14px;overflow:hidden;background:rgba(255,255,255,.04);border:1px solid var(--bordo);display:flex;align-items:center;justify-content:center}
+.mini img{max-width:100%;max-height:100%;object-fit:contain}
+.foto{display:flex;gap:8px;overflow-x:auto;margin-top:10px}
+.foto img{max-height:160px;max-width:100%;border-radius:10px;flex:none}
+.conto{font:700 15px var(--titolo);color:var(--oro);font-variant-numeric:tabular-nums;white-space:nowrap}
+.conto .pre{font:500 11.5px var(--corpo);color:var(--dim);display:block;text-align:right}
 /* HOME */
 .eroe{position:relative;overflow:hidden;padding:22px 20px;display:grid;grid-template-columns:1fr auto;gap:16px;align-items:center}
 .eroe h1{font-size:28px}
-.eroe .sotto{margin:0}
 .radar{width:132px;height:132px;border-radius:50%;position:relative;background:radial-gradient(circle,rgba(53,240,168,.08) 0 20%,transparent 21%),repeating-radial-gradient(circle,transparent 0 21px,rgba(53,240,168,.22) 21px 22px),linear-gradient(transparent 49.6%,rgba(53,240,168,.2) 49.6% 50.4%,transparent 50.4%),linear-gradient(90deg,transparent 49.6%,rgba(53,240,168,.2) 49.6% 50.4%,transparent 50.4%);border:1px solid rgba(53,240,168,.45);box-shadow:0 0 40px rgba(53,240,168,.18),inset 0 0 30px rgba(53,240,168,.1);overflow:hidden}
 .radar::before{content:"";position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 0deg,rgba(53,240,168,.55),rgba(53,240,168,.08) 60deg,transparent 90deg);animation:gira 3.2s linear infinite}
 .radar .blip{position:absolute;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;background:var(--verde);box-shadow:0 0 10px var(--verde);animation:blip 3.2s ease-out infinite}
@@ -103,60 +109,32 @@ ul.el{margin:8px 0 0;padding-left:18px}ul.el li{margin:3px 0}
 .kpi .num{font:700 30px/1 var(--titolo);background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
 .kpi .lab{color:var(--dim);font-size:12.5px;margin-top:6px}
 .kpi .ico{position:absolute;right:10px;top:8px;font-size:18px;opacity:.7}
-@media (max-width:560px){.kpi{grid-template-columns:repeat(2,1fr)}.eroe{grid-template-columns:1fr}.eroe .radar{display:none}}
-.conto{font:700 15px var(--titolo);color:var(--oro);font-variant-numeric:tabular-nums}
-.nastro{display:flex;gap:12px;overflow-x:auto;padding:4px 2px 14px;scroll-snap-type:x mandatory;scrollbar-width:none}
-.nastro::-webkit-scrollbar{display:none}
-.nastro .holo{flex:none;width:150px;scroll-snap-align:start}
-
-/* CARTE OLOGRAFICHE (promo) */
-.griglia{display:grid;grid-template-columns:repeat(auto-fill,minmax(158px,1fr));gap:12px}
-.holo{position:relative;border-radius:16px;padding:12px 10px 12px;text-align:center;background:linear-gradient(160deg,rgba(40,58,100,.55),rgba(14,22,40,.75));border:1px solid var(--bordo);transform-style:preserve-3d;transition:transform .15s ease-out,box-shadow .3s;will-change:transform;--mx:50%;--my:50%;--rx:0deg;--ry:0deg;transform:perspective(700px) rotateX(var(--rx)) rotateY(var(--ry))}
-.holo::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:radial-gradient(circle at var(--mx) var(--my),rgba(255,255,255,.28),transparent 45%),linear-gradient(115deg,transparent 30%,rgba(58,214,255,.14) 45%,rgba(155,123,255,.16) 55%,transparent 70%);mix-blend-mode:screen;opacity:.0;transition:opacity .3s}
-.holo:hover::after,.holo.tocco::after{opacity:1}
-.holo:hover{box-shadow:0 18px 40px -14px rgba(58,214,255,.45)}
-.holo .img{height:170px;display:flex;align-items:center;justify-content:center;margin-bottom:8px}
-.holo img{max-width:100%;max-height:170px;filter:drop-shadow(0 10px 18px rgba(0,0,0,.55));transform:translateZ(30px)}
-.holo .segnaposto{width:110px;height:152px;border-radius:14px;border:1px dashed var(--bordo2);display:flex;align-items:center;justify-content:center;font-size:34px;color:var(--dim2)}
-.holo .t{font:700 14.5px/1.2 var(--titolo)}
-.holo .it{color:var(--dim);font-size:12.5px;margin-top:2px}
-.holo .riga{justify-content:center;margin-top:8px}
+@media (max-width:560px){.kpi{grid-template-columns:repeat(2,1fr)}.eroe{grid-template-columns:1fr}.eroe .radar{display:none}.mini{width:64px;height:64px}}
 .brilla{position:relative;overflow:hidden}
-.brilla::before{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.08),transparent);transform:skewX(-20deg);animation:lampo 6s ease-in-out infinite}
+.brilla::before{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.08),transparent);transform:skewX(-20deg);animation:lampo 6s ease-in-out infinite;pointer-events:none}
 @keyframes lampo{0%,70%{left:-60%}100%{left:130%}}
-
-/* TIMELINE (novità) */
-.linea{position:relative;padding-left:22px}
-.linea::before{content:"";position:absolute;left:6px;top:4px;bottom:4px;width:2px;background:linear-gradient(var(--verde),var(--ciano),var(--viola));opacity:.35;border-radius:2px}
-.linea .scheda::before{content:"";position:absolute;left:-21px;top:18px;width:10px;height:10px;border-radius:50%;background:var(--bg);border:2px solid var(--ciano);box-shadow:0 0 10px rgba(58,214,255,.6)}
-
-/* SBC */
-.sbc{border-left:4px solid var(--verde);padding-left:14px}
-.sbc.giallo{border-left-color:var(--oro)}.sbc.rosso{border-left-color:var(--rosso)}.sbc.fissa{border-left-color:var(--viola)}
-.sfida{margin-top:10px;padding:10px 12px;border-radius:12px;background:rgba(255,255,255,.03);border:1px solid var(--bordo)}
-.req{list-style:none;padding:0;margin:6px 0 0}.req li{padding:2px 0 2px 20px;position:relative;font-size:13.5px}
-.req li::before{content:"✓";position:absolute;left:2px;color:var(--verde);font-weight:700}
-
+/* VERSIONI: carte olografiche */
+.griglia{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:12px}
+.holo{position:relative;border-radius:16px;padding:12px 10px;text-align:center;background:linear-gradient(160deg,rgba(40,58,100,.55),rgba(14,22,40,.75));border:1px solid var(--bordo);transition:transform .15s ease-out,box-shadow .3s;--mx:50%;--my:50%;--rx:0deg;--ry:0deg;transform:perspective(700px) rotateX(var(--rx)) rotateY(var(--ry))}
+.holo::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:radial-gradient(circle at var(--mx) var(--my),rgba(255,255,255,.28),transparent 45%),linear-gradient(115deg,transparent 30%,rgba(58,214,255,.14) 45%,rgba(155,123,255,.16) 55%,transparent 70%);mix-blend-mode:screen;opacity:0;transition:opacity .3s}
+.holo:hover::after,.holo.tocco::after{opacity:1}
+.holo .img{height:170px;display:flex;align-items:center;justify-content:center;margin-bottom:8px}
+.holo img{max-width:100%;max-height:170px;filter:drop-shadow(0 10px 18px rgba(0,0,0,.55))}
+.segnaposto{width:100px;height:140px;border-radius:14px;border:1px dashed var(--bordo2);display:flex;align-items:center;justify-content:center;font-size:30px;color:var(--dim2)}
+.mini .segnaposto{width:auto;height:auto;border:0;font-size:24px}
+.holo .t{font:700 14.5px/1.2 var(--titolo)}
+.holo .riga{justify-content:center;margin-top:8px}
+.holo details{text-align:left}
 /* PRICE RANGE */
-.pr .val{font:700 16px var(--titolo);font-variant-numeric:tabular-nums}
+.val{font:700 16px var(--titolo);font-variant-numeric:tabular-nums}
 .su{color:var(--verde)}.giu{color:var(--rosso)}
-.motivo{margin-top:8px;padding:8px 10px;border-radius:10px;background:rgba(58,214,255,.06);border:1px solid rgba(58,214,255,.18);font-size:13.5px;color:#cfe3ff}
-
-/* ARCHIVIO */
-.msg{white-space:pre-wrap;word-wrap:break-word;font-size:14.5px}
-.msg a{color:var(--ciano)}
-.foto{display:flex;gap:8px;overflow-x:auto;margin-top:10px}
-.foto img{height:130px;border-radius:10px;flex:none}
-
-.pass{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
-.livello{padding:10px 12px;border-radius:12px;background:rgba(255,255,255,.035);border:1px solid var(--bordo)}
-.livello .lv{font:700 12px var(--titolo);color:var(--dim);letter-spacing:1px}
-.livello.prem{border-color:rgba(255,207,90,.35);background:linear-gradient(160deg,rgba(255,207,90,.08),transparent)}
+/* LEAK */
+.anticipo{font:700 18px var(--titolo);background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
 .su-top{position:fixed;right:16px;bottom:calc(18px + env(safe-area-inset-bottom));width:44px;height:44px;border-radius:50%;border:1px solid var(--bordo2);background:var(--vetro2);color:var(--txt);font-size:18px;backdrop-filter:blur(10px);opacity:0;pointer-events:none;transition:opacity .3s;cursor:pointer}
 .su-top.vis{opacity:1;pointer-events:auto}
 footer{color:var(--dim2);font-size:12px;text-align:center;padding:26px 16px 40px}
 footer a{color:var(--dim);cursor:pointer}
-/* LA PORTA: schermata del codice */
+/* LA PORTA */
 .porta{max-width:380px;margin:6vh auto 0;padding:28px 22px 24px;text-align:center}
 .lucchetto{width:86px;height:86px;margin:0 auto 14px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:38px;background:radial-gradient(circle,rgba(53,240,168,.18),transparent 70%);border:1px solid rgba(53,240,168,.45);box-shadow:0 0 34px rgba(53,240,168,.25);position:relative}
 .lucchetto::after{content:"";position:absolute;inset:-7px;border-radius:50%;border:1px dashed rgba(58,214,255,.35);animation:gira 14s linear infinite}
@@ -191,7 +169,7 @@ body.oscurata main,body.oscurata nav{filter:blur(18px) brightness(.4);transition
 <header>
  <div class="testa">
   <div class="radarino"></div>
-  <div class="logo">FUT Titan <b>Radar</b></div>
+  <div class="logo">Oracolo <b>Radar</b></div>
   <div class="stato"><span class="led" id="punto"></span><span id="vivo">carico…</span></div>
  </div>
  <nav id="nav"></nav>
@@ -201,70 +179,69 @@ body.oscurata main,body.oscurata nav{filter:blur(18px) brightness(.4);transition
 <footer id="piede"></footer>
 <script>
 "use strict";
-var FONTE = {"api":"https://api.github.com/repos/GiovanniLucaVisconti/fut-titan-sito/contents/dati.json?ref=dati","raw":"https://raw.githubusercontent.com/GiovanniLucaVisconti/fut-titan-sito/dati/dati.json"};
-var SEZIONI = [
-  ["home", "📡", "Radar"], ["novita", "🗞", "Novità"], ["leak", "🔮", "Leak"], ["sbc", "🧩", "SBC"],
-  ["promo", "💎", "Promo"], ["pacchetti", "🎁", "Pacchetti"], ["pricerange", "💱", "Price range"],
-  ["dizionario", "📖", "Dizionario"], ["archivio", "📬", "Archivio"]
-];
-// Gli indirizzi vecchi, usati dalle notifiche già mandate, portano ancora nel posto giusto
-var ALIAS = { notifiche: "archivio", carte: "leak" };
-var NOMI_FONTE = { messaggi: "Annunci EA", uscite: "Leak usciti", sbc: "SBC", evoluzioni: "Evoluzioni", obiettivi: "Obiettivi", priceRange: "Price range", carteNuove: "Carte nuove",
-  rarita: "Versioni di carta", pacchetti: "Pacchetti", stagione: "Stagione", leak: "Leak", dizionario: "Dizionario EA",
-  promemoria: "Promemoria", newsEa: "News EA", giocatoriEa: "Giocatori EA", sbcProgrammate: "SBC in arrivo" };
-var ICONE_FONTE = { messaggi: "📣", uscite: "✅", sbc: "🧩", evoluzioni: "🧬", obiettivi: "🎯", priceRange: "💱", carteNuove: "✨", rarita: "💎", pacchetti: "🎁",
-  stagione: "📅", leak: "🔮", dizionario: "📖", promemoria: "⏳", newsEa: "📰", giocatoriEa: "👥" };
-var CATEGORIE = { promo: "💎 Versioni di carta", evoluzioni: "🧬 Evoluzioni", giocatori: "🎴 Profili di giocatori", sbc: "🧩 SBC",
-  obiettivi: "🎯 Obiettivi", pacchetti: "🎁 Pacchetti e negozio", estetica: "🏟 Estetica", club: "🏳️ Club e nazioni", altro: "🗂 Interfaccia" };
-// In Novità non ci sono price range e carte nuove: hanno la loro sezione, più precisa
-var FUORI_DA_NOVITA = { priceRange: 1, carteNuove: 1 };
-var D = null, filtri = {}, contatori = [];
-// ACCESSO (v7.16): i dati arrivano cifrati con una chiave nuova a ogni
-// pubblicazione, avvolta per ogni persona (col suo codice) e per il
-// proprietario (link …/#k=…). Il dispositivo si ricorda la chiave DERIVATA
-// della sua persona: se la persona viene revocata, alla pubblicazione dopo
-// il suo avvolgimento sparisce e qui non si apre più niente.
-var BUSTA = null, ACCESSO = null, NOME = "", ACCESSO_LS = "fut-radar-accesso", CODICE_LEN = 10, digitato = "";
+var FONTE = {"api":"https://api.github.com/repos/GiovanniLucaVisconti/fut-titan-sito/contents/dati.json?ref=oracolo","raw":"https://raw.githubusercontent.com/GiovanniLucaVisconti/fut-titan-sito/oracolo/dati.json"};
+/*CIFRA:INIZIO*/
+// ACCESSO: i dati arrivano cifrati con una chiave nuova a ogni pubblicazione,
+// avvolta per ogni persona (col suo codice) e per il proprietario (link …/#k=…).
+// Il dispositivo si ricorda la chiave DERIVATA della sua persona: se la persona
+// viene tolta, alla pubblicazione dopo il suo avvolgimento sparisce.
 function b64d(s) { var b = atob(s), u = new Uint8Array(b.length); for (var i = 0; i < b.length; i++) u[i] = b.charCodeAt(i); return u; }
 function b64e(buf) { var u = new Uint8Array(buf), s = ""; for (var i = 0; i < u.length; i++) s += String.fromCharCode(u[i]); return btoa(s); }
-function leggiLS(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
-function scriviLS(k, v) { try { if (v == null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) {} }
-async function derivaKek(segreto, iter) {
+async function derivaKek(busta, segreto, iter) {
   var base = await crypto.subtle.importKey("raw", new TextEncoder().encode(segreto), "PBKDF2", false, ["deriveBits"]);
-  return crypto.subtle.deriveBits({ name: "PBKDF2", salt: b64d(BUSTA.sale), iterations: iter, hash: "SHA-256" }, base, 256);
+  return crypto.subtle.deriveBits({ name: "PBKDF2", salt: b64d(busta.sale), iterations: iter, hash: "SHA-256" }, base, 256);
 }
 async function aesApri(chiaveRaw, x) {
   var k = await crypto.subtle.importKey("raw", chiaveRaw, "AES-GCM", false, ["decrypt"]);
   return crypto.subtle.decrypt({ name: "AES-GCM", iv: b64d(x.iv) }, k, b64d(x.ct));
 }
-// Con la chiave derivata di una persona: la chiave dei dati e il suo nome
-async function apriAvvolgimento(kekRaw, a) {
-  var aperto = new Uint8Array(await aesApri(kekRaw, a));
-  return { k: aperto.slice(0, 32), nome: new TextDecoder().decode(aperto.slice(32)) };
-}
-async function cercaAccesso(kekRaw, soloId) {
-  var lista = (BUSTA.accessi || []).filter(function (a) { return soloId ? a.id === soloId : a.id !== "admin"; });
-  for (var i = 0; i < lista.length; i++) { try { var r = await apriAvvolgimento(kekRaw, lista[i]); r.id = lista[i].id; return r; } catch (e) {} }
+async function cercaAccesso(busta, kekRaw, soloId) {
+  var lista = (busta.accessi || []).filter(function (a) { return soloId ? a.id === soloId : a.id !== "admin"; });
+  for (var i = 0; i < lista.length; i++) {
+    try {
+      var aperto = new Uint8Array(await aesApri(kekRaw, lista[i]));
+      return { k: aperto.slice(0, 32), nome: new TextDecoder().decode(aperto.slice(32)), id: lista[i].id };
+    } catch (e) { /* non è questo accesso */ }
+  }
   return null;
 }
+async function apriDati(busta, chiave) { return JSON.parse(new TextDecoder().decode(await aesApri(chiave, busta.dati))); }
+/*CIFRA:FINE*/
+
+var BUSTA = null, ACCESSO = null, NOME = "", ACCESSO_LS = "fut-radar-accesso", CODICE_LEN = 10, digitato = "";
+var D = null, filtri = {}, contatori = [];
+var FISSE = [["home", "📡", "Radar"], ["notizie", "🗞", "Notizie"], ["leak", "🔮", "Leak"]];
+// gli indirizzi del vecchio sito portano ancora nel posto giusto
+var ALIAS = { novita: "notizie", archivio: "notizie", promo: "versioni", pricerange: "prezzi", dizionario: "testi", carte: "leak" };
+var STATI = { attiva: ["✅ attiva", "v"], "in-arrivo": ["🔮 in arrivo", "o"], nascosta: ["🙈 nascosta nei file di EA", "p"],
+  "a-database": ["🗄 a database", "c"], scaduta: ["⌛ scaduta", ""], sparita: ["👻 tolta", "r"] };
+var VISTE = { adesso: "✅ Adesso", arrivo: "🔮 In arrivo", notizie: "🗞 Notizie" };
+var SOTTO = {
+  sbc: "Le sfide creazione rosa: attive, in arrivo, e le notizie della settimana. Tocca «dettagli» per sfide, requisiti e premi.",
+  obiettivi: "Gruppi di obiettivi coi compiti e i premi.", pacchetti: "Il negozio: prezzi, contenuto, probabilità; e i pacchetti pronti e non ancora in vendita.",
+  evoluzioni: "Requisiti, costo e migliorie livello per livello.", versioni: "Le versioni di carta coi design di EA: anche quelle nascoste, cioè le promo preparate.",
+  totw: "La squadra della settimana, con le carte.", eventi: "Champions, Rivals, Squad Battles, pass stagionale e gettoni.",
+  annunci: "Banner del gioco e news di EA.", prezzi: "I limiti di prezzo del mercato cambiati di recente: prima → dopo.",
+  testi: "Testi nuovi o cambiati nei file della Web App e nel suo codice: spesso nominano le cose prima che escano."
+};
+
+function leggiLS(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+function scriviLS(k, v) { try { if (v == null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) {} }
 function el(t, c, x) { var e = document.createElement(t); if (c) e.className = c; if (x != null) e.textContent = x; return e; }
 function num(n) { return Math.round(n || 0).toLocaleString("it-IT"); }
-function data(ts, o) { var d = new Date(ts); return isNaN(d) ? "" : d.toLocaleString("it-IT", o || { weekday: "short", day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" }); }
+function data(ts, o) { var d = new Date(ts); return !ts || isNaN(d) ? "" : d.toLocaleString("it-IT", o || { weekday: "short", day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" }); }
 function ora(ts) { return data(ts, { hour: "2-digit", minute: "2-digit" }); }
 function giorno(ts) { return new Date(ts).toLocaleDateString("it-IT", { weekday: "long", day: "2-digit", month: "long" }); }
 function manca(ts) {
-  // Dal `data-fino` arriva come TESTO: "1791651600000" va riletto come numero,
-  // altrimenti la data non è valida e al primo secondo diventava «scaduta»
   if (typeof ts === "string" && /^\d+$/.test(ts)) ts = Number(ts);
-  var ms = new Date(ts) - Date.now(); if (!(ms > 0)) return "scaduta";
-  // Oltre un anno vuol dire «non scade» (le SBC permanenti hanno una data nel 2035)
+  var ms = new Date(ts) - Date.now(); if (!(ms > 0)) return "ora";
   if (ms > 365 * 864e5) return "♾ permanente";
   var g = Math.floor(ms / 864e5), o = Math.floor(ms % 864e5 / 36e5), m = Math.floor(ms % 36e5 / 6e4), s = Math.floor(ms % 6e4 / 1e3);
   if (g) return g + "g " + o + "h " + m + "m";
   return (o ? o + "h " : "") + m + "m " + (s < 10 ? "0" : "") + s + "s";
 }
+function durata(ms) { var o = ms / 36e5; return o < 1 ? Math.max(1, Math.round(ms / 6e4)) + " min" : o < 48 ? Math.round(o) + " ore" : Math.round(o / 24) + " giorni"; }
 function vetro(c) { return el("div", "vetro " + (c || "")); }
-function link(u, testo) { var a = el("a", null, testo || "apri ↗"); a.href = u; a.target = "_blank"; a.rel = "noopener noreferrer"; return a; }
 function chip(t, c) { return el("span", "chip " + (c || ""), t); }
 function entra(e, i) { e.classList.add("entra"); e.style.setProperty("--i", Math.min(i || 0, 14)); return e; }
 function vuoto(t) { return el("div", "vuoto", t); }
@@ -273,19 +250,21 @@ function titolo(m, testo, conta, sotto) {
   if (sotto) m.appendChild(el("p", "sotto", sotto));
 }
 function immagine(u, alt) {
-  var i = el("img"); i.alt = alt || ""; i.loading = "lazy"; i.referrerPolicy = "no-referrer"; i.src = u;
+  var i = el("img"); i.alt = alt || ""; i.loading = "lazy"; i.referrerPolicy = "no-referrer";
+  if (/^https:\/\//.test(u || "")) i.src = u;
   i.onerror = function () { var s = el("div", "segnaposto", "✦"); if (i.parentNode) i.parentNode.replaceChild(s, i); };
   return i;
 }
+// Il testo che arriva dai dati passa sempre da qui: restano solo <b> <i> <code> <a href="https:…">
 function pulisciHtml(html) {
-  var t = document.createElement("template"); t.innerHTML = html;
+  var t = document.createElement("template"); t.innerHTML = String(html || "");
   (function giro(n) {
     Array.prototype.slice.call(n.childNodes).forEach(function (c) {
       if (c.nodeType !== 1) return;
       var nome = c.nodeName.toLowerCase();
       if (["b", "i", "code", "a"].indexOf(nome) < 0) { n.replaceChild(document.createTextNode(c.textContent), c); return; }
       Array.prototype.slice.call(c.attributes).forEach(function (a) {
-        if (!(nome === "a" && a.name === "href" && /^https?:/.test(a.value))) c.removeAttribute(a.name);
+        if (!(nome === "a" && a.name === "href" && /^https:\/\//.test(a.value))) c.removeAttribute(a.name);
       });
       if (nome === "a") { c.target = "_blank"; c.rel = "noopener noreferrer"; }
       giro(c);
@@ -305,10 +284,7 @@ function filtriChip(chiave, valori, nomi) {
   valori.forEach(function (v) { var c = el("span", "filtro" + (filtri[chiave] === v ? " on" : ""), (nomi && nomi[v]) || v); c.onclick = function () { filtri[chiave] = v; disegna(true); }; box.appendChild(c); });
   return box;
 }
-// Un numero che sale da zero: solo effetto, il valore vero è già nel testo
-function contatore(n) {
-  var e = el("div", "num", "0"); contatori.push({ e: e, n: n }); return e;
-}
+function contatore(n) { var e = el("div", "num", "0"); contatori.push({ e: e, n: n }); return e; }
 function animaContatori() {
   var t0 = Date.now(), lista = contatori.slice(); contatori = [];
   if (!lista.length) return;
@@ -319,14 +295,13 @@ function animaContatori() {
   };
   passo();
 }
-// La carta olografica si inclina seguendo il dito o il mouse
 function olografica(c) {
   c.classList.add("holo");
   var muovi = function (x, y) {
     var r = c.getBoundingClientRect(); if (!r.width) return;
     var px = (x - r.left) / r.width, py = (y - r.top) / r.height;
     c.style.setProperty("--mx", px * 100 + "%"); c.style.setProperty("--my", py * 100 + "%");
-    c.style.setProperty("--ry", (px - .5) * 18 + "deg"); c.style.setProperty("--rx", (.5 - py) * 18 + "deg");
+    c.style.setProperty("--ry", (px - .5) * 14 + "deg"); c.style.setProperty("--rx", (.5 - py) * 14 + "deg");
   };
   var riposo = function () { c.classList.remove("tocco"); c.style.setProperty("--rx", "0deg"); c.style.setProperty("--ry", "0deg"); };
   c.addEventListener("pointermove", function (e) { muovi(e.clientX, e.clientY); });
@@ -335,407 +310,283 @@ function olografica(c) {
   c.addEventListener("touchend", riposo);
   return c;
 }
-function cartaPromo(x, conElenco) {
-  var c = olografica(el("div"));
-  var box = el("div", "img"); box.appendChild(x.immagine ? immagine(x.immagine, x.titolo) : el("div", "segnaposto", "✦")); c.appendChild(box);
-  c.appendChild(el("div", "t", x.titolo));
-  if (x.nomeIt && x.nomeIt.toLowerCase() !== x.titolo.toLowerCase()) c.appendChild(el("div", "it", x.nomeIt));
-  var r = el("div", "riga"); r.appendChild(chip(x.carte ? num(x.carte) + " carte" : "in arrivo", x.carte ? "v" : "o")); r.appendChild(chip("ID " + x.id)); c.appendChild(r);
-  if (conElenco && x.elenco && x.elenco.length) {
-    var d = el("details"); d.style.textAlign = "left"; d.appendChild(el("summary", null, "le " + x.elenco.length + " carte"));
-    var u = el("ul", "el"); x.elenco.forEach(function (n) { u.appendChild(el("li", null, n)); }); d.appendChild(u); c.appendChild(d);
+/** Il conto alla rovescia: «parte fra» o «scade fra», aggiornato ogni secondo */
+function conto(pre, ts) {
+  var c = el("div", "conto"); c.appendChild(el("span", "pre", pre)); var v = el("span", null, manca(ts)); v.dataset.fino = ts; c.appendChild(v); return c;
+}
+function dettagli(testo, aperto, etichetta) {
+  var d = el("details"); if (aperto) d.open = true;
+  d.appendChild(el("summary", null, etichetta || "dettagli")); var b = el("div", "msg"); b.appendChild(pulisciHtml(testo)); d.appendChild(b); return d;
+}
+function sezione(id) { for (var i = 0; i < D.sezioni.length; i++) if (D.sezioni[i].id === id) return D.sezioni[i]; return null; }
+function voci(id, vista) { var s = sezione(id); return s && s.viste[vista] ? s.viste[vista].voci : []; }
+function notizieDi(id) { return D.notizie.filter(function (n) { return n.sezione === id; }); }
+function testoVoce(v) { return [v.nome, v.id, String(v.testo || "").replace(/<[^>]+>/g, " ")].join(" "); }
+
+/** Una voce: immagine, nome, stato, conti alla rovescia, scheda completa */
+function schedaVoce(v, i, aperta) {
+  var c = entra(vetro("scheda voce"), i);
+  var r = el("div", "testa-voce");
+  if (v.foto) { var f = el("div", "mini"); f.appendChild(immagine(v.foto, v.nome)); r.appendChild(f); }
+  var sx = el("div"); sx.style.flex = "1"; sx.style.minWidth = "0";
+  sx.appendChild(el("div", "t", v.nome || v.id));
+  var ch = el("div", "riga"); ch.style.marginTop = "6px";
+  var st = STATI[v.stato]; if (st) ch.appendChild(chip(st[0], st[1]));
+  if (v.vista) ch.appendChild(chip("visto " + data(v.vista)));
+  if (v.preparata) ch.appendChild(chip("🎨 design del " + data(v.preparata, { day: "2-digit", month: "2-digit", year: "numeric" }), "p"));
+  sx.appendChild(ch); r.appendChild(sx);
+  var adesso = Date.now();
+  if (v.inizio && v.inizio > adesso) r.appendChild(conto("parte fra", v.inizio));
+  else if (v.fine && v.fine > adesso) r.appendChild(conto("scade fra", v.fine));
+  c.appendChild(r);
+  if (v.testo) c.appendChild(dettagli(v.testo, aperta));
+  c.appendChild(el("div", "id", v.id));
+  return c;
+}
+function cartaVersione(v, i) {
+  var c = entra(olografica(el("div")), i);
+  var box = el("div", "img"); box.appendChild(v.foto ? immagine(v.foto, v.nome) : el("div", "segnaposto", "✦")); c.appendChild(box);
+  c.appendChild(el("div", "t", v.nome || v.id));
+  var r = el("div", "riga"); var st = STATI[v.stato]; if (st) r.appendChild(chip(st[0], st[1])); r.appendChild(chip("ID " + v.id.split(":")[1]));
+  if (v.preparata) r.appendChild(chip("🎨 " + data(v.preparata, { day: "2-digit", month: "2-digit" }), "p"));
+  c.appendChild(r);
+  if (v.testo) c.appendChild(dettagli(v.testo));
+  return c;
+}
+function fascia(p) { return (p[0] == null ? "?" : num(p[0])) + " – " + (p[1] == null ? "?" : num(p[1])); }
+function direzione(p) {
+  var a = p.prima, b = p.dopo;
+  var x = b[1] !== a[1] ? [a[1], b[1]] : [a[0], b[0]];
+  return x[0] != null && x[1] != null && x[0] !== x[1] ? (x[1] > x[0] ? "su" : "giu") : "";
+}
+function schedaPrezzo(v, i) {
+  var p = v.prezzo, c = entra(vetro("scheda"), i);
+  var r = el("div", "riga"); var t = el("div", "t", (p.nome || "carta " + p.carta) + (p.rating ? " " + p.rating : "") + (p.ruolo ? " " + p.ruolo : "")); t.style.flex = "1"; r.appendChild(t);
+  if (p.osservato) r.appendChild(el("span", "s", data(p.osservato))); c.appendChild(r);
+  var z = el("div", "riga"); z.style.marginTop = "8px";
+  function coppia(nome, a, b) {
+    var w = el("div"); w.appendChild(el("div", "s", nome)); var x = el("div", "val");
+    x.appendChild(document.createTextNode((a == null ? "?" : num(a)) + " → "));
+    x.appendChild(el("span", b > a ? "su" : b < a ? "giu" : null, (b == null ? "?" : num(b)) + (b > a ? " ▲" : b < a ? " ▼" : ""))); w.appendChild(x); return w;
   }
-  if (x.url) { var a = link(x.url, "fut.gg ↗"); a.style.fontSize = "12px"; var z = el("div"); z.style.marginTop = "6px"; z.appendChild(a); c.appendChild(z); }
+  z.appendChild(coppia("Minimo", p.prima[0], p.dopo[0])); var sp = el("div"); sp.style.width = "22px"; z.appendChild(sp); z.appendChild(coppia("Massimo", p.prima[1], p.dopo[1]));
+  c.appendChild(z);
+  if (p.estinta) { var e = el("div", "riga"); e.style.marginTop = "8px"; e.appendChild(chip("era estinta dal mercato", "o")); c.appendChild(e); }
   return c;
-}
-// Una versione dai file di EA: design, nome italiano, nascosta/visibile, se fut.gg la conosce
-function cartaEa(v) {
-  var c = olografica(el("div"));
-  var box = el("div", "img"); box.appendChild(v.design ? immagine(v.design, v.nome) : el("div", "segnaposto", "✦")); c.appendChild(box);
-  c.appendChild(el("div", "t", v.nome || ("ID " + v.id)));
-  if (v.futgg) c.appendChild(el("div", "it", v.futgg.titolo + (v.futgg.carte ? " · " + num(v.futgg.carte) + " carte" : " · nessuna carta")));
-  var r = el("div", "riga"); r.appendChild(chip(v.hide ? "🙈 nascosta" : "👁 visibile", v.hide ? "p" : "v"));
-  if (!v.futgg) r.appendChild(chip("solo EA", "o")); r.appendChild(chip("ID " + v.id)); c.appendChild(r);
-  return c;
-}
-function rigaDiz(x, i) {
-  var c = entra(vetro("scheda"), i);
-  var r = el("div", "riga"); r.appendChild(chip(CATEGORIE[x.categoria] || x.categoria, x.categoria === "promo" ? "p" : x.categoria === "altro" ? "" : "c"));
-  if (x.id) r.appendChild(chip("ID " + x.id)); r.appendChild(el("span", "s", ora(x.ts))); c.appendChild(r);
-  var t = el("div", "t"); t.style.marginTop = "6px";
-  if (x.prima !== undefined) { t.appendChild(el("span", "s", x.prima + "  →  ")); t.appendChild(el("span", null, x.valore)); }
-  else t.textContent = x.valore;
-  c.appendChild(t); c.appendChild(el("div", "s", x.chiave)); return c;
 }
 function schedaNotifica(x, i) {
   var c = entra(vetro("scheda"), i);
-  var r = el("div", "riga"); r.appendChild(chip((ICONE_FONTE[x.fonte] || "•") + " " + (NOMI_FONTE[x.fonte] || x.fonte || "")));
-  r.appendChild(el("span", "s", data(x.ts))); c.appendChild(r);
-  var b = el("div", "msg"); b.style.marginTop = "8px"; b.appendChild(pulisciHtml(x.testo)); c.appendChild(b);
-  var foto = (x.foto ? [x.foto] : []).concat((x.album || []).map(function (a) { return a.foto; })).filter(function (u) { return /^https:/.test(u); });
-  if (foto.length) { var f = el("div", "foto"); foto.forEach(function (u) { f.appendChild(immagine(u)); }); c.appendChild(f); }
+  var r = el("div", "riga"); var s = sezione(x.sezione); r.appendChild(chip(s ? s.titolo : x.sezione || "", "c"));
+  r.appendChild(el("span", "s", data(x.ora))); c.appendChild(r);
+  var b = el("div", "msg"); b.appendChild(pulisciHtml(x.testo)); c.appendChild(b);
+  if (x.foto) { var f = el("div", "foto"); f.appendChild(immagine(x.foto)); c.appendChild(f); }
   return c;
 }
-// Il ritmo abituale di EA, alle 19:00 italiane (18:00 inglesi). È un'abitudine,
-// non una data ufficiale: la pagina lo scrive. `giorno` 0 = domenica … 6 = sabato
-function prossimaOra(giorno) {
-  var d = new Date(), t = new Date(d.getFullYear(), d.getMonth(), d.getDate(), 19, 0, 0, 0);
-  if (giorno == null) { if (t <= d) t.setDate(t.getDate() + 1); return t.getTime(); }
-  var diff = (giorno - t.getDay() + 7) % 7; t.setDate(t.getDate() + diff); if (t <= d) t.setDate(t.getDate() + 7); return t.getTime();
+function perGiorno(m, lista, chiaveOra, fn) {
+  var ult = "", n = 0;
+  lista.forEach(function (x) { var g = giorno(x[chiaveOra]); if (g !== ult) { m.appendChild(el("div", "giorno", g)); ult = g; } m.appendChild(fn(x, n++)); });
+  return n;
 }
-function durataBreve(ms) { var o = ms / 36e5; return o < 1 ? Math.max(1, Math.round(ms / 6e4)) + " min" : o < 48 ? Math.round(o) + " ore" : Math.round(o / 24) + " giorni"; }
+function prossimaOra(gg) {
+  var d = new Date(), t = new Date(d.getFullYear(), d.getMonth(), d.getDate(), 19, 0, 0, 0);
+  if (gg == null) { if (t <= d) t.setDate(t.getDate() + 1); return t.getTime(); }
+  var diff = (gg - t.getDay() + 7) % 7; t.setDate(t.getDate() + diff); if (t <= d) t.setDate(t.getDate() + 7); return t.getTime();
+}
+/** Le date che arrivano: partenze annunciate e scadenze delle prossime 48 ore */
 function prossimiEventi() {
-  var ev = (D.leak.inArrivo || []).map(function (x) { return { t: x.titolo, quando: x.inizio, tipo: x.famiglia === "sbc" ? "🧩 SBC in arrivo" : x.famiglia === "radar" ? "🛰 " + (x.tipo || "EA") + " in arrivo" : "🎯 Obiettivo in arrivo" }; });
-  D.sbc.forEach(function (x) { var ms = new Date(x.scadenza) - Date.now(); if (ms > 0 && ms < 48 * 36e5) ev.push({ t: x.titolo, quando: x.scadenza, tipo: "⏳ SBC in scadenza" }); });
-  return ev.sort(function (a, b) { return new Date(a.quando) - new Date(b.quando); });
+  var ev = [], adesso = Date.now();
+  D.sezioni.forEach(function (s) {
+    Object.keys(s.viste).forEach(function (k) {
+      s.viste[k].voci.forEach(function (v) {
+        if (v.inizio && v.inizio > adesso) ev.push({ v: v, quando: v.inizio, tipo: s.titolo + " · parte" });
+        else if (k === "adesso" && v.fine && v.fine > adesso && v.fine - adesso < 48 * 36e5) ev.push({ v: v, quando: v.fine, tipo: s.titolo + " · scade" });
+      });
+    });
+  });
+  return ev.sort(function (a, b) { return a.quando - b.quando; });
 }
 
 var DISEGNA = {
   home: function (m) {
-    var L = D.leak, oggi = Date.now() - 864e5;
-    var eroe = entra(vetro("eroe brilla"), 0);
-    var sx = el("div"); sx.appendChild(el("h1", null, "Tutto quello che EA sta facendo"));
+    var eroe = entra(vetro("eroe brilla"), 0), sx = el("div");
+    sx.appendChild(el("h1", null, "Tutto quello che EA sta preparando"));
+    sx.appendChild(el("p", "sotto", "SBC, obiettivi, pacchetti, evoluzioni, promo e price range: cosa c'è adesso, cosa arriva, cosa è cambiato. Aggiornato " + data(D.pubblicato) + "."));
     eroe.appendChild(sx);
     var radar = el("div", "radar");
     [[28, 34, 0], [70, 26, .8], [62, 70, 1.6], [30, 66, 2.3]].forEach(function (b) { var p = el("span", "blip"); p.style.left = b[0] + "%"; p.style.top = b[1] + "%"; p.style.animationDelay = b[2] + "s"; radar.appendChild(p); });
     eroe.appendChild(radar); m.appendChild(eroe);
-
-    var dati = [
-      ["novita", "🗞", "novità nelle ultime 24 ore", D.storico.filter(function (x) { return x.ts > oggi && !FUORI_DA_NOVITA[x.fonte]; }).length],
-      ["leak", "💎", "promo a database in arrivo", L.versioniVuote.length],
-      ["leak", "🎁", "pacchetti a database", L.pacchetti.length],
-      ["sbc", "🧩", "SBC attive", D.sbc.length],
-      ["leak", "🔮", "cose con la data d'uscita", L.inArrivo.length],
-      ["pricerange", "💱", "price range cambiati (24h)", D.priceRange.filter(function (x) { return (Date.parse(x.quando) || x.visto) > oggi; }).length]
+    var ieri = Date.now() - 864e5;
+    var k = [
+      ["leak", "🔮", "in arrivo o a database", D.leak.attesa.length],
+      ["sbc", "🧩", "SBC attive", voci("sbc", "adesso").length],
+      ["notizie", "🗞", "notizie nelle ultime 24 ore", D.notizie.filter(function (x) { return x.ora > ieri; }).length],
+      ["versioni", "💎", "versioni nascoste o in arrivo", voci("versioni", "arrivo").length],
+      ["obiettivi", "🎯", "obiettivi attivi", voci("obiettivi", "adesso").length],
+      ["prezzi", "💱", "price range cambiati (24 ore)", voci("prezzi", "adesso").filter(function (v) { return v.prezzo && v.prezzo.osservato > ieri; }).length]
     ];
-    var k = el("div", "kpi");
-    dati.forEach(function (d, i) { var a = entra(el("a", "vetro"), i + 1); a.href = "#" + d[0]; a.appendChild(el("span", "ico", d[1])); a.appendChild(contatore(d[3])); a.appendChild(el("div", "lab", d[2])); k.appendChild(a); });
-    m.appendChild(k);
-
+    var g = el("div", "kpi");
+    k.forEach(function (d, i) { var a = entra(el("a", "vetro"), i + 1); a.href = "#" + d[0]; a.appendChild(el("span", "ico", d[1])); a.appendChild(contatore(d[3])); a.appendChild(el("div", "lab", d[2])); g.appendChild(a); });
+    m.appendChild(g);
     var ev = prossimiEventi();
-    titolo(m, "⏱ Prossimi eventi", ev.length);
-    if (!ev.length) m.appendChild(vuoto("Nessuna data annunciata né SBC in scadenza nelle prossime 48 ore."));
-    ev.slice(0, 8).forEach(function (x, i) {
-      var c = entra(vetro("scheda"), i); var r = el("div", "riga");
-      var sx = el("div"); sx.style.flex = "1"; sx.appendChild(el("div", "s", x.tipo)); sx.appendChild(el("div", "t", x.t)); r.appendChild(sx);
+    titolo(m, "⏱ Prossimi eventi", ev.length, "Partenze annunciate da EA e scadenze delle prossime 48 ore.");
+    if (!ev.length) m.appendChild(vuoto("Nessuna data annunciata né scadenza nelle prossime 48 ore."));
+    ev.slice(0, 12).forEach(function (x, i) {
+      var c = entra(vetro("scheda"), i), r = el("div", "riga"), sx = el("div"); sx.style.flex = "1";
+      sx.appendChild(el("div", "s", x.tipo + " " + data(x.quando))); sx.appendChild(el("div", "t", x.v.nome)); r.appendChild(sx);
       var cc = el("div", "conto", manca(x.quando)); cc.dataset.fino = x.quando; r.appendChild(cc); c.appendChild(r); m.appendChild(c);
     });
-
-    titolo(m, "📆 Calendario EA", null, "Il ritmo abituale di EA (19:00 italiane). Abitudine, non date ufficiali.");
-    [["Contenuti del giorno", null, "🗓"], ["Squadra della settimana (mercoledì)", 3, "🏆"], ["Promo della settimana (di solito venerdì)", 5, "💎"]].forEach(function (x, i) {
-      var c = entra(vetro("scheda"), i); var r = el("div", "riga"); var sx = el("div"); sx.style.flex = "1";
+    titolo(m, "📆 Calendario EA", null, "Il ritmo abituale di EA, alle 19:00 italiane: un'abitudine, non date ufficiali.");
+    [["Contenuti del giorno", null, "🗓"], ["Squadra della settimana (mercoledì)", 3, "⭐"], ["Promo della settimana (di solito venerdì)", 5, "💎"]].forEach(function (x, i) {
+      var c = entra(vetro("scheda"), i), r = el("div", "riga"), sx = el("div"); sx.style.flex = "1";
       sx.appendChild(el("div", "s", x[2] + " " + data(prossimaOra(x[1])))); sx.appendChild(el("div", "t", x[0])); r.appendChild(sx);
       var cc = el("div", "conto", manca(prossimaOra(x[1]))); cc.dataset.fino = prossimaOra(x[1]); r.appendChild(cc); c.appendChild(r); m.appendChild(c);
     });
-
-    var ind = (L.indizi || []).filter(function (x) { return x.indizi.length; });
-    titolo(m, "🧭 Prossima promo", null, "Stima dagli indizi: quale promo a database EA sta già nominando (dizionario, pacchetti, news, banner).");
-    if (!ind.length) m.appendChild(vuoto("Ancora nessun indizio: appena EA nomina una delle promo a database, compare qui."));
-    ind.slice(0, 3).forEach(function (x, i) {
-      var c = entra(vetro("scheda brilla"), i); var r = el("div", "riga");
-      if (x.immagine) { var im = immagine(x.immagine, x.titolo); im.style.height = "74px"; im.style.marginRight = "8px"; r.appendChild(im); }
-      var sx = el("div"); sx.style.flex = "1"; sx.appendChild(el("div", "t", (i === 0 ? "👑 " : "") + (x.nomeIt || x.titolo)));
-      sx.appendChild(el("div", "s", x.indizi.length + (x.indizi.length === 1 ? " indizio" : " indizi") + " · ID " + x.id)); r.appendChild(sx); c.appendChild(r);
-      var u = el("ul", "el"); x.indizi.slice(0, 5).forEach(function (z) { u.appendChild(el("li", "s", (NOMI_FONTE[z.fonte] || z.fonte) + ": " + z.titolo)); }); c.appendChild(u);
-      if (i === 0) { var q = el("div", "motivo", "⏱ Se esce alla prossima finestra promo: fra " + manca(prossimaOra(5)) + " (stima)"); c.appendChild(q); }
-      m.appendChild(c);
-    });
-
-    if (L.versioniVuote.length) {
-      titolo(m, "💎 Promo in arrivo", L.versioniVuote.length, "Versioni di carta che EA ha già a database e non ha ancora pubblicato. Scorri →");
-      var n = el("div", "nastro"); L.versioniVuote.forEach(function (x) { n.appendChild(cartaPromo(x)); }); m.appendChild(n);
+    var conf = D.leak.confermati.slice(0, 3);
+    if (conf.length) {
+      titolo(m, "✅ Ultimi leak confermati", D.leak.confermati.length);
+      conf.forEach(function (v, i) { m.appendChild(schedaLeak(v, i)); });
     }
-    titolo(m, "📬 Ultime notifiche", D.notifiche.length);
-    if (!D.notifiche.length) m.appendChild(vuoto("Ancora nessuna notifica archiviata."));
-    D.notifiche.slice(0, 5).forEach(function (x, i) { m.appendChild(schedaNotifica(x, i)); });
-    if (D.notifiche.length > 5) { var a = el("a", null, "→ tutte le notifiche"); a.href = "#archivio"; m.appendChild(a); }
+    titolo(m, "🗞 Ultime notizie", D.notizie.length);
+    if (!D.notizie.length) m.appendChild(vuoto("Ancora nessuna notizia."));
+    D.notizie.slice(0, 6).forEach(function (x, i) { m.appendChild(schedaNotifica(x, i)); });
+    if (D.notizie.length > 6) { var a = el("a", null, "→ tutte le notizie"); a.href = "#notizie"; m.appendChild(a); }
   },
 
-  novita: function (m) {
-    m.appendChild(el("h1", null, "🗞 Novità"));
-    m.appendChild(el("p", "sotto", "Tutto quello che è uscito questa settimana. Price range e carte nuove hanno la loro sezione, più precisa."));
-    m.appendChild(cercaBox("novita"));
-    var lista = D.storico.filter(function (x) { return !FUORI_DA_NOVITA[x.fonte]; });
-    var fonti = []; lista.forEach(function (x) { if (fonti.indexOf(x.fonte) < 0) fonti.push(x.fonte); });
-    m.appendChild(filtriChip("novitaFonte", fonti, NOMI_FONTE));
-    var ult = "", n = 0, box = null;
-    lista.forEach(function (x) {
-      if (filtri.novitaFonte && x.fonte !== filtri.novitaFonte) return;
-      if (!trova(x.titolo, "novita")) return;
-      var g = giorno(x.ts); if (g !== ult) { m.appendChild(el("div", "giorno", g)); box = el("div", "linea"); m.appendChild(box); ult = g; }
-      var c = entra(vetro("scheda"), n++);
-      var r = el("div", "riga"); r.appendChild(chip((ICONE_FONTE[x.fonte] || "•") + " " + (NOMI_FONTE[x.fonte] || x.fonte), x.fonte === "leak" ? "p" : "c"));
-      r.appendChild(el("span", "s", ora(x.ts))); c.appendChild(r);
-      var t = el("div", "t", x.titolo); t.style.marginTop = "6px"; c.appendChild(t);
-      if (x.url) c.appendChild(link(x.url)); box.appendChild(c);
-    });
-    if (!n) m.appendChild(vuoto("Niente in questa settimana."));
+  notizie: function (m) {
+    m.appendChild(el("h1", null, "🗞 Notizie"));
+    m.appendChild(el("p", "sotto", "Ogni notizia per intero, come arriva su Telegram (7 giorni), anche quelle consegnate in silenzio di notte."));
+    m.appendChild(cercaBox("not"));
+    var sez = []; D.notizie.forEach(function (x) { if (sez.indexOf(x.sezione) < 0) sez.push(x.sezione); });
+    var nomi = {}; D.sezioni.forEach(function (s) { nomi[s.id] = s.titolo; }); nomi.leak = "🔮 Leak";
+    m.appendChild(filtriChip("notSez", sez, nomi));
+    var lista = D.notizie.filter(function (x) { return (!filtri.notSez || x.sezione === filtri.notSez) && trova(x.testo.replace(/<[^>]+>/g, " "), "not"); });
+    if (!perGiorno(m, lista, "ora", schedaNotifica)) m.appendChild(vuoto("Nessuna notizia."));
   },
 
   leak: function (m) {
-    var L = D.leak;
-    m.appendChild(el("h1", null, "🔮 Leak e cose in arrivo"));
-    m.appendChild(el("p", "sotto", "Quello che EA ha già a database o in calendario, e che in gioco non c'è ancora."));
-
-    titolo(m, "⏱ In arrivo", L.inArrivo.length);
-    if (!L.inArrivo.length) m.appendChild(vuoto("Nessuna data annunciata."));
-    L.inArrivo.forEach(function (x, i) {
-      var c = entra(vetro("scheda"), i); var r = el("div", "riga"); var sx = el("div"); sx.style.flex = "1";
-      sx.appendChild(el("div", "s", (x.famiglia === "sbc" ? "🧩 SBC" : x.famiglia === "radar" ? "🛰 " + (x.tipo || "EA") : "🎯 Obiettivo") + " · parte " + data(x.inizio))); sx.appendChild(el("div", "t", x.titolo)); r.appendChild(sx);
-      var cc = el("div", "conto", manca(x.inizio)); cc.dataset.fino = x.inizio; r.appendChild(cc); c.appendChild(r); m.appendChild(c);
-    });
-
-    titolo(m, "💎 Promo a database senza carte", L.versioniVuote.length, "Il design c'è già: le carte no.");
-    var g = el("div", "griglia"); L.versioniVuote.forEach(function (x, i) { g.appendChild(entra(cartaPromo(x), i)); }); m.appendChild(g);
-    if (!L.versioniVuote.length) m.appendChild(vuoto("Nessuna promo in attesa."));
-
-    var soloEa = (D.versioniEa || []).filter(function (v) { return v.shell === 2 && !v.futgg; });
-    var cd = L.carteDescritte || [];
-    titolo(m, "🕵️ Carte speciali descritte nei file di EA", cd.length, "Il dizionario della Web App ha la descrizione di queste carte: chi sono e come si aggiorneranno.");
-    if (!cd.length) m.appendChild(vuoto("Nessuna nuova da quando lo guardo: appena EA ne aggiunge, compaiono qui."));
-    cd.forEach(function (c, i) {
-      var s = entra(vetro("scheda brilla"), i); var r = el("div", "riga"); var t = el("div", "t", (c.nome || ("giocatore #" + c.base)) + (c.rating ? " " + c.rating : "")); t.style.flex = "1"; r.appendChild(t);
-      r.appendChild(chip(c.icona ? "icona/eroe" : "versione speciale", "p")); s.appendChild(r);
-      s.appendChild(el("div", "s", data(c.ts) + " · carta " + c.id)); var d = el("div", null, c.testo); d.style.marginTop = "6px"; s.appendChild(d); m.appendChild(s);
-    });
-
-    titolo(m, "🎨 Nei file di EA, e non su fut.gg", soloEa.length, "Versioni di carta col design già caricato da EA nella Web App. Il leak più diretto che esista.");
-    if (!soloEa.length) m.appendChild(vuoto("Nessuna, per ora."));
-    var ge = el("div", "griglia"); soloEa.forEach(function (v, i) { ge.appendChild(entra(cartaEa(v), i)); }); m.appendChild(ge);
-
-    titolo(m, "🎁 Pacchetti a database, non ancora in negozio", L.pacchetti.length, "Dal file pubblico dei nomi del negozio EA.");
-    if (!L.pacchetti.length) m.appendChild(vuoto("Nessuno per ora."));
-    L.pacchetti.forEach(function (x, i) {
-      var c = entra(vetro("scheda brilla"), i); c.appendChild(el("div", "t", x.nome));
-      var r = el("div", "riga"); r.style.marginTop = "4px"; r.appendChild(chip("#" + x.id)); r.appendChild(chip(x.dal ? "comparso " + data(x.dal) : "numerato dopo l'ultimo in negozio", "o")); c.appendChild(r);
-      if (x.descrizione) { var d = el("div", null, x.descrizione); d.style.marginTop = "6px"; c.appendChild(d); }
-      m.appendChild(c);
-    });
-
-    var reg = L.registro || [];
-    titolo(m, "✅ Leak → uscita ufficiale", reg.length, "Ogni cosa vista in anticipo, e quando è uscita davvero (banner EA, SBC, obiettivi, negozio).");
-    if (!reg.length) m.appendChild(vuoto("Il registro si riempie da solo coi prossimi leak."));
-    reg.slice(0, 60).forEach(function (x, i) {
-      var c = entra(vetro("scheda"), i); var r = el("div", "riga"); var t = el("div", "t", x.nome); t.style.flex = "1"; r.appendChild(t);
-      r.appendChild(x.uscito ? chip("✅ uscito " + durataBreve(x.uscito - x.visto) + " dopo", "v") : chip("🔮 in attesa da " + durataBreve(Date.now() - x.visto), "o"));
-      c.appendChild(r);
-      c.appendChild(el("div", "s", "visto " + data(x.visto) + " · " + (NOMI_FONTE[x.fonte] || x.fonte) + (x.uscita ? " → uscito: " + x.uscita.titolo : "")));
-      m.appendChild(c);
-    });
-
-    titolo(m, "✨ Carte speciali osservate", D.carteNuove.length, "Ogni voce indica la prova: catalogo FUT.GG oppure risposta o file pubblico EA. L'ora FUT.GG registra l'aggiornamento del catalogo.");
-    if (!D.carteNuove.length) m.appendChild(vuoto("Nessuna in questa settimana."));
-    D.carteNuove.forEach(function (x, i) {
-      var c = entra(vetro("scheda"), i); c.appendChild(el("div", "t", x.titolo));
-      var prova = x.evidenza || (x.url && String(x.url).toLowerCase().indexOf("fut.gg/") !== -1 ? "Catalogo pubblico FUT.GG" : "Fonte non registrata");
-      var s = el("div", "s", data(x.ts) + " · " + prova + " "); if (x.url) s.appendChild(link(x.url)); c.appendChild(s); m.appendChild(c);
-    });
-
-    var gi = L.giocatori || [];
-    titolo(m, "👥 Database giocatori EA", gi.length, "Giocatori e icone appena messi a database, e valutazioni cambiate (30 giorni).");
-    if (!gi.length) m.appendChild(vuoto("Nessun cambio da quando lo guardo."));
-    gi.forEach(function (x, i) {
-      var c = entra(vetro("scheda"), i); var r = el("div", "riga");
-      r.appendChild(el("span", "t", (x.leggenda ? "👑 " : "") + x.nome));
-      if (x.prima !== undefined) { r.appendChild(chip(x.prima + " → " + x.rating, x.rating > x.prima ? "v" : "r")); } else { r.appendChild(chip(x.rating + " · nuovo", "v")); }
-      c.appendChild(r); c.appendChild(el("div", "s", data(x.ts) + " · #" + x.id)); m.appendChild(c);
-    });
-
-    if (L.pass) {
-      titolo(m, "📅 Pass stagionale · " + L.pass.titolo, L.pass.carte.length, "⭐ = pass premium.");
-      var p = el("div", "pass");
-      L.pass.carte.forEach(function (x, i) {
-        var c = entra(el("div", "livello" + (x.premium ? " prem" : "")), i);
-        c.appendChild(el("div", "lv", "LIVELLO " + x.livello + (x.premium ? " ⭐" : ""))); c.appendChild(el("div", "t", x.nome));
-        if (x.prestito) c.appendChild(el("div", "s", "in prestito")); p.appendChild(c);
-      });
-      m.appendChild(p);
-    }
-
-    var dz = D.dizionario.filter(function (x) { return x.categoria !== "altro"; }).slice(0, 30);
-    titolo(m, "📖 Dal dizionario EA", dz.length, "Nomi comparsi nei testi della Web App: spesso prima che la cosa esca.");
-    dz.forEach(function (x, i) { m.appendChild(rigaDiz(x, i)); });
-    var a = el("a", null, "→ tutto il dizionario"); a.href = "#dizionario"; m.appendChild(a);
-  },
-
-  sbc: function (m) {
-    m.appendChild(el("h1", null, "🧩 SBC attive"));
-    m.appendChild(el("p", "sotto", D.sbc.length + " SBC, dalla più vicina alla scadenza. Tocca «sfide» per requisiti e modulo."));
-    m.appendChild(cercaBox("sbc"));
-    var l = D.sbc.slice().sort(function (a, b) { return new Date(a.scadenza || "2100") - new Date(b.scadenza || "2100"); }), n = 0;
-    l.forEach(function (x) {
-      if (!trova(x.titolo + " " + x.titoloFutgg + " " + x.categoria, "sbc")) return;
-      var ore = (new Date(x.scadenza) - Date.now()) / 36e5;
-      var c = entra(vetro("scheda sbc " + (ore < 12 ? "rosso" : ore < 48 ? "giallo" : ore > 365 * 24 ? "fissa" : "")), n++);
-      var r = el("div", "riga"); var t = el("div", "t", x.titolo); t.style.flex = "1"; r.appendChild(t);
-      if (x.scadenza) { var cc = el("div", "conto", manca(x.scadenza)); cc.dataset.fino = x.scadenza; r.appendChild(cc); }
-      c.appendChild(r);
-      var ch = el("div", "riga"); ch.style.marginTop = "6px";
-      if (x.categoria) ch.appendChild(chip(x.categoria)); if (x.costo) ch.appendChild(chip("~" + num(x.costo) + " coins", "o"));
-      ch.appendChild(chip(x.ripetibile ? "🔁 " + x.ripetibile : "non ripetibile", x.ripetibile ? "c" : "")); c.appendChild(ch);
-      if (x.descrizione) { var d = el("div", null, x.descrizione); d.style.marginTop = "8px"; c.appendChild(d); }
-      if (x.premi.length) { var p = el("div", null, "🎁 " + x.premi.join(" · ")); p.style.marginTop = "6px"; c.appendChild(p); }
-      x.cartePremio.forEach(function (p) { c.appendChild(el("div", "s", "🎴 " + p.nome + " " + p.rating + " " + (p.posizione || "") + (p.rarita ? " · " + p.rarita : "") + (p.club ? " · " + p.club : ""))); });
-      if (x.sfide.length) {
-        var dd = el("details"); dd.appendChild(el("summary", null, x.sfide.length + (x.sfide.length === 1 ? " sfida" : " sfide")));
-        x.sfide.forEach(function (f, i) {
-          var b = el("div", "sfida"); b.appendChild(el("b", null, (i + 1) + " — " + f.nome));
-          if (f.modulo) b.appendChild(chip("📐 " + f.modulo, "c"));
-          if (f.descrizione) b.appendChild(el("div", "s", f.descrizione));
-          var u = el("ul", "req"); f.requisiti.forEach(function (q) { u.appendChild(el("li", null, q)); }); b.appendChild(u);
-          if (f.premi.length) b.appendChild(el("div", "s", "🎁 " + f.premi.join(" · ")));
-          if (f.soluzione) b.appendChild(el("div", "s", "💡 soluzione più economica: " + num(f.soluzione) + " coins"));
-          dd.appendChild(b);
-        });
-        c.appendChild(dd);
-      }
-      if (x.url) { var z = el("div"); z.style.marginTop = "8px"; z.appendChild(link(x.url, "fut.gg ↗")); c.appendChild(z); }
-      m.appendChild(c);
-    });
-    if (!n) m.appendChild(vuoto("Nessuna SBC."));
-  },
-
-  promo: function (m) {
-    m.appendChild(el("h1", null, "💎 Versioni di carta"));
-    m.appendChild(el("p", "sotto", "Versioni e conteggi carte dal catalogo FUT.GG; nomi italiani e design, quando disponibili, dai file EA. Il conteggio segnala quanto FUT.GG elenca."));
-    m.appendChild(cercaBox("promo", "Cerca una promo o una carta…"));
-    var g = el("div", "griglia"), n = 0;
-    D.versioni.forEach(function (x) { if (!trova(x.titolo + " " + x.nomeIt + " " + x.elenco.join(" "), "promo")) return; g.appendChild(entra(cartaPromo(x, true), n++)); });
-    m.appendChild(g); if (!n) m.appendChild(vuoto("Nessuna."));
-    var tutte = (D.versioniEa || []).filter(function (v) { return v.shell === 2 && trova(v.nome + " " + v.id, "promo"); });
-    titolo(m, "🎨 I design nei file di EA", tutte.length, "La tabella delle versioni che la Web App usa per disegnare le carte, coi design presi da EA.");
-    var g2 = el("div", "griglia"); tutte.forEach(function (v, i) { g2.appendChild(entra(cartaEa(v), i)); }); m.appendChild(g2);
-  },
-
-  pacchetti: function (m) {
-    m.appendChild(el("h1", null, "🎁 Pacchetti di quest'anno"));
-    m.appendChild(el("p", "sotto", "Nomi ufficiali dal file del negozio EA. «Non ancora visto» = mai comparso nello store dell'account esca."));
-    m.appendChild(cercaBox("pacchetti"));
-    m.appendChild(filtriChip("pacStato", ["attesa", "negozio"], { attesa: "Non ancora visti", negozio: "Visti in negozio" }));
-    var n = 0;
-    D.pacchetti.forEach(function (x) {
-      if (filtri.pacStato === "attesa" && x.inNegozio) return; if (filtri.pacStato === "negozio" && !x.inNegozio) return;
-      if (!trova(x.nome + " " + x.descrizione, "pacchetti")) return;
-      var c = entra(vetro("scheda"), n++); var r = el("div", "riga"); var t = el("div", "t", x.nome); t.style.flex = "1"; r.appendChild(t);
-      r.appendChild(chip(x.inNegozio ? "visto in negozio" : "non ancora visto", x.inNegozio ? "v" : "o")); c.appendChild(r);
-      c.appendChild(el("div", "s", "#" + x.id)); if (x.descrizione) { var d = el("div", null, x.descrizione); d.style.marginTop = "6px"; c.appendChild(d); }
-      m.appendChild(c);
-    });
-    if (!n) m.appendChild(vuoto("Nessuno."));
-  },
-
-  pricerange: function (m) {
-    m.appendChild(el("h1", null, "💱 Price range"));
-    m.appendChild(el("p", "sotto", "Limiti di prezzo che EA ha cambiato questa settimana, e cosa vuol dire. Sono carte che esistevano già."));
-    m.appendChild(cercaBox("pr", "Cerca un giocatore…"));
-    m.appendChild(filtriChip("prDir", ["su", "giu"], { su: "⬆️ Alzati", giu: "⬇️ Abbassati" }));
-    var n = 0, ult = "";
-    D.priceRange.forEach(function (x) {
-      var dir = x.direzione || "";
-      if (filtri.prDir && dir !== filtri.prDir) return; if (!trova(x.titolo, "pr")) return;
-      var ts = Date.parse(x.quando) || x.visto; var g = giorno(ts); if (g !== ult) { m.appendChild(el("div", "giorno", g)); ult = g; }
-      var c = entra(vetro("scheda pr"), n++);
-      var r = el("div", "riga"); var t = el("div", "t", x.titolo + (x.rating ? " " + x.rating : "")); t.style.flex = "1"; r.appendChild(t);
-      r.appendChild(el("span", "s", ora(ts))); c.appendChild(r);
-      var v = el("div", "riga"); v.style.marginTop = "8px";
-      function coppia(nome, p, d) { var b = el("div"); b.appendChild(el("div", "s", nome)); var z = el("div", "val"); z.appendChild(document.createTextNode(num(p) + " → ")); z.appendChild(el("span", d > p ? "su" : d < p ? "giu" : null, num(d) + (d > p ? " ▲" : d < p ? " ▼" : ""))); b.appendChild(z); return b; }
-      if (x.prima && x.dopo) { v.appendChild(coppia("Minimo", x.prima.min, x.dopo.min)); var sp = el("div"); sp.style.width = "18px"; v.appendChild(sp); v.appendChild(coppia("Massimo", x.prima.max, x.dopo.max)); }
-      else { var z = el("div", "val"); z.appendChild(document.createTextNode((x.intervalloPrima || "?") + " → ")); z.appendChild(el("span", dir === "su" ? "su" : dir === "giu" ? "giu" : null, x.intervallo || "")); v.appendChild(z); }
-      c.appendChild(v);
-      if (x.motivo) c.appendChild(el("div", "motivo", "💬 " + x.motivo));
-      if (x.url) { var w = el("div"); w.style.marginTop = "6px"; w.appendChild(link(x.url, "fut.gg ↗")); c.appendChild(w); }
-      m.appendChild(c);
-    });
-    if (!n) m.appendChild(vuoto("Nessun cambio."));
-  },
-
-  dizionario: function (m) {
-    m.appendChild(el("h1", null, "📖 Dizionario EA"));
-    m.appendChild(el("p", "sotto", "Voci nuove e cambiate nel file dei testi della Web App: EA ci scrive i nomi prima che le cose escano."));
-    m.appendChild(cercaBox("diz"));
-    var cat = []; D.dizionario.forEach(function (x) { if (cat.indexOf(x.categoria) < 0) cat.push(x.categoria); });
-    m.appendChild(filtriChip("dizCat", cat, CATEGORIE));
-    var ult = "", n = 0;
-    D.dizionario.forEach(function (x) {
-      if (filtri.dizCat && x.categoria !== filtri.dizCat) return; if (!trova(x.valore + " " + (x.prima || "") + " " + x.chiave, "diz")) return;
-      var g = giorno(x.ts); if (g !== ult) { m.appendChild(el("div", "giorno", g)); ult = g; }
-      m.appendChild(rigaDiz(x, n++));
-    });
-    if (!n) m.appendChild(vuoto("Nessuna voce nuova da quando lo guardo."));
-  },
-
-  archivio: function (m) {
-    m.appendChild(el("h1", null, "📬 Archivio notifiche"));
-    m.appendChild(el("p", "sotto", "Ogni notifica per intero, anche quelle che filtri o silenzio notturno hanno trattenuto (7 giorni)."));
-    m.appendChild(cercaBox("not"));
-    var fonti = []; D.notifiche.forEach(function (x) { if (fonti.indexOf(x.fonte) < 0) fonti.push(x.fonte); });
-    m.appendChild(filtriChip("notFonte", fonti, NOMI_FONTE));
-    var n = 0, ult = "";
-    D.notifiche.forEach(function (x) {
-      if (filtri.notFonte && x.fonte !== filtri.notFonte) return; if (!trova(x.testo, "not")) return;
-      var g = giorno(x.ts); if (g !== ult) { m.appendChild(el("div", "giorno", g)); ult = g; }
-      m.appendChild(schedaNotifica(x, n++));
-    });
-    if (!n) m.appendChild(vuoto("Nessuna notifica in questa settimana."));
+    m.appendChild(el("h1", null, "🔮 Leak"));
+    m.appendChild(el("p", "sotto", "Quello che EA ha già preparato e in gioco non c'è ancora; e i leak confermati, con quanto anticipo li abbiamo visti."));
+    m.appendChild(cercaBox("leak"));
+    var conData = D.leak.attesa.filter(function (v) { return v.inizio && trova(testoVoce(v), "leak"); });
+    var senza = D.leak.attesa.filter(function (v) { return !v.inizio && trova(testoVoce(v), "leak"); });
+    titolo(m, "⏱ In arrivo, con la data", conData.length);
+    if (!conData.length) m.appendChild(vuoto("Nessuna data annunciata."));
+    conData.forEach(function (v, i) { m.appendChild(schedaVoce(v, i)); });
+    titolo(m, "🗄 Pronti a database, senza data", senza.length, "Comparsi nei dati di EA dopo il primo sguardo: preparati, non ancora usciti.");
+    if (!senza.length) m.appendChild(vuoto("Niente, per quello che EA mostra adesso."));
+    senza.forEach(function (v, i) { m.appendChild(schedaVoce(v, i)); });
+    var conf = D.leak.confermati.filter(function (v) { return trova(testoVoce(v), "leak"); });
+    titolo(m, "✅ Leak confermati", conf.length, "Visti prima, poi usciti davvero (30 giorni).");
+    if (!conf.length) m.appendChild(vuoto("Il registro si riempie da solo coi prossimi leak."));
+    conf.forEach(function (v, i) { m.appendChild(schedaLeak(v, i)); });
   }
 };
+function schedaLeak(v, i) {
+  var c = schedaVoce(v, i), r = el("div", "riga"); r.style.marginTop = "8px";
+  r.appendChild(el("span", "anticipo", "⏩ " + durata(v.anticipo || 0) + " prima"));
+  r.appendChild(el("span", "s", "uscito " + data(v.uscita)));
+  c.insertBefore(r, c.querySelector("details") || c.querySelector(".id"));
+  return c;
+}
+/** Una sezione del menu: le sue viste, la ricerca, le voci */
+function disegnaSezione(m, s) {
+  m.appendChild(el("h1", null, s.titolo));
+  if (SOTTO[s.id]) m.appendChild(el("p", "sotto", SOTTO[s.id]));
+  var viste = Object.keys(s.viste).concat(["notizie"]), kv = "vista:" + s.id;
+  var vista = viste.indexOf(filtri[kv]) > -1 ? filtri[kv] : viste[0];
+  if (viste.length > 1) {
+    var box = el("div", "viste");
+    viste.forEach(function (k) {
+      var n = k === "notizie" ? notizieDi(s.id).length : s.viste[k].voci.length;
+      var b = el("span", "filtro" + (k === vista ? " on" : ""), VISTE[k] + " · " + n); b.onclick = function () { filtri[kv] = k; disegna(true); }; box.appendChild(b);
+    });
+    m.appendChild(box);
+  }
+  m.appendChild(cercaBox("q:" + s.id, s.id === "prezzi" ? "Cerca un giocatore…" : "Cerca…"));
+  if (vista === "notizie") {
+    var ln = notizieDi(s.id).filter(function (x) { return trova(x.testo.replace(/<[^>]+>/g, " "), "q:" + s.id); });
+    if (!perGiorno(m, ln, "ora", schedaNotifica)) m.appendChild(vuoto("Nessuna notizia negli ultimi 7 giorni."));
+    return;
+  }
+  var lista = s.viste[vista].voci;
+  if (s.id === "prezzi") {
+    m.appendChild(filtriChip("prDir", ["su", "giu"], { su: "⬆️ Alzati", giu: "⬇️ Abbassati" }));
+    var lp = lista.filter(function (v) { return (!filtri.prDir || direzione(v.prezzo) === filtri.prDir) && trova(v.prezzo.nome + " " + v.prezzo.ruolo, "q:prezzi"); });
+    if (!perGiorno(m, lp.map(function (v) { return { v: v, t: v.prezzo.osservato || 0 }; }), "t", function (x, i) { return schedaPrezzo(x.v, i); })) m.appendChild(vuoto("Nessun cambio negli ultimi 7 giorni."));
+    return;
+  }
+  var l = lista.filter(function (v) { return trova(testoVoce(v), "q:" + s.id); });
+  if (s.id === "versioni") {
+    var g = el("div", "griglia"); l.forEach(function (v, i) { g.appendChild(cartaVersione(v, i)); }); m.appendChild(g);
+  } else {
+    l.forEach(function (v, i) { m.appendChild(schedaVoce(v, i, l.length === 1)); });
+  }
+  if (!l.length) m.appendChild(vuoto(vista === "adesso" ? "Niente di attivo adesso." : "Niente in arrivo, per quello che EA mostra adesso."));
+  if (s.viste[vista].vecchie) m.appendChild(el("p", "nota", s.viste[vista].vecchie + " già a database al primo sguardo (c'erano da prima): non si elencano."));
+}
 
-function sezione() { var h = (location.hash || "#home").slice(1); h = ALIAS[h] || h; return DISEGNA[h] ? h : "home"; }
+function nomeSezione() {
+  var h = (location.hash || "#home").slice(1); h = ALIAS[h] || h;
+  return DISEGNA[h] || (D && sezione(h)) ? h : "home";
+}
 function contaSezione(k) {
   if (!D) return 0;
-  return { novita: D.storico.filter(function (x) { return !FUORI_DA_NOVITA[x.fonte]; }).length, leak: D.leak.versioniVuote.length + D.leak.pacchetti.length + D.leak.inArrivo.length,
-    sbc: D.sbc.length, promo: D.versioni.length, pacchetti: D.pacchetti.length, pricerange: D.priceRange.length, dizionario: D.dizionario.length, archivio: D.notifiche.length }[k];
+  if (k === "notizie") return D.notizie.length;
+  if (k === "leak") return D.leak.attesa.length;
+  var s = sezione(k); if (!s) return 0;
+  return s.viste.adesso ? s.viste.adesso.voci.length : notizieDi(k).length;
 }
 function disegna(soloContenuto) {
-  var s = sezione(), nav = document.getElementById("nav");
+  var nav = document.getElementById("nav"), m = document.getElementById("main");
+  if (!D && BUSTA && !ACCESSO) { mostraPorta(); return; }
+  if (!D) { m.innerHTML = ""; m.appendChild(vuoto("Dati non ancora disponibili.")); return; }
+  var s = nomeSezione();
   nav.innerHTML = "";
-  SEZIONI.forEach(function (x) {
+  FISSE.concat(D.sezioni.map(function (x) { var p = x.titolo.split(" "); return [x.id, p[0], p.slice(1).join(" ")]; })).forEach(function (x) {
     var a = el("a", x[0] === s ? "on" : null); a.href = "#" + x[0]; a.appendChild(document.createTextNode(x[1] + " " + x[2]));
     var n = contaSezione(x[0]); if (n) a.appendChild(el("span", "n", String(n))); nav.appendChild(a);
   });
   var on = nav.querySelector(".on"); if (on && on.scrollIntoView && !soloContenuto) { try { on.scrollIntoView({ inline: "center", block: "nearest" }); } catch (e) {} }
-  var m = document.getElementById("main");
-  if (!D && BUSTA && !ACCESSO) { mostraPorta(); return; }
   m.innerHTML = "";
-  if (!D) { m.appendChild(vuoto("Dati non ancora disponibili.")); return; }
-  DISEGNA[s](m); animaContatori();
+  if (DISEGNA[s]) DISEGNA[s](m); else disegnaSezione(m, sezione(s));
+  animaContatori();
 }
 function statoVivo() {
-  var vivo = D && D.ultimoGiro && Date.now() - D.ultimoGiro < 45 * 6e4;
+  var vivo = D && D.pubblicato && Date.now() - D.pubblicato < 45 * 6e4;
   document.getElementById("punto").className = "led " + (D ? (vivo ? "ok" : "ko") : "");
-  document.getElementById("vivo").textContent = D ? (vivo ? "watcher attivo" : "watcher fermo dalle " + ora(D.ultimoGiro)) : "offline";
+  document.getElementById("vivo").textContent = D ? (vivo ? "Oracolo attivo" : "fermo dal " + data(D.pubblicato)) : "offline";
   var piede = document.getElementById("piede"); piede.innerHTML = "";
   if (D) {
-    piede.appendChild(document.createTextNode("Dati pubblicati " + data(D.pubblicato) + " · "));
+    piede.appendChild(document.createTextNode("Dati pubblicati " + data(D.pubblicato) + (D.ultimaLettura ? " · ultimo controllo " + data(D.ultimaLettura) : "") + " · "));
     var x = el("a", null, "🔒 esci da questo dispositivo"); x.onclick = esci; piede.appendChild(x);
   }
 }
-function carica() {
-  fetch(FONTE.api, { headers: { Accept: "application/vnd.github.raw+json" }, cache: "no-store" })
+function scarica() {
+  if (!FONTE.api) return fetch(FONTE.raw + "?t=" + Date.now(), { cache: "no-store" }).then(function (r) { return r.json(); });
+  return fetch(FONTE.api, { headers: { Accept: "application/vnd.github.raw+json" }, cache: "no-store" })
     .then(function (r) { if (!r.ok) throw 0; return r.json(); })
-    .catch(function () { return fetch(FONTE.raw + "?t=" + Date.now()).then(function (r) { return r.json(); }); })
-    .then(async function (busta) {
-      BUSTA = busta;
-      scriviLS("fut-radar-chiave", null);                      // formato della v7.15, non serve più
-      // Il link del proprietario: la chiave sta dopo "#k=" e non va mai al server
-      var m = (location.hash || "").match(/^#k=([A-Za-z0-9_-]{16,})/);
-      if (m) {
-        try { history.replaceState(null, "", location.pathname + "#home"); } catch (e) {}
-        var kk = await derivaKek(m[1], busta.iterAdmin);
-        if (await cercaAccesso(kk, "admin")) { ACCESSO = { id: "admin", kek: b64e(kk) }; scriviLS(ACCESSO_LS, JSON.stringify(ACCESSO)); }
-      }
-      if (!ACCESSO && leggiLS(ACCESSO_LS)) { try { ACCESSO = JSON.parse(leggiLS(ACCESSO_LS)); } catch (e) {} }
-      if (!ACCESSO) { mostraPorta(); return; }
-      var r = await cercaAccesso(b64d(ACCESSO.kek), ACCESSO.id);
-      if (!r) { ACCESSO = null; scriviLS(ACCESSO_LS, null); mostraPorta("Questo accesso non è più valido: chiedi un codice nuovo."); return; }
-      var d; try { d = JSON.parse(new TextDecoder().decode(await aesApri(r.k, busta.dati))); } catch (e) { mostraPorta(); return; }
-      NOME = r.id === "admin" ? "" : r.nome; filigrana();
-      var primo = !D; D = d; statoVivo(); if (primo || !document.activeElement || document.activeElement.className !== "cerca") disegna(!primo);
-    })
-    .catch(function () { statoVivo(); if (!D && !BUSTA) disegna(); });
+    .catch(function () { return fetch(FONTE.raw + "?t=" + Date.now()).then(function (r) { return r.json(); }); });
 }
-
-// LA PORTA: il tastierino del codice
+function carica() {
+  scarica().then(async function (busta) {
+    BUSTA = busta;
+    // il link del proprietario: la chiave sta dopo "#k=" e non va mai al server
+    var k = (location.hash || "").match(/^#k=([A-Za-z0-9_-]{16,})/);
+    if (k) {
+      try { history.replaceState(null, "", location.pathname + "#home"); } catch (e) {}
+      var kk = await derivaKek(busta, k[1], busta.iterAdmin);
+      if (await cercaAccesso(busta, kk, "admin")) { ACCESSO = { id: "admin", kek: b64e(kk) }; scriviLS(ACCESSO_LS, JSON.stringify(ACCESSO)); }
+    }
+    if (!ACCESSO && leggiLS(ACCESSO_LS)) { try { ACCESSO = JSON.parse(leggiLS(ACCESSO_LS)); } catch (e) {} }
+    if (!ACCESSO) { mostraPorta(); return; }
+    var r = await cercaAccesso(busta, b64d(ACCESSO.kek), ACCESSO.id);
+    if (!r) { ACCESSO = null; scriviLS(ACCESSO_LS, null); mostraPorta("Questo accesso non è più valido: chiedi un codice nuovo."); return; }
+    var d; try { d = await apriDati(busta, r.k); } catch (e) { mostraPorta(); return; }
+    NOME = r.id === "admin" ? "" : r.nome; filigrana();
+    var primo = !D; D = d; statoVivo();
+    if (primo || !document.activeElement || document.activeElement.className !== "cerca") disegna(!primo);
+  }).catch(function () { statoVivo(); if (!D && !BUSTA) disegna(); });
+}
 function mostraPorta(avviso) {
   document.getElementById("nav").innerHTML = "";
   document.getElementById("vivo").textContent = "protetto";
@@ -749,19 +600,14 @@ function mostraPorta(avviso) {
   var err = el("div", "errore"); p.appendChild(err);
   var campo = el("input"); campo.type = "password"; campo.inputMode = "numeric"; campo.autocomplete = "off"; campo.id = "codice";
   campo.setAttribute("aria-label", "Codice di accesso"); campo.style.position = "absolute"; campo.style.opacity = "0"; campo.style.width = "1px"; p.appendChild(campo);
-  function aggiorna() {
-    cifre.innerHTML = ""; for (var i = 0; i < CODICE_LEN; i++) cifre.appendChild(el("span", i < digitato.length ? "piena" : "", i < digitato.length ? "•" : ""));
-  }
+  function aggiorna() { cifre.innerHTML = ""; for (var i = 0; i < CODICE_LEN; i++) cifre.appendChild(el("span", i < digitato.length ? "piena" : "", i < digitato.length ? "•" : "")); }
   async function prova() {
     if (!digitato) return;
     err.textContent = ""; var v = el("div", "verifica", "Verifico…"); p.appendChild(v);
-    var kk = await derivaKek(digitato, BUSTA.iterCodice);
-    var r = await cercaAccesso(kk);
+    var kk = await derivaKek(BUSTA, digitato, BUSTA.iterCodice);
+    var r = await cercaAccesso(BUSTA, kk);
     v.remove();
-    if (!r) {
-      digitato = ""; aggiorna(); err.textContent = "Codice errato";
-      p.classList.remove("scuoti"); void p.offsetWidth; p.classList.add("scuoti"); return;
-    }
+    if (!r) { digitato = ""; aggiorna(); err.textContent = "Codice errato"; p.classList.remove("scuoti"); void p.offsetWidth; p.classList.add("scuoti"); return; }
     ACCESSO = { id: r.id, kek: b64e(kk) }; if (ricordaBox.checked) scriviLS(ACCESSO_LS, JSON.stringify(ACCESSO));
     digitato = ""; carica();
   }
@@ -785,9 +631,7 @@ function mostraPorta(avviso) {
   document.getElementById("piede").textContent = "";
 }
 function esci() { scriviLS(ACCESSO_LS, null); ACCESSO = null; D = null; NOME = ""; filigrana(); mostraPorta("Sei uscito da questo dispositivo."); }
-
-// FILIGRANA: il nome di chi guarda, ripetuto in diagonale su tutto lo schermo.
-// Non impedisce una foto (nessuna pagina web può farlo), ma dice di chi è.
+// FILIGRANA: il nome di chi guarda, in diagonale su tutto lo schermo
 function filigrana() {
   var f = document.getElementById("filigrana");
   if (!NOME) { f.style.backgroundImage = "none"; return; }
@@ -796,21 +640,18 @@ function filigrana() {
     'font-family="Inter,Arial,sans-serif" font-size="17" font-weight="700" fill="rgba(234,241,255,.10)">' + testo + '</text></svg>';
   f.style.backgroundImage = 'url("data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg) + '")';
 }
-// Fuori dal primo piano (anteprima fra le app, altra scheda) la pagina si oscura
 function oscura(si) { document.body.classList.toggle("oscurata", !!si); }
 window.addEventListener("blur", function () { oscura(true); });
 window.addEventListener("focus", function () { oscura(false); });
-document.addEventListener("visibilitychange", function () { oscura(document.hidden); });
+document.addEventListener("visibilitychange", function () { oscura(document.hidden); if (!document.hidden) carica(); });
 document.addEventListener("contextmenu", function (e) { if (!/INPUT/.test(e.target.nodeName)) e.preventDefault(); });
 document.addEventListener("copy", function (e) { e.preventDefault(); });
 document.addEventListener("dragstart", function (e) { e.preventDefault(); });
-// I conti alla rovescia vanno avanti da soli, un secondo alla volta
 setInterval(function () { Array.prototype.forEach.call(document.querySelectorAll("[data-fino]"), function (e) { e.textContent = manca(e.dataset.fino); }); }, 1000);
 window.addEventListener("hashchange", function () {
-  if (/^#k=/.test(location.hash)) { carica(); return; }     // link del proprietario incollato a pagina aperta
+  if (/^#k=/.test(location.hash)) { carica(); return; }
   disegna(); try { window.scrollTo(0, 0); } catch (e) {}
 });
-document.addEventListener("visibilitychange", function () { if (!document.hidden) carica(); });
 var su = document.getElementById("suTop");
 window.addEventListener("scroll", function () { su.classList.toggle("vis", window.scrollY > 600); }, { passive: true });
 su.onclick = function () { try { window.scrollTo({ top: 0, behavior: "smooth" }); } catch (e) {} };
